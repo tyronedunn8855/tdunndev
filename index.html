@@ -1,72 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tyrone Dunn // Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  <head>
-    <meta charset="UTF-8">
-    <title>Untitled</title>
-    <link rel="stylesheet" href="./style.css">
+  <!-- Cursor elements -->
+  <div id="cur"></div>
+  <div id="cur-ring"></div>
 
-  </head>
-    
-  <body>
-  <div class="profile-header">
-  <img src="https://firebasestorage.googleapis.com/v0/b/dot-routed-user-data/o/axfxGGpYzsSZy8cnJzwCWylob0I3%2FProfileImages%2Fthumb%40512_fba77a97-f152-4c95-9bd0-3a35614af8a8.jpeg?alt=media&token=JsGzyM0gIR1sfeqjOiE4R" alt="Tyrone Dunn">
-  <div class="profile-text">
-    <h1>Tyrone Dunn</h1>
-    <h2>Future Software Engineer</h2>
+  <!-- Background effects -->
+  <canvas id="matrix-canvas"></canvas>
+  <div id="scanlines"></div>
+  <div id="vignette"></div>
+
+  <!-- ══════════════════════════════
+       WELCOME SCREEN
+  ══════════════════════════════ -->
+  <div id="welcome">
+    <canvas id="wcanvas"></canvas>
+
+    <p class="w-line" style="animation-delay:.2s">// initializing...</p>
+    <p class="w-line" style="animation-delay:.7s; color:rgba(255,45,45,0.7)">// loading portfolio.exe</p>
+    <p class="w-line" style="animation-delay:1.1s">// subject: tyrone_dunn</p>
+
+    <div id="w-name">
+      <h1>
+        <span id="w-first"></span><br>
+        <span id="w-last" class="r"></span>
+      </h1>
+    </div>
+
+    <p id="w-terminal">
+      <span style="color:#ff2d2d">></span>
+      software_engineer.exe &nbsp;
+      <span style="color:#555">--location milwaukee_wi</span>
+      <span class="cursor-blink"></span>
+    </p>
+
+    <button id="w-btn">[ ENTER PORTFOLIO ]</button>
+
+    <p id="w-sub">CLASS OF 2029 &nbsp;·&nbsp; MARQUETTE UNIVERSITY &nbsp;·&nbsp; SOFTWARE ENGINEERING</p>
   </div>
-</div>
 
-<button id="greet-btn">Say Hello</button>
-<button id="theme-btn">Light Mode</button>
+  <!-- ══════════════════════════════
+       MAIN SITE
+  ══════════════════════════════ -->
+  <div id="main">
 
-<div class="card">
-  <h3>About Me</h3>
-  <p>I'm a senior in high school heading to <span class="highlight">Marquette University</span>
-  to study Software Engineering, majoring in Computer Science. I already have my Microsoft IT
-  help desk certification.</p>
-</div>
+    <nav>
+      <div class="nav-logo">T<span>.</span>DUNN</div>
+      <div class="nav-prompt"><span>>_</span> &nbsp;ready</div>
+      <div class="nav-links">
+        <a href="#about">about</a>
+        <a href="#interests">work</a>
+        <a href="#skills">skills</a>
+        <a href="#goals">goals</a>
+        <a href="#links">contact</a>
+      </div>
+    </nav>
 
-<div class="card">
-  <h3>My Interests</h3>
-  <ul>
-    <li>Video games
-      <ul>
-        <li>Roblox</li>
-        <li>Brawlhalla</li>
-        <li>Fortnite</li>
-      </ul>
-    </li>
-    <li>Technology</li>
-    <li>Software development</li>
-  </ul>
-</div>
+    <div class="container">
 
-<div class="card">
-  <h3>My Goals</h3>
-  <p>I want to become a software engineer and work in tech.
-  I'm starting to learn coding before college so I can
-  hit the ground running at Marquette.</p>
-</div>
+      <!-- ── HERO ── -->
+      <section id="hero">
+        <div class="hero-inner">
 
-<div class="card">
-  <h3>Links</h3>
-  <p><a href="https://dot.cards/tyronedunn">My Contact Information</a></p>
-  <p><a href="https://marquette.edu">Marquette's Website</a></p>
-</div>
+          <div class="img-wrap">
+            <div class="img-frame">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/dot-routed-user-data/o/axfxGGpYzsSZy8cnJzwCWylob0I3%2FProfileImages%2Fthumb%40512_fba77a97-f152-4c95-9bd0-3a35614af8a8.jpeg?alt=media&token=JsGzyM0gIR1sfeqjOiE4R"
+                alt="Tyrone Dunn">
+              <div class="img-corner tl"></div>
+              <div class="img-corner tr"></div>
+              <div class="img-corner bl"></div>
+              <div class="img-corner br"></div>
+            </div>
+            <div class="status-dot">OPEN TO INTERNSHIPS</div>
+          </div>
 
-<div class="card">
-  <h3>Skills & Tools</h3>
-  <div class="skills">
-    <span class="tag">HTML</span>
-    <span class="tag">CSS</span>
-    <span class="tag">JavaScript</span>
-    <span class="tag">IT Help Desk Cert</span>
-    <span class="tag">Marquette University</span>
-  </div>
-</div>
-    <script  src="./script.js"></script>
+          <div class="hero-text">
+            <p class="hero-prompt">PORTFOLIO_2026</p>
+            <h1 class="hero-name">TYRONE<br><span class="r">DUNN</span></h1>
+            <p class="hero-role">// Future Software Engineer</p>
+            <p class="hero-desc">
+              Incoming freshman at Marquette University, Software Engineering.
+              Microsoft IT Help Desk certified. Self-taught developer &amp; 3D artist
+              building a portfolio before day one of college.
+            </p>
+            <div class="hero-tags">
+              <span class="htag">HTML &amp; CSS</span>
+              <span class="htag">JavaScript</span>
+              <span class="htag">GFX Art</span>
+              <span class="htag">3D Rendering</span>
+              <span class="htag">IT Certified</span>
+              <span class="htag">Marquette '29</span>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-p" onclick="document.getElementById('links').scrollIntoView({behavior:'smooth'})">Get In Touch</button>
+              <button class="btn btn-o" onclick="document.getElementById('interests').scrollIntoView({behavior:'smooth'})">View Work</button>
+            </div>
+          </div>
 
-  </body>
-  
+        </div>
+        <div class="scroll-hint">
+          <div class="s-line"></div>
+          <span>scroll</span>
+        </div>
+      </section>
+
+      <!-- ── ABOUT ── -->
+      <section id="about" class="section">
+        <div class="sec-head">
+          <span class="sec-num">01</span>
+          <h2 class="sec-title">About</h2>
+          <div class="sec-line"></div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-bar">
+            <div class="dot" style="background:#ff2d2d; box-shadow:0 0 6px #ff2d2d;"></div>
+            <div class="dot" style="background:#ffbd2e;"></div>
+            <div class="dot" style="background:#27c93f;"></div>
+            <span class="t-card-title">about_me.txt</span>
+          </div>
+          <div class="t-card-body">
+            <span class="code-comment">// background</span>
+            <p>
+              Senior in high school from Milwaukee, WI. Heading to
+              <span style="color:#ff2d2d;">Marquette University</span>
+              to study Software Engineering. I hold a Microsoft IT Help Desk
+              certification and have been independently building skills in web
+              development, 3D art, and design — entirely on my own initiative,
+              before freshman year even starts.
+            </p>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-bar">
+            <div class="dot" style="background:#ff2d2d; box-shadow:0 0 6px #ff2d2d;"></div>
+            <div class="dot" style="background:#ffbd2e;"></div>
+            <div class="dot" style="background:#27c93f;"></div>
+            <span class="t-card-title">philosophy.txt</span>
+          </div>
+          <div class="t-card-body">
+            <span class="code-comment">// what drives me</span>
+            <p>
+              I'm drawn to both sides of tech — the technical precision of writing
+              clean, functional code and the creative discipline of making things
+              look exceptional. The intersection of those two things is where my
+              best work happens. I don't wait to be taught; I build first and
+              figure things out along the way.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── WHAT I DO ── -->
+      <section id="interests" class="section">
+        <div class="sec-head">
+          <span class="sec-num">02</span>
+          <h2 class="sec-title">What I Do</h2>
+          <div class="sec-line"></div>
+        </div>
+
+        <div class="int-card">
+          <div class="int-icon">⚡</div>
+          <div class="int-body">
+            <div class="int-name">Technology</div>
+            <div class="int-desc">
+              Deeply interested in how systems work at every layer — hardware,
+              software, and everything in between. I hold a
+              <span style="color:#ff2d2d;">Microsoft IT Help Desk certification</span>
+              with hands-on experience diagnosing and resolving real system issues.
+              Currently building toward cloud, networking, and full-stack development
+              as I head into my CS degree at Marquette.
+            </div>
+            <div class="int-tags">
+              <span class="int-tag">Microsoft Certified</span>
+              <span class="int-tag">IT Infrastructure</span>
+              <span class="int-tag">Troubleshooting</span>
+              <span class="int-tag">Systems</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="int-card">
+          <div class="int-icon">&lt;/&gt;</div>
+          <div class="int-body">
+            <div class="int-name">Software Development</div>
+            <div class="int-desc">
+              Self-taught web developer currently proficient in HTML, CSS, and
+              JavaScript —
+              <span style="color:#ff2d2d;">this portfolio is the proof</span>.
+              Built everything from scratch: custom animations, interactive
+              JavaScript features, matrix rain effects, and a full responsive layout.
+              Currently learning Python before freshman year. Goal: build things
+              people actually use.
+            </div>
+            <div class="int-tags">
+              <span class="int-tag">HTML5</span>
+              <span class="int-tag">CSS3</span>
+              <span class="int-tag">JavaScript</span>
+              <span class="int-tag">Python (learning)</span>
+              <span class="int-tag">Git &amp; GitHub</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="int-card">
+          <div class="int-icon">🎨</div>
+          <div class="int-body">
+            <div class="int-name">3D Rendering &amp; GFX Art</div>
+            <div class="int-desc">
+              Self-taught 3D artist specializing in
+              <span style="color:#ff2d2d;">Roblox rig GFX artwork</span> — taking
+              game character models and transforming them into cinematic,
+              high-quality compositions using Blender. Work includes dramatic
+              lighting setups, post-processing, and full scene compositing.
+              Posted online with a real audience. This discipline — where technical
+              skill meets creative vision — is the same approach I bring to
+              everything I build.
+            </div>
+            <div class="int-tags">
+              <span class="int-tag">Blender</span>
+              <span class="int-tag">Roblox Rigs</span>
+              <span class="int-tag">GFX Art</span>
+              <span class="int-tag">3D Compositing</span>
+              <span class="int-tag">Lighting</span>
+              <span class="int-tag">Self-Taught</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ── SKILLS ── -->
+      <section id="skills" class="section">
+        <div class="sec-head">
+          <span class="sec-num">03</span>
+          <h2 class="sec-title">Skills</h2>
+          <div class="sec-line"></div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-bar">
+            <div class="dot" style="background:#ff2d2d; box-shadow:0 0 6px #ff2d2d;"></div>
+            <div class="dot" style="background:#ffbd2e;"></div>
+            <div class="dot" style="background:#27c93f;"></div>
+            <span class="t-card-title">technical_skills.json</span>
+          </div>
+          <div class="t-card-body">
+            <span class="code-comment">// development</span>
+            <div class="skills-wrap">
+              <div class="stag"><span>HTML5</span></div>
+              <div class="stag"><span>CSS3</span></div>
+              <div class="stag"><span>JavaScript</span></div>
+              <div class="stag"><span>Flexbox</span></div>
+              <div class="stag"><span>Responsive Design</span></div>
+              <div class="stag"><span>DOM Manipulation</span></div>
+              <div class="stag"><span>Git &amp; GitHub</span></div>
+              <div class="stag"><span>Python (learning)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-bar">
+            <div class="dot" style="background:#ff2d2d; box-shadow:0 0 6px #ff2d2d;"></div>
+            <div class="dot" style="background:#ffbd2e;"></div>
+            <div class="dot" style="background:#27c93f;"></div>
+            <span class="t-card-title">creative_skills.json</span>
+          </div>
+          <div class="t-card-body">
+            <span class="code-comment">// creative &amp; professional</span>
+            <div class="skills-wrap">
+              <div class="stag"><span>Blender</span></div>
+              <div class="stag"><span>3D Rendering</span></div>
+              <div class="stag"><span>GFX Art</span></div>
+              <div class="stag"><span>Lighting Design</span></div>
+              <div class="stag"><span>IT Help Desk</span></div>
+              <div class="stag"><span>Microsoft Certified</span></div>
+              <div class="stag"><span>Visual Design</span></div>
+              <div class="stag"><span>Problem Solving</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── GOALS ── -->
+      <section id="goals" class="section">
+        <div class="sec-head">
+          <span class="sec-num">04</span>
+          <h2 class="sec-title">Goals</h2>
+          <div class="sec-line"></div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-bar">
+            <div class="dot" style="background:#ff2d2d; box-shadow:0 0 6px #ff2d2d;"></div>
+            <div class="dot" style="background:#ffbd2e;"></div>
+            <div class="dot" style="background:#27c93f;"></div>
+            <span class="t-card-title">roadmap.md</span>
+          </div>
+          <div class="t-card-body">
+            <span class="code-comment">// where I'm headed</span>
+            <div class="tl">
+              <div class="tl-item">
+                <div class="tl-label">Now → Aug 2026</div>
+                <div class="tl-title">Pre-College Build Phase</div>
+                <div class="tl-desc">Master Python. Deepen JavaScript. Build 3–5 real projects on GitHub. Arrive at Marquette already ahead of the curriculum.</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-label">Fall 2026</div>
+                <div class="tl-title">Freshman Year — Marquette</div>
+                <div class="tl-desc">Hit the ground running. Excel in COSC 1010 and 1020. Start LeetCode. Get involved in student tech orgs and build a real network.</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-label">Summer 2027</div>
+                <div class="tl-title">First Tech Internship</div>
+                <div class="tl-desc">Target: Northwestern Mutual, GE Healthcare, Rockwell Automation, or Fiserv — all Milwaukee-based, all Marquette pipelines. Use everything built before college to stand out.</div>
+              </div>
+              <div class="tl-item" style="padding-bottom:0;">
+                <div class="tl-label">2030+</div>
+                <div class="tl-title">Ship Something Real</div>
+                <div class="tl-desc">Graduate with a full-stack or cloud engineering specialization, real internship experience, and a product I built that people actually use.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CONTACT ── -->
+      <section id="links" class="section">
+        <div class="sec-head">
+          <span class="sec-num">05</span>
+          <h2 class="sec-title">Contact</h2>
+          <div class="sec-line"></div>
+        </div>
+
+        <div class="links-grid">
+          <a href="https://dot.cards/tyronedunn" class="lcard" target="_blank">
+            <div class="licon">@</div>
+            <div>
+              <div class="llabel">Contact Card</div>
+              <div class="lsub">dot.cards/tyronedunn</div>
+            </div>
+          </a>
+          <a href="https://marquette.edu" class="lcard" target="_blank">
+            <div class="licon">🎓</div>
+            <div>
+              <div class="llabel">Marquette University</div>
+              <div class="lsub">Class of 2029 · Software Eng.</div>
+            </div>
+          </a>
+          <!-- UPDATE: replace # with your real GitHub URL -->
+          <a href="https://github.com" class="lcard" target="_blank">
+            <div class="licon">&lt;/&gt;</div>
+            <div>
+              <div class="llabel">GitHub</div>
+              <div class="lsub">Code · Projects · Portfolio</div>
+            </div>
+          </a>
+          <!-- UPDATE: replace # with your real LinkedIn URL -->
+          <a href="https://linkedin.com" class="lcard" target="_blank">
+            <div class="licon">in</div>
+            <div>
+              <div class="llabel">LinkedIn</div>
+              <div class="lsub">Professional Network</div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </div><!-- /container -->
+
+    <footer>
+      <div class="f-name">TYRONE DUNN</div>
+      <p>Built from scratch &nbsp;<span>//</span>&nbsp; HTML · CSS · JavaScript &nbsp;<span>//</span>&nbsp; Milwaukee, WI &nbsp;<span>//</span>&nbsp; 2026</p>
+    </footer>
+
+  </div><!-- /main -->
+
+  <script src="script.js"></script>
+</body>
 </html>
