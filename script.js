@@ -1,45 +1,54 @@
-/* ══════════════════════════════════════════════
-   TYRONE DUNN — PORTFOLIO SCRIPTS
-   Matrix rain · Welcome screen · Cursor · Scroll
-══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   TYRONE DUNN — PORTFOLIO SCRIPTS v3
+   Starfield · Welcome · Cursor · Reveal · Filter · Form
+═══════════════════════════════════════════ */
 
-/* ── MATRIX RAIN (background) ── */
+/* ── STARFIELD BACKGROUND ── */
 (function () {
-  const canvas = document.getElementById('matrix-canvas');
+  const canvas = document.getElementById('star-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
   function resize() {
-    canvas.width = window.innerWidth;
+    canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
   }
   resize();
   window.addEventListener('resize', resize);
 
-  const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ<>{}[]//\\;:TYRONEDUNNSOFTWAREENGINEER';
-  const colW = 18;
-  let cols = Math.floor(window.innerWidth / colW);
-  let drops = Array(cols).fill(1);
+  /* Generate stars */
+  const STAR_COUNT = 220;
+  const stars = Array.from({ length: STAR_COUNT }, () => ({
+    x:       Math.random() * window.innerWidth,
+    y:       Math.random() * window.innerHeight,
+    r:       Math.random() * 1.4 + 0.2,
+    alpha:   Math.random(),
+    speed:   Math.random() * 0.004 + 0.001,
+    drift:   (Math.random() - 0.5) * 0.1,
+    red:     Math.random() < 0.08   /* 8% chance of red star */
+  }));
 
-  window.addEventListener('resize', () => {
-    cols = Math.floor(window.innerWidth / colW);
-    drops = Array(cols).fill(1);
-  });
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.alpha += s.speed;
+      if (s.alpha > 1 || s.alpha < 0) s.speed *= -1;
+      s.x += s.drift;
+      if (s.x < 0) s.x = canvas.width;
+      if (s.x > canvas.width) s.x = 0;
 
-  setInterval(() => {
-    ctx.fillStyle = 'rgba(3,3,3,0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#ff2d2d';
-    ctx.font = '13px Share Tech Mono, monospace';
-    drops.forEach((y, i) => {
-      const char = chars[Math.floor(Math.random() * chars.length)];
-      ctx.globalAlpha = Math.random() * 0.6 + 0.1;
-      ctx.fillText(char, i * colW, y * colW);
-      ctx.globalAlpha = 1;
-      if (y * colW > canvas.height && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      if (s.red) {
+        ctx.fillStyle = `rgba(255, 45, 45, ${s.alpha * 0.7})`;
+      } else {
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha * 0.5})`;
+      }
+      ctx.fill();
     });
-  }, 55);
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
 })();
 
 
@@ -50,29 +59,29 @@
   const ctx = canvas.getContext('2d');
 
   function resize() {
-    canvas.width = window.innerWidth;
+    canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
   }
   resize();
   window.addEventListener('resize', resize);
 
   const chars = '01TYRONEDUNNSOFTWAREENGINEER<>/\\';
-  const colW = 20;
-  let drops = Array(Math.floor(window.innerWidth / colW)).fill(0)
-    .map(() => Math.random() * 50);
+  const colW  = 22;
+  let drops   = Array(Math.floor(window.innerWidth / colW))
+    .fill(0).map(() => Math.random() * 50);
 
   setInterval(() => {
-    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx.fillStyle = 'rgba(0,0,0,0.07)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = '14px Share Tech Mono, monospace';
+    ctx.font = '14px Oswald, sans-serif';
     drops.forEach((y, i) => {
       const char = chars[Math.floor(Math.random() * chars.length)];
-      ctx.fillStyle = `rgba(255,45,45,${Math.random() * 0.7 + 0.2})`;
+      ctx.fillStyle = `rgba(255,45,45,${Math.random() * 0.6 + 0.15})`;
       ctx.fillText(char, i * colW, y * colW);
       if (y * colW > canvas.height && Math.random() > 0.97) drops[i] = 0;
       drops[i]++;
     });
-  }, 60);
+  }, 65);
 })();
 
 
@@ -82,9 +91,9 @@ function typeText(el, text, startDelay) {
   el.innerHTML = '';
   [...text].forEach((char, i) => {
     const span = document.createElement('span');
-    span.className = 'char';
+    span.className   = 'char';
     span.textContent = char === ' ' ? '\u00a0' : char;
-    span.style.animation = `wfade 0.1s ease forwards ${startDelay + i * 0.06}s`;
+    span.style.animation = `wfade 0.1s ease forwards ${startDelay + i * 0.065}s`;
     el.appendChild(span);
   });
 }
@@ -98,82 +107,127 @@ function enterSite() {
   const welcome = document.getElementById('welcome');
   const main    = document.getElementById('main');
   if (!welcome || !main) return;
-
-  welcome.style.transition = 'opacity .9s ease, transform .9s ease';
+  welcome.style.transition = 'opacity .85s ease, transform .85s ease';
   welcome.style.opacity    = '0';
-  welcome.style.transform  = 'scale(1.03)';
+  welcome.style.transform  = 'scale(1.02)';
   main.classList.add('visible');
-
   setTimeout(() => { welcome.style.display = 'none'; }, 900);
 }
 
-/* Auto-enter after 7 seconds if user hasn't clicked */
-setTimeout(() => {
-  const welcome = document.getElementById('welcome');
-  if (welcome && welcome.style.display !== 'none') enterSite();
-}, 7000);
-
-/* Bind enter button */
 const wBtn = document.getElementById('w-btn');
 if (wBtn) wBtn.addEventListener('click', enterSite);
+setTimeout(() => {
+  const w = document.getElementById('welcome');
+  if (w && w.style.display !== 'none') enterSite();
+}, 7000);
 
 
-/* ── CUSTOM CURSOR ── */
+/* ── INSTANT CURSOR (no lag) ── */
 (function () {
-  const cur  = document.getElementById('cur');
-  const ring = document.getElementById('cur-ring');
-  if (!cur || !ring) return;
-
-  let mx = 0, my = 0, rx = 0, ry = 0;
+  const cur = document.getElementById('cur');
+  if (!cur) return;
 
   document.addEventListener('mousemove', e => {
-    mx = e.clientX;
-    my = e.clientY;
-    cur.style.left = mx + 'px';
-    cur.style.top  = my + 'px';
+    cur.style.left = e.clientX + 'px';
+    cur.style.top  = e.clientY + 'px';
   });
 
-  (function loop() {
-    rx += (mx - rx) * 0.1;
-    ry += (my - ry) * 0.1;
-    ring.style.left = rx + 'px';
-    ring.style.top  = ry + 'px';
-    requestAnimationFrame(loop);
-  })();
-
-  document.querySelectorAll('a, button, .stag, .htag, .int-card, .lcard').forEach(el => {
-    el.addEventListener('mouseenter', () => { cur.classList.add('big'); ring.classList.add('big'); });
-    el.addEventListener('mouseleave', () => { cur.classList.remove('big'); ring.classList.remove('big'); });
+  /* Grow on interactive elements */
+  document.querySelectorAll('a, button, .stag, .htag, .work-item, .filter-btn, .social-item, .form-input, .form-select, .form-textarea').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('hover'));
   });
 })();
 
 
 /* ── SCROLL REVEAL ── */
 (function () {
-  const sections = document.querySelectorAll('.section');
-  if (!sections.length) return;
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        observer.unobserve(entry.target);
+  const els = document.querySelectorAll('.section');
+  if (!els.length) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        obs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.08 });
-
-  sections.forEach(s => observer.observe(s));
+  }, { threshold: 0.07 });
+  els.forEach(s => obs.observe(s));
 })();
 
 
-/* ── SKILL TAG CLICK FLASH ── */
-document.querySelectorAll('.stag').forEach(tag => {
-  tag.addEventListener('click', () => {
-    tag.style.outline = '1px solid #ff2d2d';
-    tag.style.boxShadow = '0 0 14px rgba(255,45,45,0.5)';
-    setTimeout(() => {
-      tag.style.outline = '';
-      tag.style.boxShadow = '';
-    }, 500);
+/* ── SMOOTH SCROLL (nav + buttons) ── */
+function smoothTo(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
   });
 });
+
+
+/* ── PORTFOLIO FILTER ── */
+function filterWork(cat, btn) {
+  /* Update button states */
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  /* Show / hide items */
+  document.querySelectorAll('.work-item').forEach(item => {
+    const match = cat === 'all' || item.dataset.cat === cat;
+    item.style.display = match ? '' : 'none';
+  });
+
+  /* Large class only when showing all */
+  document.querySelectorAll('.work-item[data-cat="gfx"]').forEach((item, i) => {
+    if (cat === 'all' && i === 0) item.classList.add('large');
+    else item.classList.remove('large');
+  });
+  document.querySelectorAll('.work-item[data-cat="web"]').forEach((item, i) => {
+    if (cat === 'all' && i === 0) item.classList.add('large');
+    else item.classList.remove('large');
+  });
+}
+
+
+/* ── CONTACT FORM ── */
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  if (!btn) return;
+  const orig = btn.textContent;
+  btn.textContent  = 'Sent ✓';
+  btn.style.background = '#1a6b1a';
+  btn.style.borderColor= '#1a6b1a';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent  = orig;
+    btn.style.background = '';
+    btn.style.borderColor= '';
+    btn.disabled = false;
+    e.target.reset();
+  }, 3500);
+}
+
+
+/* ── ACTIVE NAV HIGHLIGHT ── */
+(function () {
+  const sections = document.querySelectorAll('section[id]');
+  const links    = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 130) current = s.id;
+    });
+    links.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? '#ff2d2d' : '';
+    });
+  }, { passive: true });
+})();
