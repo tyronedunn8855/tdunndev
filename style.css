@@ -719,3 +719,16 @@ footer p span { color: var(--red); }
   nav { padding: 14px 20px; }
   .nav-links, .nav-prompt { display: none; }
 }
+
+/* Fix — allow typing in form fields */
+.form-input,
+.form-textarea,
+.form-select {
+  cursor: text !important;
+  pointer-events: all !important;
+  position: relative;
+  z-index: 10;
+}
+.form-select {
+  cursor: pointer !important;
+}
