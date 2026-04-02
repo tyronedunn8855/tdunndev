@@ -32,7 +32,7 @@ const EMAILJS_TEMPLATE_ID = 'template_3fyg1qk';   // ← paste here
 
 /* ── Init EmailJS ── */
 if (typeof emailjs !== 'undefined') {
-  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+   emailjs.init(EMAILJS_PUBLIC_KEY);
 }
 
 
