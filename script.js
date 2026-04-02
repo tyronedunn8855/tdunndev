@@ -353,3 +353,55 @@ function showStatus(msg, type) {
   status.className    = 'form-status ' + type;
   status.style.display = 'block';
 }
+/* Direct button listener — bypasses all form/cursor issues */
+document.addEventListener('DOMContentLoaded', function() {
+  var btn = document.getElementById('submit-btn');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      var fromName  = document.getElementById('from_name').value.trim();
+      var fromEmail = document.getElementById('from_email').value.trim();
+      var subject   = document.getElementById('subject').value;
+      var message   = document.getElementById('message').value.trim();
+      var status    = document.getElementById('form-status');
+
+      if (!fromName || !fromEmail || !message) {
+        status.textContent   = 'Please fill in all required fields.';
+        status.className     = 'form-status error';
+        status.style.display = 'block';
+        return;
+      }
+
+      btn.textContent = 'Sending...';
+      btn.disabled    = true;
+
+      emailjs.send('service_z0m1yz6', 'template_3fyg1qk', {
+        from_name:  fromName,
+        from_email: fromEmail,
+        subject:    subject || 'No subject selected',
+        message:    message
+      })
+      .then(function() {
+        status.textContent   = "Message sent! I'll get back to you soon.";
+        status.className     = 'form-status success';
+        status.style.display = 'block';
+        btn.textContent      = 'Sent ✓';
+        btn.style.background = '#1a6b1a';
+        document.getElementById('contact-form').reset();
+        setTimeout(function() {
+          btn.textContent      = 'Send Message →';
+          btn.style.background = '';
+          btn.disabled         = false;
+          status.style.display = 'none';
+        }, 4000);
+      })
+      .catch(function(err) {
+        console.error('EmailJS error:', err);
+        status.textContent   = 'Something went wrong. Try again.';
+        status.className     = 'form-status error';
+        status.style.display = 'block';
+        btn.textContent      = 'Send Message →';
+        btn.disabled         = false;
+      });
+    });
+  }
+});
