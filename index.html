@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tyrone Dunn // Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- EmailJS — sends real emails from the contact form -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,7 +17,7 @@
   <div id="scanlines"></div>
   <div id="vignette"></div>
 
-  <!-- WELCOME -->
+  <!-- ═══ WELCOME ═══ -->
   <div id="welcome">
     <canvas id="wcanvas"></canvas>
     <p class="w-line" style="animation-delay:.2s">// Initializing...</p>
@@ -33,7 +35,7 @@
     <p id="w-sub">CLASS OF 2029 &nbsp;·&nbsp; MARQUETTE UNIVERSITY &nbsp;·&nbsp; SOFTWARE ENGINEERING</p>
   </div>
 
-  <!-- MAIN -->
+  <!-- ═══ MAIN ═══ -->
   <div id="main">
 
     <nav>
@@ -161,7 +163,7 @@
         </div>
       </section>
 
-      <!-- WORK -->
+      <!-- WORK CATALOG -->
       <section id="work" class="section">
         <div class="sec-head">
           <span class="sec-num">02</span>
@@ -175,30 +177,61 @@
           <button class="filter-btn" onclick="filterWork('3d',this)">3D Render</button>
         </div>
         <div class="work-grid" id="work-grid">
+
           <div class="work-item large" data-cat="gfx">
-            <div class="work-placeholder"><div class="work-ph-inner"><span class="work-ph-icon">🎨</span><span class="work-ph-label">Image Coming Soon</span></div></div>
-            <div class="work-overlay"><div class="work-cat">GFX Art</div><div class="work-name">Roblox Character GFX</div><div class="work-desc">Cinematic Roblox rig render with dramatic lighting, post-processing, and full scene composition in Blender.</div></div>
+            <img src="images/gfx1.jpg" alt="Roblox Character GFX" class="work-img">
+            <div class="work-overlay">
+              <div class="work-cat">GFX Art</div>
+              <div class="work-name">Roblox Character GFX</div>
+              <div class="work-desc">Cinematic Roblox rig render with dramatic lighting, post-processing, and full scene composition in Blender.</div>
+            </div>
           </div>
+
           <div class="work-item" data-cat="gfx">
-            <div class="work-placeholder"><div class="work-ph-inner"><span class="work-ph-icon">✦</span><span class="work-ph-label">Image Coming Soon</span></div></div>
-            <div class="work-overlay"><div class="work-cat">GFX Art</div><div class="work-name">Thumbnail Design</div><div class="work-desc">High-impact game thumbnail using custom rig poses, particle effects, and layered compositing.</div></div>
+            <img src="images/gfx2.jpg" alt="Thumbnail Design" class="work-img">
+            <div class="work-overlay">
+              <div class="work-cat">GFX Art</div>
+              <div class="work-name">Thumbnail Design</div>
+              <div class="work-desc">High-impact game thumbnail using custom rig poses, particle effects, and layered compositing for maximum visual appeal.</div>
+            </div>
           </div>
+
           <div class="work-item" data-cat="gfx">
-            <div class="work-placeholder"><div class="work-ph-inner"><span class="work-ph-icon">◈</span><span class="work-ph-label">Image Coming Soon</span></div></div>
-            <div class="work-overlay"><div class="work-cat">GFX Art</div><div class="work-name">Scene Composition</div><div class="work-desc">Full environment scene — atmospheric fog, HDRI lighting, and cinematic depth of field.</div></div>
+            <img src="images/gfx3.jpg" alt="Scene Composition" class="work-img">
+            <div class="work-overlay">
+              <div class="work-cat">GFX Art</div>
+              <div class="work-name">Scene Composition</div>
+              <div class="work-desc">Full environment scene built around a Roblox character — atmospheric fog, HDRI lighting, and cinematic depth of field.</div>
+            </div>
           </div>
+
           <div class="work-item large" data-cat="web">
-            <div class="work-placeholder"><div class="work-ph-inner"><span class="work-ph-icon">&lt;/&gt;</span><span class="work-ph-label">Live Site</span></div></div>
-            <div class="work-overlay"><div class="work-cat">Web Development</div><div class="work-name">This Portfolio</div><div class="work-desc">Built from scratch — HTML, CSS, JavaScript. Custom starfield, matrix welcome screen, filterable catalog, working contact form. No frameworks.</div></div>
+            <img src="images/portfolio.jpg" alt="This Portfolio" class="work-img">
+            <div class="work-overlay">
+              <div class="work-cat">Web Development</div>
+              <div class="work-name">This Portfolio</div>
+              <div class="work-desc">Built from scratch — HTML, CSS, JavaScript. Custom starfield, matrix welcome screen, filterable catalog, working contact form. No frameworks, no templates.</div>
+            </div>
           </div>
+
           <div class="work-item" data-cat="web">
-            <div class="work-placeholder"><div class="work-ph-inner"><span class="work-ph-icon">⌦</span><span class="work-ph-label">Coming Soon</span></div></div>
-            <div class="work-overlay"><div class="work-cat">Web Development</div><div class="work-name">Next Project</div><div class="work-desc">Currently learning Python and expanding JavaScript. Next project launching soon — check GitHub.</div></div>
+            <img src="images/next-project.jpg" alt="Next Project" class="work-img">
+            <div class="work-overlay">
+              <div class="work-cat">Web Development</div>
+              <div class="work-name">Next Project</div>
+              <div class="work-desc">Currently learning Python and expanding JavaScript. Next project launching soon — check GitHub for progress.</div>
+            </div>
           </div>
+
           <div class="work-item" data-cat="3d">
-            <div class="work-placeholder"><div class="work-ph-inner"><span class="work-ph-icon">⬡</span><span class="work-ph-label">Image Coming Soon</span></div></div>
-            <div class="work-overlay"><div class="work-cat">3D Rendering</div><div class="work-name">Blender Scene</div><div class="work-desc">Self-taught 3D environment render — geometry, material nodes, lighting, and post-processing done manually.</div></div>
+            <img src="images/blender1.jpg" alt="Blender Scene" class="work-img">
+            <div class="work-overlay">
+              <div class="work-cat">3D Rendering</div>
+              <div class="work-name">Blender Scene</div>
+              <div class="work-desc">Self-taught 3D environment render — geometry, material nodes, lighting, and post-processing all done manually in Blender.</div>
+            </div>
           </div>
+
         </div>
       </section>
 
@@ -299,6 +332,8 @@
           <div class="sec-line"></div>
         </div>
         <div class="contact-grid">
+
+          <!-- FORM -->
           <div class="contact-form-col">
             <div class="t-card" style="margin-bottom:0">
               <div class="t-card-bar">
@@ -307,38 +342,41 @@
               </div>
               <div class="t-card-body">
                 <span class="code-comment">// Let's Build Something</span>
-                <div class="form-row">
-                  <div class="form-group">
-                    <label class="form-label">Your Name</label>
-                    <input id="from_name" type="text" class="form-input" placeholder="Your name">
+                <form id="contact-form" class="contact-form" novalidate>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Your Name</label>
+                      <input id="from_name" type="text" class="form-input" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Your Email</label>
+                      <input id="from_email" type="email" class="form-input" placeholder="your@email.com" required>
+                    </div>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">Your Email</label>
-                    <input id="from_email" type="email" class="form-input" placeholder="your@email.com">
+                    <label class="form-label">Subject</label>
+                    <select id="subject" class="form-input form-select">
+                      <option value="" disabled selected>What's this about?</option>
+                      <option>GFX Commission</option>
+                      <option>Web Development Project</option>
+                      <option>Internship Opportunity</option>
+                      <option>Collaboration</option>
+                      <option>General Question</option>
+                    </select>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Subject</label>
-                  <select id="subject" class="form-input form-select">
-                    <option value="" disabled selected>What's this about?</option>
-                    <option>GFX Commission</option>
-                    <option>Web Development Project</option>
-                    <option>Internship Opportunity</option>
-                    <option>Collaboration</option>
-                    <option>General Question</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Message</label>
-                  <textarea id="message" class="form-input form-textarea" placeholder="Tell me about your project or opportunity..."></textarea>
-                </div>
-                <div id="form-status" class="form-status" style="display:none"></div>
-                <!-- Plain button — no form, no submit, just a click -->
-                <button type="button" id="submit-btn" class="btn btn-p btn-full">Send Message →</button>
+                  <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea id="message" class="form-input form-textarea" placeholder="Tell me about your project or opportunity..." required></textarea>
+                  </div>
+                  <!-- Status message shown after submit -->
+                  <div id="form-status" class="form-status" style="display:none"></div>
+                  <button type="button" class="btn btn-p btn-full" id="submit-btn">Send Message →</button>
+                </form>
               </div>
             </div>
           </div>
 
+          <!-- INFO PANEL -->
           <div class="contact-info-col">
             <div class="contact-info-block">
               <div class="contact-info-label">Status</div>
@@ -375,6 +413,7 @@
               </a>
             </div>
           </div>
+
         </div>
       </section>
 
@@ -387,8 +426,6 @@
 
   </div>
 
-  <!-- EmailJS loaded HERE at bottom — guaranteed before script.js runs -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
