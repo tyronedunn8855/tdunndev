@@ -4,28 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tyrone Dunn // Software Engineer</title>
+  <meta name="description" content="Tyrone Dunn — Incoming Software Engineering freshman at Marquette University. Microsoft IT Help Desk certified. Self-taught web developer and 3D GFX artist from Milwaukee, WI.">
+  <meta name="theme-color" content="#ff2d2d">
+  <meta property="og:title" content="Tyrone Dunn — Software Engineer & GFX Artist">
+  <meta property="og:description" content="Incoming Marquette University freshman, Microsoft IT certified. Self-taught developer and 3D artist building a real portfolio before day one of college.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/dot-routed-user-data/o/axfxGGpYzsSZy8cnJzwCWylob0I3%2FProfileImages%2Fthumb%40512_fba77a97-f152-4c95-9bd0-3a35614af8a8.jpeg?alt=media&token=JsGzyM0gIR1sfeqjOiE4R">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tyrone Dunn — Software Engineer & GFX Artist">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23030303'/><text x='50' y='72' font-size='64' text-anchor='middle' fill='%23ff2d2d' font-family='Arial Black,sans-serif' font-weight='900'>T</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
   <!-- Scroll progress bar -->
   <div id="scroll-progress"></div>
 
-  <div id="cur"></div>
-  <canvas id="star-canvas"></canvas>
-  <div id="scanlines"></div>
-  <div id="vignette"></div>
+  <div id="cur" aria-hidden="true"></div>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <div id="scanlines" aria-hidden="true"></div>
+  <div id="vignette" aria-hidden="true"></div>
 
   <!-- Floating availability badge -->
-  <div id="float-badge">
+  <div id="float-badge" aria-label="Availability status">
     <span class="fb-dot"></span>
     <span>Open to Internships</span>
   </div>
 
   <!-- Back to top -->
-  <button id="back-top" aria-label="Back to top">↑</button>
+  <button id="back-top" aria-label="Back to top" aria-label="Back to top">↑</button>
 
   <!-- Side nav dots -->
   <div id="side-dots">
@@ -41,9 +52,9 @@
   <div id="lightbox">
     <div id="lb-overlay"></div>
     <div id="lb-content">
-      <button id="lb-close">×</button>
-      <button id="lb-prev">&#8592;</button>
-      <button id="lb-next">&#8594;</button>
+      <button id="lb-close" aria-label="Close image viewer">×</button>
+      <button id="lb-prev" aria-label="Previous image">&#8592;</button>
+      <button id="lb-next" aria-label="Next image">&#8594;</button>
       <div id="lb-counter"></div>
       <img id="lb-img" src="" alt="">
       <div id="lb-info">
@@ -56,7 +67,7 @@
 
   <!-- WELCOME -->
   <div id="welcome">
-    <canvas id="wcanvas"></canvas>
+    <canvas id="wcanvas" aria-hidden="true"></canvas>
     <p class="w-line" style="animation-delay:.2s">// Initializing...</p>
     <p class="w-line" style="animation-delay:.7s;color:rgba(255,45,45,0.8)">// Loading portfolio.exe</p>
     <p class="w-line" style="animation-delay:1.1s">// Subject: Tyrone_Dunn</p>
@@ -69,16 +80,16 @@
       <span style="color:#444">--location milwaukee_wi</span>
       <span class="cursor-blink"></span>
     </p>
-    <button id="w-btn">[ ENTER PORTFOLIO ]</button>
+    <button id="w-btn" aria-label="Enter portfolio">[ ENTER PORTFOLIO ]</button>
     <p id="w-sub">CLASS OF 2029 &nbsp;·&nbsp; MARQUETTE UNIVERSITY &nbsp;·&nbsp; SOFTWARE ENGINEERING</p>
   </div>
 
   <!-- MAIN -->
-  <div id="main">
+  <div id="main" role="main">
 
     <nav id="topnav">
       <div class="nav-logo">T<span>.</span>DUNN</div>
-      <button id="hamburger" aria-label="Menu">
+      <button id="hamburger" aria-label="Open navigation menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
       <div class="nav-prompt"><span>>_</span>&nbsp;ready</div>
@@ -471,7 +482,7 @@
             <span class="t-card-title">skills_radar.svg</span>
           </div>
           <div class="t-card-body radar-card-body">
-            <canvas id="radar-chart" width="280" height="280"></canvas>
+            <canvas id="radar-chart" role="img" aria-label="Skills proficiency radar chart" width="280" height="280"></canvas>
             <div class="radar-legend">
               <div class="rl-item"><span class="rl-dot"></span>HTML &amp; CSS — 88%</div>
               <div class="rl-item"><span class="rl-dot"></span>JavaScript — 70%</div>
@@ -613,7 +624,7 @@
 
 
     <!-- Interactive Terminal -->
-    <div id="term-widget">
+    <div id="term-widget" role="complementary" aria-label="Interactive terminal">
       <div id="term-bar">
         <div class="term-mac-dots">
           <span class="tmd tmd-r"></span>
@@ -621,7 +632,7 @@
           <span class="tmd tmd-g"></span>
         </div>
         <span id="term-title">tyrone@portfolio:~</span>
-        <button id="term-toggle" aria-label="Toggle terminal">&#8211;</button>
+        <button id="term-toggle" aria-label="Minimize terminal" aria-label="Toggle terminal">&#8211;</button>
       </div>
       <div id="term-body">
         <div id="term-output">
