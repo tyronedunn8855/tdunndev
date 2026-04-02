@@ -772,6 +772,7 @@ footer p span { color: var(--red); }
   text-transform: uppercase;
   color: var(--text);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transition: opacity .3s, transform .3s;
 }
 #float-badge:hover { border-color: var(--red); color: var(--red); }
@@ -857,6 +858,7 @@ footer p span { color: var(--red); }
   inset: 0;
   background: rgba(0,0,0,0.92);
   backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   cursor: pointer;
 }
 #lb-content {
@@ -1349,6 +1351,7 @@ footer p span { color: var(--red); }
   background: rgba(8,8,8,0.97);
   border: 1px solid rgba(255,45,45,0.3);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   font-family: 'Oswald', monospace;
   box-shadow: 0 0 30px rgba(255,45,45,0.1);
   transition: height .3s ease, opacity .3s ease;
@@ -1508,3 +1511,231 @@ footer p span { color: var(--red); }
   #term-widget { width: calc(100vw - 32px); right: 16px; bottom: 70px; }
   .radar-card-body { flex-direction: column; }
 }
+
+/* ════════════════════════════════════
+   COMPREHENSIVE MOBILE FIX — v8
+════════════════════════════════════ */
+
+/* Touch devices: restore cursor, hide custom cursor element */
+@media (pointer: coarse) {
+  body { cursor: auto; }
+  #cur { display: none !important; }
+  .trail-dot { display: none !important; }
+
+  /* Restore clickable cursor on all interactive elements */
+  a, button, .filter-btn, .stag, .htag, .work-item,
+  .social-item, .sdot, .filter-btn, #back-top,
+  #w-btn, #submit-btn, #lb-close, #lb-prev, #lb-next,
+  #term-toggle, #term-bar, .about-tag { cursor: pointer; }
+
+  /* Restore text cursor on inputs */
+  input, textarea, select,
+  .form-input, .form-textarea, .form-select { cursor: text; }
+  select, .form-select { cursor: pointer; }
+}
+
+/* ── 700px breakpoint cleanup ── */
+@media (max-width: 700px) {
+  /* Nav */
+  #topnav { padding: 14px 18px; }
+
+  /* Hero cleanup */
+  .hero-inner { gap: 32px; }
+  .img-frame { width: 130px; height: 130px; }
+  .img-frame img { width: 124px; height: 124px; margin: 3px; }
+  .hero-name { font-size: clamp(40px, 12vw, 64px); }
+  .hero-stats { gap: 12px; }
+  .hstat-num { font-size: 22px; }
+  .status-dot { font-size: 7px; bottom: -18px; }
+
+  /* About grid — text first, then image */
+  .about-grid { grid-template-columns: 1fr; gap: 28px; }
+  .about-right { order: -1; }
+  .about-img-block { max-width: 240px; margin: 0 auto; }
+
+  /* Work grid */
+  .work-grid { grid-template-columns: 1fr; }
+  .work-item.large { grid-column: span 1; aspect-ratio: 16/10; }
+
+  /* Skills */
+  .skills-two-col { grid-template-columns: 1fr; }
+
+  /* Contact */
+  .contact-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+
+  /* CTA band */
+  .cta-band { padding: 24px 16px; margin: 40px 0; }
+  .cta-band-heading { font-size: 20px; }
+
+  /* Terminal */
+  #term-widget { width: calc(100vw - 24px); right: 12px; left: 12px; bottom: 64px; }
+
+  /* Lightbox arrows — bigger tap targets */
+  #lb-prev, #lb-next { width: 52px; height: 52px; font-size: 22px; }
+
+  /* Back to top */
+  #back-top { bottom: 16px; right: 16px; width: 38px; height: 38px; }
+
+  /* Float badge — hide on mobile */
+  #float-badge { display: none; }
+
+  /* Form inputs — bigger tap targets */
+  .form-input { padding: 14px 16px; font-size: 16px; }
+  .btn { padding: 14px 24px; font-size: 14px; }
+  .btn-full { padding: 16px; }
+
+  /* Side dots hidden */
+  #side-dots { display: none; }
+
+  /* Radar */
+  .radar-card-body { flex-direction: column; align-items: center; }
+  #radar-chart { width: 220px !important; height: 220px !important; }
+}
+
+/* ── 480px breakpoint — small phones ── */
+@media (max-width: 480px) {
+  .container { padding: 0 16px 80px; }
+
+  .hero-name { font-size: clamp(36px, 14vw, 56px); }
+  .hero-desc { font-size: 14px; }
+  .hero-tags { gap: 5px; }
+  .htag { font-size: 10px; padding: 4px 10px; }
+
+  .hero-stats { flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .hstat-divider { display: none; }
+
+  .sec-title { font-size: 18px; }
+
+  /* Mobile menu links bigger */
+  #mobile-menu a { font-size: clamp(24px, 8vw, 36px); }
+
+  /* Work overlay always slightly visible on mobile (no hover) */
+  .work-overlay { opacity: 1; transform: translateY(0); background: linear-gradient(to top, rgba(3,3,3,0.9) 0%, transparent 60%); }
+  .work-expand { display: none; }
+
+  /* Terminal smaller */
+  #term-body { height: 180px; }
+  #term-output { font-size: 11px; }
+
+  /* Lightbox info */
+  #lb-info { padding: 14px 16px; }
+  #lb-title { font-size: 18px; }
+  #lb-desc  { font-size: 12px; }
+
+  .marquee-track span { font-size: 10px; margin: 0 12px; }
+
+  /* About tags */
+  .about-tag { font-size: 10px; padding: 4px 10px; }
+
+  /* Skill bars */
+  .sbar-label { font-size: 12px; }
+}
+
+/* ════════════════════════════════════
+   FINAL AUDIT FIXES — v9
+════════════════════════════════════ */
+
+/* ── Skip to content link (accessibility) ── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--red);
+  color: #fff;
+  padding: 10px 20px;
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 99999;
+  text-decoration: none;
+  transition: top .2s;
+}
+.skip-link:focus { top: 16px; }
+
+/* ── Focus styles for keyboard navigation ── */
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+/* Remove default outline replaced by focus-visible */
+:focus:not(:focus-visible) { outline: none; }
+
+/* ── Mobile menu z-index fix (above terminal) ── */
+#mobile-menu { z-index: 9990; }
+
+/* ── Tablet breakpoint (768px – 1024px) ── */
+@media (min-width: 701px) and (max-width: 1024px) {
+  .container { max-width: 720px; padding: 0 24px 80px; }
+
+  /* Hero — keep side by side but tighter */
+  .hero-inner { gap: 32px; }
+  .img-frame { width: 140px; height: 140px; }
+  .img-frame img { width: 134px; height: 134px; margin: 3px; }
+  .hero-name { font-size: clamp(44px, 7vw, 68px); }
+  .hero-desc { max-width: 320px; font-size: 15px; }
+
+  /* About — keep grid but smaller image */
+  .about-grid { grid-template-columns: 1fr 260px; gap: 32px; }
+
+  /* Work — 2 columns (keep) */
+  .work-grid { gap: 2px; }
+
+  /* Skills — 2 columns (keep) */
+
+  /* Contact — stack on tablet */
+  .contact-grid { grid-template-columns: 1fr; gap: 20px; }
+
+  /* CTA band */
+  .cta-band { padding: 32px 32px; }
+
+  /* Terminal width */
+  #term-widget { width: 380px; }
+
+  /* Side dots slightly closer to edge */
+  #side-dots { right: 14px; }
+
+  /* Nav */
+  #topnav { padding: 18px 28px; }
+  .nav-links { gap: 18px; }
+  .nav-links a { font-size: 13px; }
+}
+
+/* ── Prevent horizontal overflow on all screens ── */
+html, body { max-width: 100%; overflow-x: hidden; }
+
+/* ── Smooth image loading ── */
+img { background-color: var(--bg2); }
+
+/* ── Better selection color ── */
+::selection { background: rgba(255,45,45,0.3); color: #fff; }
+::-moz-selection { background: rgba(255,45,45,0.3); color: #fff; }
+
+/* ── Terminal input on mobile — prevent zoom ── */
+@media (max-width: 700px) {
+  #term-input { font-size: 16px; }
+}
+
+/* ── Loading state for work images ── */
+.work-img {
+  background: var(--bg2);
+  transition: transform .5s ease, filter .4s ease, opacity .3s ease;
+}
+.work-img.loaded { opacity: 1; }
+
+/* ── Better scrollbar on Firefox ── */
+* { scrollbar-width: thin; scrollbar-color: rgba(255,45,45,0.4) transparent; }
+
+/* ── Prevent layout shift from scrollbar appearing ── */
+html { scrollbar-gutter: stable; }
+
+/* ── Better tap highlight on mobile ── */
+* { -webkit-tap-highlight-color: rgba(255,45,45,0.15); }
