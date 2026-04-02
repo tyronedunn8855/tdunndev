@@ -188,7 +188,7 @@ body {
 #main.visible { opacity: 1; }
 
 /* ── NAV ── */
-nav {
+#topnav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
@@ -716,7 +716,7 @@ footer p span { color: var(--red); }
   .skills-two-col { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
-  nav { padding: 14px 20px; }
+  #topnav { padding: 14px 20px; }
   .nav-links, .nav-prompt { display: none; }
 }
 
@@ -1181,3 +1181,103 @@ footer p span { color: var(--red); }
   .cta-band-inner { flex-direction: column; text-align: center; }
   .hero-stats { justify-content: center; }
 }
+
+/* ════════════════════════════════════
+   INTERACTIVE ADDITIONS — v6
+════════════════════════════════════ */
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #e01f1f; }
+
+/* ── Cursor trail particles ── */
+.trail-dot {
+  position: fixed;
+  width: 5px; height: 5px;
+  background: var(--red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9990;
+  transform: translate(-50%, -50%);
+  animation: trail-fade .6s ease forwards;
+}
+@keyframes trail-fade {
+  0%   { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%,-50%) scale(0); }
+}
+
+/* ── Magnetic button effect base ── */
+.btn-p, .btn-o {
+  display: inline-block;
+  transition: transform .2s ease, background .25s, box-shadow .25s, border-color .25s;
+}
+
+/* ── Confetti particle ── */
+.confetti-piece {
+  position: fixed;
+  width: 8px; height: 8px;
+  pointer-events: none;
+  z-index: 9998;
+  border-radius: 2px;
+  animation: confetti-fall 1.2s ease forwards;
+}
+@keyframes confetti-fall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translateY(200px) rotate(720deg) scale(0.3); }
+}
+
+/* ── Easter egg popup ── */
+#easter-egg {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bg2);
+  border: 1px solid var(--red);
+  padding: 14px 24px;
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--red);
+  text-transform: uppercase;
+  z-index: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+  box-shadow: 0 0 20px var(--red-glow);
+  white-space: nowrap;
+}
+#easter-egg.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Parallax hero image ── */
+.img-wrap { will-change: transform; }
+
+/* ── Section number count-up ── */
+.sec-num { font-variant-numeric: tabular-nums; }
+
+/* ── Highlighted active nav link transition ── */
+.nav-links a { transition: color .2s ease; }
+
+/* ── Work item cursor pointer ── */
+.work-item { cursor: pointer; }
+
+/* ── Nav hide-on-scroll ── */
+#topnav { transition: transform .3s ease, background .3s ease; }
+#topnav.hidden { transform: translateY(-100%); }
+
+/* ── Hover glow on t-cards ── */
+.t-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,45,45,0.06), transparent 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.t-card:hover::after { opacity: 1; }
