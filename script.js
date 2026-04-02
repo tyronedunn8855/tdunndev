@@ -26,9 +26,9 @@
    └─────────────────────────────────────────────┘
 */
 
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';    // ← paste here
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';    // ← paste here
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';   // ← paste here
+const EMAILJS_PUBLIC_KEY  = 'sSaoxVAQolglDLhEg';    // ← paste here
+const EMAILJS_SERVICE_ID  = 'service_z0m1yz6';    // ← paste here
+const EMAILJS_TEMPLATE_ID = 'template_3fyg1qk';   // ← paste here
 
 /* ── Init EmailJS ── */
 if (typeof emailjs !== 'undefined') {
