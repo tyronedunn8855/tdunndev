@@ -5,15 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tyrone Dunn // Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Scroll progress bar -->
+  <div id="scroll-progress"></div>
 
   <div id="cur"></div>
   <canvas id="star-canvas"></canvas>
   <div id="scanlines"></div>
   <div id="vignette"></div>
+
+  <!-- Floating availability badge -->
+  <div id="float-badge">
+    <span class="fb-dot"></span>
+    <span>Open to Internships</span>
+  </div>
+
+  <!-- Back to top -->
+  <button id="back-top" aria-label="Back to top">↑</button>
+
+  <!-- Side nav dots -->
+  <nav id="side-dots">
+    <a class="sdot active" href="#hero"    data-label="Home"    title="Home"></a>
+    <a class="sdot"        href="#about"   data-label="About"   title="About"></a>
+    <a class="sdot"        href="#work"    data-label="Work"    title="Work"></a>
+    <a class="sdot"        href="#skills"  data-label="Skills"  title="Skills"></a>
+    <a class="sdot"        href="#goals"   data-label="Goals"   title="Goals"></a>
+    <a class="sdot"        href="#contact" data-label="Contact" title="Contact"></a>
+  </nav>
+
+  <!-- Lightbox modal -->
+  <div id="lightbox">
+    <div id="lb-overlay"></div>
+    <div id="lb-content">
+      <button id="lb-close">×</button>
+      <img id="lb-img" src="" alt="">
+      <div id="lb-info">
+        <div id="lb-cat"></div>
+        <div id="lb-title"></div>
+        <div id="lb-desc"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- WELCOME -->
   <div id="welcome">
@@ -24,6 +60,7 @@
     <div id="w-name">
       <h1><span id="w-first"></span><br><span id="w-last" class="r"></span></h1>
     </div>
+    <div id="w-bar-wrap"><div id="w-bar"></div></div>
     <p id="w-terminal">
       <span style="color:#ff2d2d">></span> software_engineer.exe
       <span style="color:#444">--location milwaukee_wi</span>
@@ -36,7 +73,7 @@
   <!-- MAIN -->
   <div id="main">
 
-    <nav>
+    <nav id="topnav">
       <div class="nav-logo">T<span>.</span>DUNN</div>
       <div class="nav-prompt"><span>>_</span>&nbsp;ready</div>
       <div class="nav-links">
@@ -65,9 +102,27 @@
           </div>
           <div class="hero-text">
             <p class="hero-eyebrow">PORTFOLIO_2026</p>
-            <h1 class="hero-name">TYRONE<br><span class="r">DUNN</span></h1>
-            <p class="hero-role">Future Software Engineer &amp; GFX Artist</p>
+            <h1 class="hero-name">TYRONE<br><span class="r glitch" data-text="DUNN">DUNN</span></h1>
+            <!-- Typewriter role -->
+            <p class="hero-role"><span id="typewriter"></span><span class="tw-cursor">|</span></p>
             <p class="hero-desc">Incoming freshman at Marquette University, Software Engineering. Microsoft IT Help Desk certified. Self-taught developer and 3D artist building a real portfolio before day one of college.</p>
+            <!-- Animated stats -->
+            <div class="hero-stats">
+              <div class="hstat">
+                <div class="hstat-num" data-target="1">0</div>
+                <div class="hstat-label">Certification</div>
+              </div>
+              <div class="hstat-divider"></div>
+              <div class="hstat">
+                <div class="hstat-num" data-target="7">0</div>
+                <div class="hstat-label">Projects</div>
+              </div>
+              <div class="hstat-divider"></div>
+              <div class="hstat">
+                <div class="hstat-num" data-target="2029">0</div>
+                <div class="hstat-label">Grad Year</div>
+              </div>
+            </div>
             <div class="hero-tags">
               <span class="htag">HTML &amp; CSS</span>
               <span class="htag">JavaScript</span>
@@ -113,7 +168,7 @@
           <div class="about-left">
             <div class="sec-head">
               <span class="sec-num">01</span>
-              <h2 class="sec-title">About</h2>
+              <h2 class="sec-title scramble">About</h2>
               <div class="sec-line"></div>
             </div>
             <div class="t-card">
@@ -134,6 +189,24 @@
               <div class="t-card-body">
                 <span class="code-comment">// What Drives Me</span>
                 <p>I'm drawn to both sides of tech — the technical precision of writing clean, functional code and the creative discipline of making things look exceptional. I don't wait to be taught; I build first and figure things out along the way.</p>
+              </div>
+            </div>
+            <!-- Currently Building widget -->
+            <div class="t-card building-card">
+              <div class="t-card-bar">
+                <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                <span class="t-card-title">status.live</span>
+                <span class="live-badge">● LIVE</span>
+              </div>
+              <div class="t-card-body">
+                <span class="code-comment">// Currently Building</span>
+                <div class="build-rows">
+                  <div class="build-row"><span class="br-key">&gt; status</span><span class="br-val active-val">active &amp; learning</span></div>
+                  <div class="build-row"><span class="br-key">&gt; language</span><span class="br-val">Python · Lesson 2</span></div>
+                  <div class="build-row"><span class="br-key">&gt; project</span><span class="br-val">This portfolio</span></div>
+                  <div class="build-row"><span class="br-key">&gt; next_goal</span><span class="br-val">React · Q4 2026</span></div>
+                  <div class="build-row"><span class="br-key">&gt; target</span><span class="br-val red-text">Internship · Summer 2027</span></div>
+                </div>
               </div>
             </div>
             <div class="about-tags">
@@ -165,7 +238,7 @@
       <section id="work" class="section">
         <div class="sec-head">
           <span class="sec-num">02</span>
-          <h2 class="sec-title">Work</h2>
+          <h2 class="sec-title scramble">Work</h2>
           <div class="sec-line"></div>
         </div>
         <div class="work-filters">
@@ -176,74 +249,124 @@
         </div>
         <div class="work-grid" id="work-grid">
 
-          <!-- BOX 1 — GFX large featured -->
-          <div class="work-item large" data-cat="gfx">
+          <div class="work-item large tilt-card" data-cat="gfx"
+            data-img="Pose1Light.png"
+            data-title="Roblox Character GFX"
+            data-cat-label="GFX Art"
+            data-desc="Cinematic Roblox rig render with dramatic lighting, post-processing, and full scene composition in Blender. Self-taught from scratch.">
             <img src="Pose1Light.png" alt="Roblox Character GFX" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">GFX Art</div>
               <div class="work-name">Roblox Character GFX</div>
-              <div class="work-desc">Cinematic Roblox rig render with dramatic lighting, post-processing, and full scene composition in Blender.</div>
+              <div class="work-desc">Cinematic rig render with dramatic lighting &amp; post-processing in Blender.</div>
+              <div class="work-expand">Click to expand ↗</div>
             </div>
           </div>
 
-          <!-- BOX 2 — GFX thumbnail -->
-          <div class="work-item" data-cat="gfx">
+          <div class="work-item tilt-card" data-cat="gfx"
+            data-img="4PS.png"
+            data-title="Thumbnail Design"
+            data-cat-label="GFX Art"
+            data-desc="High-impact game thumbnail using custom rig poses, particle effects, and layered compositing for maximum visual appeal.">
             <img src="4PS.png" alt="Thumbnail Design" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">GFX Art</div>
               <div class="work-name">Thumbnail Design</div>
-              <div class="work-desc">High-impact game thumbnail using custom rig poses, particle effects, and layered compositing for maximum visual appeal.</div>
+              <div class="work-desc">Custom rig poses, particles, and layered compositing.</div>
+              <div class="work-expand">Click to expand ↗</div>
             </div>
           </div>
 
-          <!-- BOX 3 — GFX scene -->
-          <div class="work-item" data-cat="gfx">
+          <div class="work-item tilt-card" data-cat="gfx"
+            data-img="5WM.png"
+            data-title="Scene Composition"
+            data-cat-label="GFX Art"
+            data-desc="Full environment scene built around a Roblox character — atmospheric fog, HDRI lighting, and cinematic depth of field.">
             <img src="5WM.png" alt="Scene Composition" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">GFX Art</div>
               <div class="work-name">Scene Composition</div>
-              <div class="work-desc">Full environment scene built around a Roblox character — atmospheric fog, HDRI lighting, and cinematic depth of field.</div>
+              <div class="work-desc">Atmospheric fog, HDRI lighting, cinematic depth of field.</div>
+              <div class="work-expand">Click to expand ↗</div>
             </div>
           </div>
 
-          <!-- BOX 4 — Web large featured -->
-          <div class="work-item large" data-cat="web">
+          <div class="work-item tilt-card" data-cat="gfx"
+            data-img="CC1.png"
+            data-title="Character Art"
+            data-cat-label="GFX Art"
+            data-desc="Detailed character render showcasing advanced material work, custom lighting rigs, and cinematic post-processing in Blender.">
+            <img src="CC1.png" alt="Character Art" class="work-img">
+            <div class="work-overlay">
+              <div class="work-cat">GFX Art</div>
+              <div class="work-name">Character Art</div>
+              <div class="work-desc">Advanced materials, custom lighting rigs, cinematic post-processing.</div>
+              <div class="work-expand">Click to expand ↗</div>
+            </div>
+          </div>
+
+          <div class="work-item large tilt-card" data-cat="web"
+            data-img="image.png"
+            data-title="This Portfolio"
+            data-cat-label="Web Development"
+            data-desc="Built entirely from scratch — HTML, CSS, and JavaScript. Features a custom starfield canvas, matrix welcome screen, filterable work catalog, lightbox modal, animated stats, typewriter effect, 3D tilt cards, and a working EmailJS contact form. No frameworks, no templates.">
             <img src="image.png" alt="This Portfolio" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">Web Development</div>
               <div class="work-name">This Portfolio</div>
-              <div class="work-desc">Built from scratch — HTML, CSS, JavaScript. Custom starfield, matrix welcome screen, filterable catalog, working contact form. No frameworks, no templates.</div>
+              <div class="work-desc">Built from scratch — HTML, CSS, JS. No frameworks, no templates.</div>
+              <div class="work-expand">Click to expand ↗</div>
             </div>
           </div>
 
-          <!-- BOX 5 — Web second -->
-          <div class="work-item" data-cat="web">
+          <div class="work-item tilt-card" data-cat="web"
+            data-img="light.png"
+            data-title="Recent Creation"
+            data-cat-label="Web Development"
+            data-desc="Most recent web creation as part of an ongoing learning journey. Currently expanding JavaScript skills and preparing to learn Python before freshman year at Marquette.">
             <img src="light.png" alt="Recent Creation" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">Web Development</div>
               <div class="work-name">Recent Creation</div>
-              <div class="work-desc">Currently learning Python and expanding JavaScript. Most recent creation — more projects coming soon.</div>
+              <div class="work-desc">Ongoing learning — more projects coming soon.</div>
+              <div class="work-expand">Click to expand ↗</div>
             </div>
           </div>
 
-          <!-- BOX 6 — 3D render -->
-          <div class="work-item" data-cat="3d">
+          <div class="work-item tilt-card" data-cat="3d"
+            data-img="7WM.png"
+            data-title="Blender Scene"
+            data-cat-label="3D Rendering"
+            data-desc="Self-taught 3D environment render — geometry modeling, PBR material nodes, three-point lighting setup, and post-processing all done manually in Blender.">
             <img src="7WM.png" alt="Blender Scene" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">3D Rendering</div>
               <div class="work-name">Blender Scene</div>
-              <div class="work-desc">Self-taught 3D environment render — geometry, material nodes, lighting, and post-processing all done manually in Blender.</div>
+              <div class="work-desc">Geometry, PBR materials, lighting, and post-processing — self-taught.</div>
+              <div class="work-expand">Click to expand ↗</div>
             </div>
           </div>
 
         </div>
       </section>
 
+      <!-- CTA BANNER -->
+      <div class="cta-band">
+        <div class="cta-band-inner">
+          <div class="cta-band-text">
+            <span class="cta-band-label">AVAILABLE NOW</span>
+            <h3 class="cta-band-heading">Open to Internships &amp; Collaborations</h3>
+            <p class="cta-band-sub">Milwaukee, WI · Summer 2027 · Software Engineering</p>
+          </div>
+          <button class="btn btn-p cta-band-btn" onclick="smoothTo('contact')">Get In Touch →</button>
+        </div>
+      </div>
+
       <!-- SKILLS -->
       <section id="skills" class="section">
         <div class="sec-head">
           <span class="sec-num">03</span>
-          <h2 class="sec-title">Skills</h2>
+          <h2 class="sec-title scramble">Skills</h2>
           <div class="sec-line"></div>
         </div>
         <div class="skills-two-col">
@@ -286,13 +409,50 @@
             </div>
           </div>
         </div>
+
+        <!-- Skill proficiency bars -->
+        <div class="t-card" style="margin-top:12px">
+          <div class="t-card-bar">
+            <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+            <span class="t-card-title">proficiency.exe</span>
+          </div>
+          <div class="t-card-body">
+            <span class="code-comment">// Proficiency levels</span>
+            <div class="skill-bars">
+              <div class="sbar-row">
+                <div class="sbar-label"><span>HTML &amp; CSS</span><span class="sbar-pct">88%</span></div>
+                <div class="sbar-track"><div class="sbar-fill" data-pct="88"></div></div>
+              </div>
+              <div class="sbar-row">
+                <div class="sbar-label"><span>JavaScript</span><span class="sbar-pct">70%</span></div>
+                <div class="sbar-track"><div class="sbar-fill" data-pct="70"></div></div>
+              </div>
+              <div class="sbar-row">
+                <div class="sbar-label"><span>GFX Art / Blender</span><span class="sbar-pct">82%</span></div>
+                <div class="sbar-track"><div class="sbar-fill" data-pct="82"></div></div>
+              </div>
+              <div class="sbar-row">
+                <div class="sbar-label"><span>3D Rendering</span><span class="sbar-pct">75%</span></div>
+                <div class="sbar-track"><div class="sbar-fill" data-pct="75"></div></div>
+              </div>
+              <div class="sbar-row">
+                <div class="sbar-label"><span>Git &amp; GitHub</span><span class="sbar-pct">65%</span></div>
+                <div class="sbar-track"><div class="sbar-fill" data-pct="65"></div></div>
+              </div>
+              <div class="sbar-row">
+                <div class="sbar-label"><span>Python</span><span class="sbar-pct">20%</span></div>
+                <div class="sbar-track"><div class="sbar-fill" data-pct="20"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- GOALS -->
       <section id="goals" class="section">
         <div class="sec-head">
           <span class="sec-num">04</span>
-          <h2 class="sec-title">Goals</h2>
+          <h2 class="sec-title scramble">Goals</h2>
           <div class="sec-line"></div>
         </div>
         <div class="t-card">
@@ -332,7 +492,7 @@
       <section id="contact" class="section">
         <div class="sec-head">
           <span class="sec-num">05</span>
-          <h2 class="sec-title">Contact</h2>
+          <h2 class="sec-title scramble">Contact</h2>
           <div class="sec-line"></div>
         </div>
         <div class="contact-grid">
@@ -423,7 +583,7 @@
 
   </div>
 
-  <!-- EmailJS must load BEFORE script.js -->
+  <!-- EmailJS MUST be before script.js -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="script.js"></script>
 </body>
