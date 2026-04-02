@@ -619,6 +619,8 @@ nav {
   outline: none;
   transition: border-color .2s, background .2s;
   width: 100%;
+  position: relative;
+  z-index: 10;
   cursor: text;
   border-radius: 0;
   -webkit-appearance: none;
