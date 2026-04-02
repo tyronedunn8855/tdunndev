@@ -981,3 +981,256 @@ function fireConfetti() {
     input.focus();
   });
 })();
+
+/* ════════════════════════════════════
+   MOBILE FIXES — v8
+════════════════════════════════════ */
+
+/* ── Detect touch device ── */
+var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+/* ── Disable tilt on touch ── */
+if (isTouchDevice) {
+  document.querySelectorAll('.tilt-card').forEach(function (card) {
+    card.style.transform = '';
+    card.onmousemove = null;
+    card.onmouseleave = null;
+    card.onmouseenter = null;
+  });
+}
+
+/* ── Disable hero parallax on touch ── */
+if (isTouchDevice) {
+  var hero = document.getElementById('hero');
+  if (hero) {
+    hero.onmousemove = null;
+    hero.onmouseleave = null;
+  }
+}
+
+/* ── Terminal: start minimized on mobile ── */
+(function () {
+  if (window.innerWidth > 700) return;
+  var widget = document.getElementById('term-widget');
+  var toggle = document.getElementById('term-toggle');
+  if (!widget || !toggle) return;
+  widget.classList.add('minimized');
+  toggle.innerHTML = '+';
+})();
+
+/* ── Lightbox: touch swipe support ── */
+(function () {
+  var lbContent = document.getElementById('lb-content');
+  if (!lbContent) return;
+  var startX = 0;
+
+  lbContent.addEventListener('touchstart', function (e) {
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  lbContent.addEventListener('touchend', function (e) {
+    var diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      /* Access the current index via the lightbox prev/next logic */
+      var prev = document.getElementById('lb-prev');
+      var next = document.getElementById('lb-next');
+      if (diff > 0 && next) next.click();
+      else if (diff < 0 && prev) prev.click();
+    }
+  }, { passive: true });
+})();
+
+/* ── On mobile: work items tap shows overlay, second tap opens lightbox ── */
+(function () {
+  if (!isTouchDevice) return;
+  var tapped = null;
+  document.querySelectorAll('.work-item').forEach(function (item) {
+    item.addEventListener('touchend', function (e) {
+      var overlay = item.querySelector('.work-overlay');
+      if (!overlay) return;
+      if (tapped === item) {
+        /* Second tap — lightbox handled by existing click listener */
+        tapped = null;
+      } else {
+        /* First tap — show overlay */
+        document.querySelectorAll('.work-overlay').forEach(function (o) {
+          o.style.opacity = '0';
+        });
+        overlay.style.opacity = '1';
+        tapped = item;
+        e.preventDefault();
+      }
+    });
+  });
+})();
+
+/* ── Viewport height fix for mobile browsers (address bar) ── */
+(function () {
+  function setVH() {
+    var vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', vh + 'px');
+  }
+  setVH();
+  window.addEventListener('resize', setVH, { passive: true });
+})();
+
+/* ── Prevent zoom on input focus (iOS) ── */
+(function () {
+  if (!isTouchDevice) return;
+  document.querySelectorAll('input, select, textarea').forEach(function (el) {
+    if (parseFloat(window.getComputedStyle(el).fontSize) < 16) {
+      el.style.fontSize = '16px';
+    }
+  });
+})();
+
+/* ════════════════════════════════════
+   FINAL AUDIT FIXES — v9
+════════════════════════════════════ */
+
+/* ── Fix: retina/HiDPI radar chart ── */
+(function () {
+  var canvas = document.getElementById('radar-chart');
+  if (!canvas) return;
+  var dpr = window.devicePixelRatio || 1;
+  if (dpr <= 1) return;
+  var w = canvas.offsetWidth || 280;
+  var h = canvas.offsetHeight || 280;
+  canvas.width  = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width  = w + 'px';
+  canvas.style.height = h + 'px';
+  canvas.getContext('2d').scale(dpr, dpr);
+})();
+
+/* ── Fix: filter function — first visible item gets large class ── */
+window.filterWork = function (cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+
+  var firstSeen = {};
+  document.querySelectorAll('.work-item').forEach(function (item) {
+    var itemCat = item.dataset.cat;
+    var match = cat === 'all' || itemCat === cat;
+    item.style.display = match ? '' : 'none';
+    item.classList.remove('large');
+
+    if (match) {
+      if (cat === 'all') {
+        /* In 'all' view — first gfx and first web are large */
+        if ((itemCat === 'gfx' || itemCat === 'web') && !firstSeen[itemCat]) {
+          item.classList.add('large');
+          firstSeen[itemCat] = true;
+        }
+      } else {
+        /* In filtered view — make first visible item large */
+        if (!firstSeen[cat]) {
+          item.classList.add('large');
+          firstSeen[cat] = true;
+        }
+      }
+    }
+  });
+};
+
+/* ── Fix: email format validation ── */
+(function () {
+  var btn = document.getElementById('submit-btn');
+  if (!btn) return;
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  /* Wrap the existing listener — monkey-patch the emailjs.send to add validation */
+  var origClick = btn.onclick;
+  btn.addEventListener('click', function (e) {
+    var emailEl = document.getElementById('from_email');
+    var status  = document.getElementById('form-status');
+    if (!emailEl || !status) return;
+    var emailVal = emailEl.value.trim();
+    if (emailVal && !validateEmail(emailVal)) {
+      status.textContent   = 'Please enter a valid email address.';
+      status.className     = 'form-status error';
+      status.style.display = 'block';
+      e.stopImmediatePropagation();
+    }
+  }, true); /* true = capture phase, runs before existing listener */
+})();
+
+/* ── Fix: hamburger aria-expanded ── */
+(function () {
+  var ham  = document.getElementById('hamburger');
+  var menu = document.getElementById('mobile-menu');
+  if (!ham || !menu) return;
+  var obs = new MutationObserver(function () {
+    ham.setAttribute('aria-expanded', menu.classList.contains('open') ? 'true' : 'false');
+  });
+  obs.observe(menu, { attributes: true, attributeFilter: ['class'] });
+})();
+
+/* ── Fix: nav doesn't hide when at very top ── */
+(function () {
+  var nav = document.getElementById('topnav');
+  if (!nav) return;
+  /* Override the previous scroll listener */
+  var lastY = 0;
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY;
+    if (y < 80) {
+      nav.classList.remove('hidden');
+    } else if (y > lastY + 5) {
+      nav.classList.add('hidden');
+    } else if (y < lastY - 5) {
+      nav.classList.remove('hidden');
+    }
+    lastY = y;
+  }, { passive: true });
+})();
+
+/* ── Fix: lazy load work images ── */
+(function () {
+  document.querySelectorAll('.work-img').forEach(function (img) {
+    img.addEventListener('load', function () { img.classList.add('loaded'); });
+    if (img.complete) img.classList.add('loaded');
+  });
+})();
+
+/* ── Fix: close mobile menu on resize to desktop ── */
+window.addEventListener('resize', function () {
+  if (window.innerWidth > 700) {
+    var menu = document.getElementById('mobile-menu');
+    var ham  = document.getElementById('hamburger');
+    if (menu && menu.classList.contains('open')) {
+      menu.classList.remove('open');
+      if (ham) ham.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+}, { passive: true });
+
+/* ── Fix: disable cursor trail on touch ── */
+if (isTouchDevice) {
+  document.removeEventListener('mousemove', function(){}, true);
+}
+
+/* ── Accessibility: announce page sections to screen readers ── */
+(function () {
+  var sections = document.querySelectorAll('.section[id]');
+  sections.forEach(function (s) {
+    if (!s.getAttribute('aria-label')) {
+      var title = s.querySelector('.sec-title');
+      if (title) s.setAttribute('aria-label', title.textContent + ' section');
+    }
+  });
+})();
+
+/* ── Performance: reduce star count on mobile ── */
+(function () {
+  if (window.innerWidth < 700) {
+    /* Stars already drawn — this just reduces trail impact */
+    var style = document.createElement('style');
+    style.textContent = '.trail-dot { display: none !important; }';
+    document.head.appendChild(style);
+  }
+})();
