@@ -581,3 +581,403 @@ function fireConfetti() {
     });
   });
 })();
+
+/* ════════════════════════════════════
+   BIG FEATURE SCRIPTS — v7
+════════════════════════════════════ */
+
+/* ══ MOBILE HAMBURGER MENU ══ */
+(function () {
+  var ham = document.getElementById('hamburger');
+  var menu = document.getElementById('mobile-menu');
+  if (!ham || !menu) return;
+
+  function closeMobileMenu() {
+    ham.classList.remove('open');
+    menu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  window.closeMobileMenu = closeMobileMenu;
+
+  ham.addEventListener('click', function () {
+    var isOpen = menu.classList.toggle('open');
+    ham.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMobileMenu();
+  });
+})();
+
+/* ══ HERO 3D MOUSE PARALLAX ══ */
+(function () {
+  var hero = document.getElementById('hero');
+  if (!hero) return;
+  var imgWrap  = hero.querySelector('.img-wrap');
+  var heroName = hero.querySelector('.hero-name');
+  var heroDesc = hero.querySelector('.hero-desc');
+  var heroTags = hero.querySelector('.hero-tags');
+
+  hero.addEventListener('mousemove', function (e) {
+    var rect = hero.getBoundingClientRect();
+    var cx = rect.width / 2;
+    var cy = rect.height / 2;
+    var dx = (e.clientX - rect.left - cx) / cx;
+    var dy = (e.clientY - rect.top  - cy) / cy;
+
+    if (imgWrap)  imgWrap.style.transform  = 'translateY(' + (window.scrollY * 0.12) + 'px) translate(' + (dx * 18) + 'px,' + (dy * 12) + 'px)';
+    if (heroName) heroName.style.transform = 'translate(' + (dx * -8) + 'px,' + (dy * -5) + 'px)';
+    if (heroDesc) heroDesc.style.transform = 'translate(' + (dx * 5) + 'px,' + (dy * 3) + 'px)';
+    if (heroTags) heroTags.style.transform = 'translate(' + (dx * -3) + 'px,' + (dy * -2) + 'px)';
+  });
+
+  hero.addEventListener('mouseleave', function () {
+    [imgWrap, heroName, heroDesc, heroTags].forEach(function (el) {
+      if (el) el.style.transform = '';
+    });
+  });
+})();
+
+/* ══ ANIMATED RADAR CHART ══ */
+(function () {
+  var canvas = document.getElementById('radar-chart');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var labels = ['HTML/CSS','JavaScript','GFX Art','3D Render','Git','Python'];
+  var values = [0.88, 0.70, 0.82, 0.75, 0.65, 0.20];
+  var W = canvas.width, H = canvas.height;
+  var cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2 - 28;
+  var N = labels.length;
+  var animVal = 0;
+  var animating = false;
+
+  function angleOf(i) { return (Math.PI * 2 * i / N) - Math.PI / 2; }
+  function ptAt(i, r) {
+    return { x: cx + Math.cos(angleOf(i)) * r, y: cy + Math.sin(angleOf(i)) * r };
+  }
+
+  function draw(progress) {
+    ctx.clearRect(0, 0, W, H);
+    // Grid rings
+    for (var ring = 1; ring <= 4; ring++) {
+      var rr = R * ring / 4;
+      ctx.beginPath();
+      for (var i = 0; i < N; i++) {
+        var p = ptAt(i, rr);
+        i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+    // Axis lines
+    for (var i = 0; i < N; i++) {
+      var p = ptAt(i, R);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(p.x, p.y);
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      // Labels
+      var lp = ptAt(i, R + 18);
+      ctx.fillStyle = 'rgba(232,232,232,0.55)';
+      ctx.font = '10px Oswald, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(labels[i], lp.x, lp.y);
+    }
+    // Data shape
+    ctx.beginPath();
+    for (var i = 0; i < N; i++) {
+      var p = ptAt(i, R * values[i] * progress);
+      i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(255,45,45,0.18)';
+    ctx.fill();
+    ctx.strokeStyle = '#ff2d2d';
+    ctx.lineWidth = 2;
+    ctx.shadowColor = '#ff2d2d';
+    ctx.shadowBlur = 8;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    // Data points
+    for (var i = 0; i < N; i++) {
+      var p = ptAt(i, R * values[i] * progress);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#ff2d2d';
+      ctx.shadowColor = '#ff2d2d';
+      ctx.shadowBlur = 10;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  draw(0);
+
+  var obs = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting && !animating) {
+      animating = true;
+      var start = null;
+      var duration = 1400;
+      function step(ts) {
+        if (!start) start = ts;
+        var prog = Math.min((ts - start) / duration, 1);
+        var ease = 1 - Math.pow(1 - prog, 3);
+        draw(ease);
+        if (prog < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      obs.disconnect();
+    }
+  }, { threshold: 0.4 });
+  obs.observe(canvas);
+})();
+
+/* ══ LIGHTBOX ARROW NAVIGATION ══ */
+(function () {
+  var lb      = document.getElementById('lightbox');
+  var lbImg   = document.getElementById('lb-img');
+  var lbTitle = document.getElementById('lb-title');
+  var lbCat   = document.getElementById('lb-cat');
+  var lbDesc  = document.getElementById('lb-desc');
+  var lbPrev  = document.getElementById('lb-prev');
+  var lbNext  = document.getElementById('lb-next');
+  var counter = document.getElementById('lb-counter');
+  if (!lb || !lbPrev || !lbNext) return;
+
+  var items = [];
+  var current = 0;
+
+  function buildItems() {
+    items = Array.from(document.querySelectorAll('.work-item[data-img]'))
+      .filter(function (el) { return el.style.display !== 'none'; });
+  }
+
+  function showItem(idx) {
+    if (!items.length) return;
+    idx = (idx + items.length) % items.length;
+    current = idx;
+    var item = items[idx];
+    lbImg.style.opacity = '0';
+    setTimeout(function () {
+      lbImg.src   = item.getAttribute('data-img') || '';
+      lbImg.alt   = item.getAttribute('data-title') || '';
+      lbTitle.textContent = item.getAttribute('data-title') || '';
+      lbCat.textContent   = item.getAttribute('data-cat-label') || '';
+      lbDesc.textContent  = item.getAttribute('data-desc') || '';
+      if (counter) counter.textContent = (idx + 1) + ' / ' + items.length;
+      lbImg.style.opacity = '1';
+    }, 150);
+  }
+
+  // Re-wire work item click
+  document.querySelectorAll('.work-item').forEach(function (item, i) {
+    item.addEventListener('click', function () {
+      buildItems();
+      current = items.indexOf(item);
+      if (current === -1) current = 0;
+      showItem(current);
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  lbPrev.addEventListener('click', function (e) { e.stopPropagation(); showItem(current - 1); });
+  lbNext.addEventListener('click', function (e) { e.stopPropagation(); showItem(current + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft')  showItem(current - 1);
+    if (e.key === 'ArrowRight') showItem(current + 1);
+  });
+
+  // Smooth img transition
+  lbImg.style.transition = 'opacity .15s ease';
+})();
+
+/* ══ INTERACTIVE TERMINAL ══ */
+(function () {
+  var widget  = document.getElementById('term-widget');
+  var termBar = document.getElementById('term-bar');
+  var toggle  = document.getElementById('term-toggle');
+  var output  = document.getElementById('term-output');
+  var input   = document.getElementById('term-input');
+  if (!widget || !input) return;
+
+  var history = [];
+  var histIdx = -1;
+  var minimized = false;
+
+  function toggleMin() {
+    minimized = !minimized;
+    widget.classList.toggle('minimized', minimized);
+    toggle.innerHTML = minimized ? '+' : '&ndash;';
+    if (!minimized) { setTimeout(function () { input.focus(); }, 300); }
+  }
+  toggle.addEventListener('click', function (e) { e.stopPropagation(); toggleMin(); });
+  termBar.addEventListener('click', function () { if (minimized) toggleMin(); });
+
+  function print(text, cls) {
+    var line = document.createElement('div');
+    line.className = 'tline' + (cls ? ' ' + cls : '');
+    line.innerHTML = text;
+    output.appendChild(line);
+    output.scrollTop = output.scrollHeight;
+  }
+
+  var commands = {
+    help: function () {
+      print('Available commands:', 'success');
+      var cmds = [
+        ['about',           'Who is Tyrone?'],
+        ['skills',          'View skills &amp; tools'],
+        ['work',            'Browse projects'],
+        ['contact',         'Get in touch'],
+        ['hire',            'The smart choice'],
+        ['whoami',          'Current user info'],
+        ['ls',              'List directory'],
+        ['pwd',             'Print working directory'],
+        ['date',            'Current date &amp; time'],
+        ['matrix',          'Toggle background effect'],
+        ['clear',           'Clear terminal'],
+        ['sudo hire-tyrone','[ADMIN] Execute hire command'],
+      ];
+      cmds.forEach(function (c) {
+        print('&nbsp;&nbsp;<span class="tcmd">' + c[0] + '</span>&nbsp;&nbsp;—&nbsp;&nbsp;' + c[1], 'tindent');
+      });
+    },
+    about: function () {
+      print('&gt; Loading tyrone_dunn.txt...', 'warn');
+      setTimeout(function () {
+        print('Name: <span class="tcmd">Tyrone Dunn</span>');
+        print('Location: <span class="tcmd">Milwaukee, WI</span>');
+        print('Status: <span class="tcmd">Incoming Freshman — Marquette University</span>');
+        print('Major: <span class="tcmd">Software Engineering</span>');
+        print('Cert: <span class="tcmd">Microsoft IT Help Desk Pro</span>');
+        print('Skills: <span class="tcmd">HTML, CSS, JS, Blender, GFX Art</span>');
+        print('Goal: <span class="tcmd">Internship Summer 2027</span>');
+      }, 300);
+    },
+    skills: function () {
+      var s = [
+        ['HTML/CSS',      '████████████████████', '88%'],
+        ['JavaScript',    '██████████████░░░░░░', '70%'],
+        ['GFX / Blender', '████████████████░░░░', '82%'],
+        ['3D Rendering',  '███████████████░░░░░', '75%'],
+        ['Git / GitHub',  '█████████████░░░░░░░', '65%'],
+        ['Python',        '████░░░░░░░░░░░░░░░░', '20%'],
+      ];
+      s.forEach(function (row) {
+        print('<span style="color:var(--muted);display:inline-block;width:110px">' + row[0] + '</span> <span style="color:var(--red)">' + row[1] + '</span> ' + row[2]);
+      });
+    },
+    work: function () {
+      print('&gt; Projects on record:', 'success');
+      var w = [
+        ['Roblox Character GFX', 'GFX Art'],
+        ['Thumbnail Design',     'GFX Art'],
+        ['Scene Composition',    'GFX Art'],
+        ['Character Art',        'GFX Art'],
+        ['This Portfolio',       'Web Dev'],
+        ['Recent Creation',      'Web Dev'],
+        ['Blender Scene',        '3D Render'],
+      ];
+      w.forEach(function (p, i) {
+        print('&nbsp;&nbsp;' + (i+1) + '. <span class="tcmd">' + p[0] + '</span> &mdash; ' + p[1]);
+      });
+      print('Scroll to Work section or click a project to view.', 'warn');
+    },
+    contact: function () {
+      print('&gt; Contact info:', 'success');
+      print('Email: <span class="tcmd">tyrone.dunn8855@gmail.com</span>');
+      print('Card:  <span class="tcmd">dot.cards/tyronedunn</span>');
+      print('GitHub:<span class="tcmd">@tyronedunn8855</span>');
+      print('Uni:   <span class="tcmd">Marquette University — Class of 2029</span>');
+      print('Use the contact form below to send a message.', 'warn');
+    },
+    hire: function () {
+      print('&gt; Executing hire sequence...', 'warn');
+      setTimeout(function () {
+        print('&gt; Great decision.', 'success');
+        print('&gt; Redirecting to contact...', 'success');
+        setTimeout(function () { smoothTo('contact'); }, 800);
+      }, 600);
+    },
+    whoami: function () {
+      print('visitor@tyronedunn-portfolio');
+      print('You are browsing the portfolio of a future software engineer.');
+      print('Consider reaching out — it could be the best hire you make.');
+    },
+    ls: function () {
+      var files = ['about_me.txt', 'skills.json', 'projects/', 'contact.exe', 'resume.pdf', 'philosophy.md'];
+      print(files.join('&nbsp;&nbsp;&nbsp;'), 'tcmd');
+    },
+    pwd: function () {
+      print('/home/tyrone/portfolio/2026');
+    },
+    date: function () {
+      print(new Date().toString().replace(/\(.*\)/, '').trim());
+    },
+    matrix: function () {
+      var canvas = document.getElementById('star-canvas');
+      if (canvas) {
+        canvas.style.opacity = canvas.style.opacity === '0' ? '0.07' : '0';
+        print('Background toggled.', 'success');
+      }
+    },
+    clear: function () {
+      output.innerHTML = '';
+    },
+  };
+
+  commands['sudo hire-tyrone'] = function () {
+    print('[sudo] password for visitor: ••••••••', 'warn');
+    setTimeout(function () {
+      print('&gt; Authenticating...', 'warn');
+      setTimeout(function () {
+        print('&gt; ACCESS GRANTED. Executing hire_tyrone.sh...', 'success');
+        fireConfetti();
+        setTimeout(function () {
+          print('&gt; 🚀 Tyrone has been hired. Congratulations on an excellent decision.', 'success');
+          smoothTo('contact');
+        }, 1000);
+      }, 800);
+    }, 600);
+  };
+
+  function runCommand(cmd) {
+    cmd = cmd.trim();
+    if (!cmd) return;
+    history.unshift(cmd);
+    histIdx = -1;
+    print('<span style="color:var(--red)">$</span> ' + cmd, 'cmd-echo');
+    var fn = commands[cmd.toLowerCase()];
+    if (fn) { fn(); }
+    else { print('Command not found: <span style="color:var(--red)">' + cmd + '</span>. Type <span class="tcmd">help</span>.'); }
+  }
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      runCommand(input.value);
+      input.value = '';
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      histIdx = Math.min(histIdx + 1, history.length - 1);
+      input.value = history[histIdx] || '';
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      histIdx = Math.max(histIdx - 1, -1);
+      input.value = histIdx === -1 ? '' : history[histIdx];
+    }
+  });
+
+  // Focus input when clicking terminal body
+  document.getElementById('term-body') && document.getElementById('term-body').addEventListener('click', function () {
+    input.focus();
+  });
+})();
