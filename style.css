@@ -732,3 +732,8 @@ footer p span { color: var(--red); }
 .form-select {
   cursor: pointer !important;
 }
+
+#submit-btn {
+  cursor: pointer !important;
+  pointer-events: all !important;
+}
