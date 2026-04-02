@@ -6,8 +6,6 @@
   <title>Tyrone Dunn // Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <!-- EmailJS — sends real emails from the contact form -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,7 +15,7 @@
   <div id="scanlines"></div>
   <div id="vignette"></div>
 
-  <!-- ═══ WELCOME ═══ -->
+  <!-- WELCOME -->
   <div id="welcome">
     <canvas id="wcanvas"></canvas>
     <p class="w-line" style="animation-delay:.2s">// Initializing...</p>
@@ -35,7 +33,7 @@
     <p id="w-sub">CLASS OF 2029 &nbsp;·&nbsp; MARQUETTE UNIVERSITY &nbsp;·&nbsp; SOFTWARE ENGINEERING</p>
   </div>
 
-  <!-- ═══ MAIN ═══ -->
+  <!-- MAIN -->
   <div id="main">
 
     <nav>
@@ -163,7 +161,7 @@
         </div>
       </section>
 
-      <!-- WORK CATALOG -->
+      <!-- WORK -->
       <section id="work" class="section">
         <div class="sec-head">
           <span class="sec-num">02</span>
@@ -178,8 +176,9 @@
         </div>
         <div class="work-grid" id="work-grid">
 
+          <!-- BOX 1 — GFX large featured -->
           <div class="work-item large" data-cat="gfx">
-            <img src="images/Pose1Light.png" alt="Roblox Character GFX" class="work-img">
+            <img src="Pose1Light.png" alt="Roblox Character GFX" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">GFX Art</div>
               <div class="work-name">Roblox Character GFX</div>
@@ -187,8 +186,9 @@
             </div>
           </div>
 
+          <!-- BOX 2 — GFX thumbnail -->
           <div class="work-item" data-cat="gfx">
-            <img src="images/4PS.png" alt="Thumbnail Design" class="work-img">
+            <img src="4PS.png" alt="Thumbnail Design" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">GFX Art</div>
               <div class="work-name">Thumbnail Design</div>
@@ -196,8 +196,9 @@
             </div>
           </div>
 
+          <!-- BOX 3 — GFX scene -->
           <div class="work-item" data-cat="gfx">
-            <img src="images/5WM.png" alt="Scene Composition" class="work-img">
+            <img src="5WM.png" alt="Scene Composition" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">GFX Art</div>
               <div class="work-name">Scene Composition</div>
@@ -205,8 +206,9 @@
             </div>
           </div>
 
+          <!-- BOX 4 — Web large featured -->
           <div class="work-item large" data-cat="web">
-            <img src="images/image.png" alt="This Portfolio" class="work-img">
+            <img src="image.png" alt="This Portfolio" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">Web Development</div>
               <div class="work-name">This Portfolio</div>
@@ -214,17 +216,19 @@
             </div>
           </div>
 
+          <!-- BOX 5 — Web second -->
           <div class="work-item" data-cat="web">
-            <img src="images/light.png" alt="Recent Creation" class="work-img">
+            <img src="light.png" alt="Recent Creation" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">Web Development</div>
               <div class="work-name">Recent Creation</div>
-              <div class="work-desc">Currently learning Python and expanding JavaScript. Most recent creation.</div>
+              <div class="work-desc">Currently learning Python and expanding JavaScript. Most recent creation — more projects coming soon.</div>
             </div>
           </div>
 
+          <!-- BOX 6 — 3D render -->
           <div class="work-item" data-cat="3d">
-            <img src="images/7WM.png" alt="Blender Scene" class="work-img">
+            <img src="7WM.png" alt="Blender Scene" class="work-img">
             <div class="work-overlay">
               <div class="work-cat">3D Rendering</div>
               <div class="work-name">Blender Scene</div>
@@ -332,8 +336,6 @@
           <div class="sec-line"></div>
         </div>
         <div class="contact-grid">
-
-          <!-- FORM -->
           <div class="contact-form-col">
             <div class="t-card" style="margin-bottom:0">
               <div class="t-card-bar">
@@ -342,41 +344,37 @@
               </div>
               <div class="t-card-body">
                 <span class="code-comment">// Let's Build Something</span>
-                <form id="contact-form" class="contact-form" novalidate>
-                  <div class="form-row">
-                    <div class="form-group">
-                      <label class="form-label">Your Name</label>
-                      <input id="from_name" type="text" class="form-input" placeholder="Your name" required>
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label">Your Email</label>
-                      <input id="from_email" type="email" class="form-input" placeholder="your@email.com" required>
-                    </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input id="from_name" type="text" class="form-input" placeholder="Your name">
                   </div>
                   <div class="form-group">
-                    <label class="form-label">Subject</label>
-                    <select id="subject" class="form-input form-select">
-                      <option value="" disabled selected>What's this about?</option>
-                      <option>GFX Commission</option>
-                      <option>Web Development Project</option>
-                      <option>Internship Opportunity</option>
-                      <option>Collaboration</option>
-                      <option>General Question</option>
-                    </select>
+                    <label class="form-label">Your Email</label>
+                    <input id="from_email" type="email" class="form-input" placeholder="your@email.com">
                   </div>
-                  <div class="form-group">
-                    <label class="form-label">Message</label>
-                    <textarea id="message" class="form-input form-textarea" placeholder="Tell me about your project or opportunity..." required></textarea>
-                  </div>
-                  <!-- Status message shown after submit -->
-                  <div id="form-status" class="form-status" style="display:none"></div>
-                  <button type="button" class="btn btn-p btn-full" id="submit-btn">Send Message →</button>
-                </form>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Subject</label>
+                  <select id="subject" class="form-input form-select">
+                    <option value="" disabled selected>What's this about?</option>
+                    <option>GFX Commission</option>
+                    <option>Web Development Project</option>
+                    <option>Internship Opportunity</option>
+                    <option>Collaboration</option>
+                    <option>General Question</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Message</label>
+                  <textarea id="message" class="form-input form-textarea" placeholder="Tell me about your project or opportunity..."></textarea>
+                </div>
+                <div id="form-status" class="form-status" style="display:none"></div>
+                <button type="button" id="submit-btn" class="btn btn-p btn-full">Send Message →</button>
               </div>
             </div>
           </div>
 
-          <!-- INFO PANEL -->
           <div class="contact-info-col">
             <div class="contact-info-block">
               <div class="contact-info-label">Status</div>
@@ -399,9 +397,9 @@
                 <span class="social-icon">@</span>
                 <div><span class="social-name">Contact Card</span><span class="social-handle">dot.cards/tyronedunn</span></div>
               </a>
-              <a href="https://github.com" class="social-item" target="_blank">
+              <a href="https://github.com/tyronedunn8855" class="social-item" target="_blank">
                 <span class="social-icon">&lt;/&gt;</span>
-                <div><span class="social-name">GitHub</span><span class="social-handle">@tyronedunn</span></div>
+                <div><span class="social-name">GitHub</span><span class="social-handle">@tyronedunn8855</span></div>
               </a>
               <a href="https://linkedin.com" class="social-item" target="_blank">
                 <span class="social-icon">in</span>
@@ -413,7 +411,6 @@
               </a>
             </div>
           </div>
-
         </div>
       </section>
 
@@ -426,6 +423,8 @@
 
   </div>
 
+  <!-- EmailJS must load BEFORE script.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
