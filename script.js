@@ -440,3 +440,144 @@ function filterWork(cat, btn) {
     });
   });
 })();
+
+/* ══════════════════════════════════
+   INTERACTIVE ADDITIONS — v6
+══════════════════════════════════ */
+
+/* ── Cursor trail ── */
+(function () {
+  var last = 0;
+  document.addEventListener('mousemove', function (e) {
+    var now = Date.now();
+    if (now - last < 40) return;
+    last = now;
+    var dot = document.createElement('div');
+    dot.className = 'trail-dot';
+    dot.style.left = e.clientX + 'px';
+    dot.style.top  = e.clientY + 'px';
+    document.body.appendChild(dot);
+    setTimeout(function () { dot.remove(); }, 620);
+  }, { passive: true });
+})();
+
+/* ── Nav hide on scroll down, show on scroll up ── */
+(function () {
+  var nav = document.getElementById('topnav');
+  if (!nav) return;
+  var lastY = 0;
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY;
+    if (y > 100) {
+      nav.classList.toggle('hidden', y > lastY);
+    } else {
+      nav.classList.remove('hidden');
+    }
+    lastY = y;
+  }, { passive: true });
+})();
+
+/* ── Magnetic button effect ── */
+(function () {
+  document.querySelectorAll('.btn-p, .btn-o').forEach(function (btn) {
+    btn.addEventListener('mousemove', function (e) {
+      var rect = btn.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+      var dx = (e.clientX - cx) * 0.25;
+      var dy = (e.clientY - cy) * 0.25;
+      btn.style.transform = 'translate(' + dx + 'px, ' + dy + 'px)';
+    });
+    btn.addEventListener('mouseleave', function () {
+      btn.style.transform = '';
+    });
+  });
+})();
+
+/* ── Animated tab title (when user switches away) ── */
+(function () {
+  var original = document.title;
+  var msg = '👀 Come Back! — Tyrone Dunn';
+  document.addEventListener('visibilitychange', function () {
+    document.title = document.hidden ? msg : original;
+  });
+})();
+
+/* ── Confetti burst on form success ── */
+function fireConfetti() {
+  var colors = ['#ff2d2d', '#ff6b6b', '#ffffff', '#ffbd2e', '#27c93f'];
+  for (var i = 0; i < 40; i++) {
+    (function (i) {
+      setTimeout(function () {
+        var p = document.createElement('div');
+        p.className = 'confetti-piece';
+        p.style.left = (30 + Math.random() * 40) + 'vw';
+        p.style.top  = (Math.random() * 40 + 30) + 'vh';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.width  = (Math.random() * 8 + 4) + 'px';
+        p.style.height = (Math.random() * 8 + 4) + 'px';
+        p.style.animationDuration = (Math.random() * 0.6 + 0.8) + 's';
+        p.style.animationDelay = (Math.random() * 0.3) + 's';
+        document.body.appendChild(p);
+        setTimeout(function () { p.remove(); }, 1600);
+      }, i * 25);
+    })(i);
+  }
+}
+
+/* Hook confetti into existing send success — patch the emailjs .then */
+(function () {
+  var origSend = emailjs.send.bind(emailjs);
+  emailjs.send = function () {
+    return origSend.apply(emailjs, arguments).then(function (r) {
+      fireConfetti();
+      return r;
+    });
+  };
+})();
+
+/* ── Easter egg — type "hire" anywhere ── */
+(function () {
+  var typed = '';
+  var egg = document.createElement('div');
+  egg.id = 'easter-egg';
+  egg.textContent = '🚀 Smart choice — let\'s talk! Scroll to Contact ↓';
+  document.body.appendChild(egg);
+
+  document.addEventListener('keydown', function (e) {
+    if (document.activeElement.tagName === 'INPUT' ||
+        document.activeElement.tagName === 'TEXTAREA') return;
+    typed += e.key.toLowerCase();
+    if (typed.length > 6) typed = typed.slice(-6);
+    if (typed.includes('hire')) {
+      egg.classList.add('show');
+      setTimeout(function () { egg.classList.remove('show'); }, 3500);
+      typed = '';
+    }
+  });
+})();
+
+/* ── Parallax on hero image ── */
+(function () {
+  var imgWrap = document.querySelector('.img-wrap');
+  if (!imgWrap) return;
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY;
+    if (y < window.innerHeight) {
+      imgWrap.style.transform = 'translateY(' + (y * 0.12) + 'px)';
+    }
+  }, { passive: true });
+})();
+
+/* ── Card spotlight glow on mousemove ── */
+(function () {
+  document.querySelectorAll('.t-card').forEach(function (card) {
+    card.addEventListener('mousemove', function (e) {
+      var rect = card.getBoundingClientRect();
+      var x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+      var y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+})();
