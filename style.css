@@ -737,3 +737,20 @@ footer p span { color: var(--red); }
   cursor: pointer !important;
   pointer-events: all !important;
 }
+
+/* ── Fix: allow clicking and typing in contact form ── */
+.form-input,
+.form-textarea,
+.form-select {
+  cursor: text !important;
+  pointer-events: all !important;
+  position: relative;
+  z-index: 10;
+}
+.form-select { cursor: pointer !important; }
+#submit-btn {
+  cursor: pointer !important;
+  pointer-events: all !important;
+  position: relative;
+  z-index: 10;
+}
