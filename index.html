@@ -42,6 +42,9 @@
     <div id="lb-overlay"></div>
     <div id="lb-content">
       <button id="lb-close">×</button>
+      <button id="lb-prev">&#8592;</button>
+      <button id="lb-next">&#8594;</button>
+      <div id="lb-counter"></div>
       <img id="lb-img" src="" alt="">
       <div id="lb-info">
         <div id="lb-cat"></div>
@@ -75,6 +78,9 @@
 
     <nav id="topnav">
       <div class="nav-logo">T<span>.</span>DUNN</div>
+      <button id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
       <div class="nav-prompt"><span>>_</span>&nbsp;ready</div>
       <div class="nav-links">
         <a href="#about">About</a>
@@ -85,6 +91,15 @@
       </div>
     </nav>
 
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu">
+      <a href="#about"   onclick="closeMobileMenu()">01 — About</a>
+      <a href="#work"    onclick="closeMobileMenu()">02 — Work</a>
+      <a href="#skills"  onclick="closeMobileMenu()">03 — Skills</a>
+      <a href="#goals"   onclick="closeMobileMenu()">04 — Goals</a>
+      <a href="#contact" onclick="closeMobileMenu()">05 — Contact</a>
+    </div>
     <div class="container">
 
       <!-- HERO -->
@@ -448,6 +463,26 @@
         </div>
       </section>
 
+
+        <!-- Skill Radar Chart -->
+        <div class="t-card" style="margin-top:12px">
+          <div class="t-card-bar">
+            <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+            <span class="t-card-title">skills_radar.svg</span>
+          </div>
+          <div class="t-card-body radar-card-body">
+            <canvas id="radar-chart" width="280" height="280"></canvas>
+            <div class="radar-legend">
+              <div class="rl-item"><span class="rl-dot"></span>HTML &amp; CSS — 88%</div>
+              <div class="rl-item"><span class="rl-dot"></span>JavaScript — 70%</div>
+              <div class="rl-item"><span class="rl-dot"></span>GFX / Blender — 82%</div>
+              <div class="rl-item"><span class="rl-dot"></span>3D Rendering — 75%</div>
+              <div class="rl-item"><span class="rl-dot"></span>Git &amp; GitHub — 65%</div>
+              <div class="rl-item"><span class="rl-dot"></span>Python — 20%</div>
+            </div>
+          </div>
+        </div>
+
       <!-- GOALS -->
       <section id="goals" class="section">
         <div class="sec-head">
@@ -576,6 +611,28 @@
 
     </div>
 
+
+    <!-- Interactive Terminal -->
+    <div id="term-widget">
+      <div id="term-bar">
+        <div class="term-mac-dots">
+          <span class="tmd tmd-r"></span>
+          <span class="tmd tmd-y"></span>
+          <span class="tmd tmd-g"></span>
+        </div>
+        <span id="term-title">tyrone@portfolio:~</span>
+        <button id="term-toggle" aria-label="Toggle terminal">&#8211;</button>
+      </div>
+      <div id="term-body">
+        <div id="term-output">
+          <div class="tline"><span class="tprompt">&gt;</span> Welcome. Type <span class="tcmd">help</span> for commands.</div>
+        </div>
+        <div id="term-input-row">
+          <span class="tprompt-full">tyrone@portfolio:~$&nbsp;</span>
+          <input id="term-input" type="text" autocomplete="off" spellcheck="false" placeholder="type a command...">
+        </div>
+      </div>
+    </div>
     <footer>
       <div class="f-name">TYRONE DUNN</div>
       <p>Built from scratch &nbsp;<span>//</span>&nbsp; HTML · CSS · JavaScript &nbsp;<span>//</span>&nbsp; Milwaukee, WI &nbsp;<span>//</span>&nbsp; 2026</p>
