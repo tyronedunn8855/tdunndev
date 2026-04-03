@@ -897,7 +897,7 @@ function fireConfetti() {
       print('Email: <span class="tcmd">tyrone.dunn8855@gmail.com</span>');
       print('Card:  <span class="tcmd">dot.cards/tyronedunn</span>');
       print('GitHub:<span class="tcmd">@tyronedunn8855</span>');
-      print('Uni:   <span class="tcmd">Marquette University — Class of 2029</span>');
+      print('Uni:   <span class="tcmd">Marquette University — Class of 2030</span>');
       print('Use the contact form below to send a message.', 'warn');
     },
     hire: function () {
