@@ -525,7 +525,7 @@ function fireConfetti() {
   }
 }
 
-/* Hook confetti into existing send success — patch the emailjs .then */
+/* Hook confetti into emailjs */
 (function () {
   var origSend = emailjs.send.bind(emailjs);
   emailjs.send = function () {
@@ -639,17 +639,17 @@ function fireConfetti() {
   });
 })();
 
-/* ══ ANIMATED RADAR CHART ══ */
+/* ══ ANIMATED RADAR CHART — UPDATED Python 0.20 → 0.35 ══ */
 (function () {
   var canvas = document.getElementById('radar-chart');
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
   var labels = ['HTML/CSS','JavaScript','GFX Art','3D Render','Git','Python'];
-  var values = [0.88, 0.70, 0.82, 0.75, 0.65, 0.20];
+  /* UPDATED: Python value changed from 0.20 to 0.35 */
+  var values = [0.88, 0.70, 0.82, 0.75, 0.65, 0.35];
   var W = canvas.width, H = canvas.height;
   var cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2 - 28;
   var N = labels.length;
-  var animVal = 0;
   var animating = false;
 
   function angleOf(i) { return (Math.PI * 2 * i / N) - Math.PI / 2; }
@@ -659,7 +659,6 @@ function fireConfetti() {
 
   function draw(progress) {
     ctx.clearRect(0, 0, W, H);
-    // Grid rings
     for (var ring = 1; ring <= 4; ring++) {
       var rr = R * ring / 4;
       ctx.beginPath();
@@ -672,7 +671,6 @@ function fireConfetti() {
       ctx.lineWidth = 1;
       ctx.stroke();
     }
-    // Axis lines
     for (var i = 0; i < N; i++) {
       var p = ptAt(i, R);
       ctx.beginPath();
@@ -681,7 +679,6 @@ function fireConfetti() {
       ctx.strokeStyle = 'rgba(255,255,255,0.08)';
       ctx.lineWidth = 1;
       ctx.stroke();
-      // Labels
       var lp = ptAt(i, R + 18);
       ctx.fillStyle = 'rgba(232,232,232,0.55)';
       ctx.font = '10px Oswald, sans-serif';
@@ -689,7 +686,6 @@ function fireConfetti() {
       ctx.textBaseline = 'middle';
       ctx.fillText(labels[i], lp.x, lp.y);
     }
-    // Data shape
     ctx.beginPath();
     for (var i = 0; i < N; i++) {
       var p = ptAt(i, R * values[i] * progress);
@@ -704,7 +700,6 @@ function fireConfetti() {
     ctx.shadowBlur = 8;
     ctx.stroke();
     ctx.shadowBlur = 0;
-    // Data points
     for (var i = 0; i < N; i++) {
       var p = ptAt(i, R * values[i] * progress);
       ctx.beginPath();
@@ -775,7 +770,6 @@ function fireConfetti() {
     }, 150);
   }
 
-  // Re-wire work item click
   document.querySelectorAll('.work-item').forEach(function (item, i) {
     item.addEventListener('click', function () {
       buildItems();
@@ -796,11 +790,10 @@ function fireConfetti() {
     if (e.key === 'ArrowRight') showItem(current + 1);
   });
 
-  // Smooth img transition
   lbImg.style.transition = 'opacity .15s ease';
 })();
 
-/* ══ INTERACTIVE TERMINAL ══ */
+/* ══ INTERACTIVE TERMINAL — UPDATED with new projects + Python 35% ══ */
 (function () {
   var widget  = document.getElementById('term-widget');
   var termBar = document.getElementById('term-bar');
@@ -851,18 +844,21 @@ function fireConfetti() {
         print('&nbsp;&nbsp;<span class="tcmd">' + c[0] + '</span>&nbsp;&nbsp;—&nbsp;&nbsp;' + c[1], 'tindent');
       });
     },
+    /* UPDATED about command */
     about: function () {
       print('&gt; Loading tyrone_dunn.txt...', 'warn');
       setTimeout(function () {
         print('Name: <span class="tcmd">Tyrone Dunn</span>');
         print('Location: <span class="tcmd">Milwaukee, WI</span>');
-        print('Status: <span class="tcmd">Incoming Freshman — Marquette University</span>');
+        print('Status: <span class="tcmd">Senior year done — Starting Marquette Fall 2026</span>');
         print('Major: <span class="tcmd">Software Engineering</span>');
         print('Cert: <span class="tcmd">Microsoft IT Help Desk Pro</span>');
-        print('Skills: <span class="tcmd">HTML, CSS, JS, Blender, GFX Art</span>');
+        print('Skills: <span class="tcmd">HTML, CSS, JS, Python, Blender, GFX Art</span>');
+        print('Live Sites: <span class="tcmd">Portfolio · Hidden Gems · Lucent Brand</span>');
         print('Goal: <span class="tcmd">Internship Summer 2027</span>');
       }, 300);
     },
+    /* UPDATED skills command — Python 35% */
     skills: function () {
       var s = [
         ['HTML/CSS',      '████████████████████', '88%'],
@@ -870,22 +866,24 @@ function fireConfetti() {
         ['GFX / Blender', '████████████████░░░░', '82%'],
         ['3D Rendering',  '███████████████░░░░░', '75%'],
         ['Git / GitHub',  '█████████████░░░░░░░', '65%'],
-        ['Python',        '████░░░░░░░░░░░░░░░░', '20%'],
+        ['Python',        '███████░░░░░░░░░░░░░', '35%'],
       ];
       s.forEach(function (row) {
         print('<span style="color:var(--muted);display:inline-block;width:110px">' + row[0] + '</span> <span style="color:var(--red)">' + row[1] + '</span> ' + row[2]);
       });
     },
+    /* UPDATED work command — includes Hidden Gems and Lucent */
     work: function () {
       print('&gt; Projects on record:', 'success');
       var w = [
-        ['Roblox Character GFX', 'GFX Art'],
-        ['Thumbnail Design',     'GFX Art'],
-        ['Scene Composition',    'GFX Art'],
-        ['Character Art',        'GFX Art'],
-        ['This Portfolio',       'Web Dev'],
-        ['Recent Creation',      'Web Dev'],
-        ['Blender Scene',        '3D Render'],
+        ['Roblox Character GFX',       'GFX Art'],
+        ['Thumbnail Design',           'GFX Art'],
+        ['Scene Composition',          'GFX Art'],
+        ['Character Art',              'GFX Art'],
+        ['This Portfolio',             'Web Dev — live'],
+        ['Hidden Gems — City Guide',   'Web Dev — live · city-azure.vercel.app'],
+        ['Lucent — Streetwear Brand',  'Web Dev — live · testbrand-ten.vercel.app'],
+        ['Blender Scene',              '3D Render'],
       ];
       w.forEach(function (p, i) {
         print('&nbsp;&nbsp;' + (i+1) + '. <span class="tcmd">' + p[0] + '</span> &mdash; ' + p[1]);
@@ -911,10 +909,11 @@ function fireConfetti() {
     whoami: function () {
       print('visitor@tyronedunn-portfolio');
       print('You are browsing the portfolio of a future software engineer.');
+      print('3 live sites. Microsoft certified. Heading to Marquette Fall 2026.');
       print('Consider reaching out — it could be the best hire you make.');
     },
     ls: function () {
-      var files = ['about_me.txt', 'skills.json', 'projects/', 'contact.exe', 'resume.pdf', 'philosophy.md'];
+      var files = ['about_me.txt', 'skills.json', 'projects/', 'contact.exe', 'resume.pdf', 'hidden_gems.url', 'lucent.url'];
       print(files.join('&nbsp;&nbsp;&nbsp;'), 'tcmd');
     },
     pwd: function () {
@@ -976,7 +975,6 @@ function fireConfetti() {
     }
   });
 
-  // Focus input when clicking terminal body
   document.getElementById('term-body') && document.getElementById('term-body').addEventListener('click', function () {
     input.focus();
   });
@@ -986,10 +984,8 @@ function fireConfetti() {
    MOBILE FIXES — v8
 ════════════════════════════════════ */
 
-/* ── Detect touch device ── */
 var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-/* ── Disable tilt on touch ── */
 if (isTouchDevice) {
   document.querySelectorAll('.tilt-card').forEach(function (card) {
     card.style.transform = '';
@@ -999,7 +995,6 @@ if (isTouchDevice) {
   });
 }
 
-/* ── Disable hero parallax on touch ── */
 if (isTouchDevice) {
   var hero = document.getElementById('hero');
   if (hero) {
@@ -1008,7 +1003,6 @@ if (isTouchDevice) {
   }
 }
 
-/* ── Terminal: start minimized on mobile ── */
 (function () {
   if (window.innerWidth > 700) return;
   var widget = document.getElementById('term-widget');
@@ -1018,7 +1012,6 @@ if (isTouchDevice) {
   toggle.innerHTML = '+';
 })();
 
-/* ── Lightbox: touch swipe support ── */
 (function () {
   var lbContent = document.getElementById('lb-content');
   if (!lbContent) return;
@@ -1031,7 +1024,6 @@ if (isTouchDevice) {
   lbContent.addEventListener('touchend', function (e) {
     var diff = startX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) {
-      /* Access the current index via the lightbox prev/next logic */
       var prev = document.getElementById('lb-prev');
       var next = document.getElementById('lb-next');
       if (diff > 0 && next) next.click();
@@ -1040,7 +1032,6 @@ if (isTouchDevice) {
   }, { passive: true });
 })();
 
-/* ── On mobile: work items tap shows overlay, second tap opens lightbox ── */
 (function () {
   if (!isTouchDevice) return;
   var tapped = null;
@@ -1049,10 +1040,8 @@ if (isTouchDevice) {
       var overlay = item.querySelector('.work-overlay');
       if (!overlay) return;
       if (tapped === item) {
-        /* Second tap — lightbox handled by existing click listener */
         tapped = null;
       } else {
-        /* First tap — show overlay */
         document.querySelectorAll('.work-overlay').forEach(function (o) {
           o.style.opacity = '0';
         });
@@ -1064,7 +1053,6 @@ if (isTouchDevice) {
   });
 })();
 
-/* ── Viewport height fix for mobile browsers (address bar) ── */
 (function () {
   function setVH() {
     var vh = window.innerHeight * 0.01;
@@ -1074,7 +1062,6 @@ if (isTouchDevice) {
   window.addEventListener('resize', setVH, { passive: true });
 })();
 
-/* ── Prevent zoom on input focus (iOS) ── */
 (function () {
   if (!isTouchDevice) return;
   document.querySelectorAll('input, select, textarea').forEach(function (el) {
@@ -1088,7 +1075,6 @@ if (isTouchDevice) {
    FINAL AUDIT FIXES — v9
 ════════════════════════════════════ */
 
-/* ── Fix: retina/HiDPI radar chart ── */
 (function () {
   var canvas = document.getElementById('radar-chart');
   if (!canvas) return;
@@ -1103,7 +1089,6 @@ if (isTouchDevice) {
   canvas.getContext('2d').scale(dpr, dpr);
 })();
 
-/* ── Fix: filter function — first visible item gets large class ── */
 window.filterWork = function (cat, btn) {
   document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
   btn.classList.add('active');
@@ -1117,13 +1102,11 @@ window.filterWork = function (cat, btn) {
 
     if (match) {
       if (cat === 'all') {
-        /* In 'all' view — first gfx and first web are large */
         if ((itemCat === 'gfx' || itemCat === 'web') && !firstSeen[itemCat]) {
           item.classList.add('large');
           firstSeen[itemCat] = true;
         }
       } else {
-        /* In filtered view — make first visible item large */
         if (!firstSeen[cat]) {
           item.classList.add('large');
           firstSeen[cat] = true;
@@ -1133,7 +1116,6 @@ window.filterWork = function (cat, btn) {
   });
 };
 
-/* ── Fix: email format validation ── */
 (function () {
   var btn = document.getElementById('submit-btn');
   if (!btn) return;
@@ -1142,8 +1124,6 @@ window.filterWork = function (cat, btn) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
-  /* Wrap the existing listener — monkey-patch the emailjs.send to add validation */
-  var origClick = btn.onclick;
   btn.addEventListener('click', function (e) {
     var emailEl = document.getElementById('from_email');
     var status  = document.getElementById('form-status');
@@ -1155,10 +1135,9 @@ window.filterWork = function (cat, btn) {
       status.style.display = 'block';
       e.stopImmediatePropagation();
     }
-  }, true); /* true = capture phase, runs before existing listener */
+  }, true);
 })();
 
-/* ── Fix: hamburger aria-expanded ── */
 (function () {
   var ham  = document.getElementById('hamburger');
   var menu = document.getElementById('mobile-menu');
@@ -1169,11 +1148,9 @@ window.filterWork = function (cat, btn) {
   obs.observe(menu, { attributes: true, attributeFilter: ['class'] });
 })();
 
-/* ── Fix: nav doesn't hide when at very top ── */
 (function () {
   var nav = document.getElementById('topnav');
   if (!nav) return;
-  /* Override the previous scroll listener */
   var lastY = 0;
   window.addEventListener('scroll', function () {
     var y = window.scrollY;
@@ -1188,7 +1165,6 @@ window.filterWork = function (cat, btn) {
   }, { passive: true });
 })();
 
-/* ── Fix: lazy load work images ── */
 (function () {
   document.querySelectorAll('.work-img').forEach(function (img) {
     img.addEventListener('load', function () { img.classList.add('loaded'); });
@@ -1196,7 +1172,6 @@ window.filterWork = function (cat, btn) {
   });
 })();
 
-/* ── Fix: close mobile menu on resize to desktop ── */
 window.addEventListener('resize', function () {
   if (window.innerWidth > 700) {
     var menu = document.getElementById('mobile-menu');
@@ -1209,12 +1184,10 @@ window.addEventListener('resize', function () {
   }
 }, { passive: true });
 
-/* ── Fix: disable cursor trail on touch ── */
 if (isTouchDevice) {
   document.removeEventListener('mousemove', function(){}, true);
 }
 
-/* ── Accessibility: announce page sections to screen readers ── */
 (function () {
   var sections = document.querySelectorAll('.section[id]');
   sections.forEach(function (s) {
@@ -1225,10 +1198,8 @@ if (isTouchDevice) {
   });
 })();
 
-/* ── Performance: reduce star count on mobile ── */
 (function () {
   if (window.innerWidth < 700) {
-    /* Stars already drawn — this just reduces trail impact */
     var style = document.createElement('style');
     style.textContent = '.trail-dot { display: none !important; }';
     document.head.appendChild(style);
