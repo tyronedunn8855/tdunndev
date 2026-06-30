@@ -3,680 +3,414 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tyrone Dunn // Software Engineer</title>
-  <meta name="description" content="Tyrone Dunn — Senior year done, heading to Marquette University for Software Engineering. Microsoft IT Help Desk certified. Self-taught web developer, 3D GFX artist, and founder of Lucent streetwear brand.">
+  <title>Tyrone Dunn — Issue No. 02</title>
+  <meta name="description" content="Tyrone Dunn — GFX artist and developer. Marquette University, Class of 2030. Issue No. 02 of an ongoing portfolio.">
   <meta name="theme-color" content="#ff2d2d">
-  <meta property="og:title" content="Tyrone Dunn — Software Engineer & GFX Artist">
-  <meta property="og:description" content="Senior year wrapped up in Milwaukee, WI. Heading to Marquette for Software Engineering. Microsoft IT certified, 3 live deployed websites, self-taught developer and 3D artist.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/dot-routed-user-data/o/axfxGGpYzsSZy8cnJzwCWylob0I3%2FProfileImages%2Fthumb%40512_fba77a97-f152-4c95-9bd0-3a35614af8a8.jpeg?alt=media&token=JsGzyM0gIR1sfeqjOiE4R">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Tyrone Dunn — Software Engineer & GFX Artist">
-  <meta name="robots" content="index, follow">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23030303'/><text x='50' y='72' font-size='64' text-anchor='middle' fill='%23ff2d2d' font-family='Arial Black,sans-serif' font-weight='900'>T</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230a0a0d'/><text x='50' y='72' font-size='64' text-anchor='middle' fill='%23ff2d2d' font-family='Arial Black,sans-serif' font-weight='900'>T</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
 
-  <div id="scroll-progress"></div>
-  <div id="cur" aria-hidden="true"></div>
-  <canvas id="star-canvas" aria-hidden="true"></canvas>
-  <div id="scanlines" aria-hidden="true"></div>
-  <div id="vignette" aria-hidden="true"></div>
+  <a href="#pg01" class="skip-link">Skip to content</a>
 
-  <div id="float-badge" aria-label="Availability status">
-    <span class="fb-dot"></span>
-    <span>Open to Internships</span>
+  <!-- Page tracker -->
+  <div id="page-tracker">
+    <span id="pt-current">00</span><span id="pt-divider">/</span><span id="pt-total">05</span>
   </div>
 
+  <!-- Back to top -->
   <button id="back-top" aria-label="Back to top">↑</button>
 
-  <div id="side-dots">
-    <a class="sdot active" href="#hero"    data-label="Home"    title="Home"></a>
-    <a class="sdot"        href="#about"   data-label="About"   title="About"></a>
-    <a class="sdot"        href="#work"    data-label="Work"    title="Work"></a>
-    <a class="sdot"        href="#skills"  data-label="Skills"  title="Skills"></a>
-    <a class="sdot"        href="#goals"   data-label="Goals"   title="Goals"></a>
-    <a class="sdot"        href="#contact" data-label="Contact" title="Contact"></a>
-  </div>
-
-  <div id="lightbox">
-    <div id="lb-overlay"></div>
-    <div id="lb-content">
-      <button id="lb-close" aria-label="Close image viewer">×</button>
-      <button id="lb-prev" aria-label="Previous image">&#8592;</button>
-      <button id="lb-next" aria-label="Next image">&#8594;</button>
-      <div id="lb-counter"></div>
-      <img id="lb-img" src="" alt="">
-      <div id="lb-info">
-        <div id="lb-cat"></div>
-        <div id="lb-title"></div>
-        <div id="lb-desc"></div>
+  <!-- ═══ COVER LOADING SCREEN ═══ -->
+  <div id="cover-load">
+    <canvas id="load-canvas" aria-hidden="true"></canvas>
+    <div id="load-content">
+      <p class="load-line">ISSUE NO. 02</p>
+      <p class="load-line load-line-sub">now printing —</p>
+      <div id="load-name">
+        <h1><span id="ln-first"></span> <span id="ln-last" class="r"></span></h1>
       </div>
+      <div id="load-bar-wrap"><div id="load-bar"></div></div>
+      <button id="enter-btn">[ OPEN ISSUE ]</button>
+      <p id="load-sub">MARQUETTE UNIVERSITY &nbsp;·&nbsp; CLASS OF 2030</p>
     </div>
   </div>
 
-  <!-- WELCOME -->
-  <div id="welcome">
-    <canvas id="wcanvas" aria-hidden="true"></canvas>
-    <p class="w-line" style="animation-delay:.2s">// Initializing...</p>
-    <p class="w-line" style="animation-delay:.7s;color:rgba(255,45,45,0.8)">// Loading portfolio.exe</p>
-    <p class="w-line" style="animation-delay:1.1s">// Subject: Tyrone_Dunn</p>
-    <div id="w-name">
-      <h1><span id="w-first"></span><br><span id="w-last" class="r"></span></h1>
+  <!-- ═══ MAIN ═══ -->
+  <div id="main">
+
+    <!-- MASTHEAD -->
+    <header id="masthead">
+      <div class="mh-inner">
+        <a href="#cover" class="mh-mark">T<span>.</span>D</a>
+        <span class="mh-issue">ISSUE NO. 02</span>
+        <nav class="mh-contents">
+          <a href="#pg01">Origin</a>
+          <a href="#pg02">Work</a>
+          <a href="#pg03">Craft</a>
+          <a href="#pg04">Next</a>
+          <a href="#pg05">Connect</a>
+        </nav>
+        <button id="hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile contents menu -->
+    <div id="mobile-menu">
+      <a href="#pg01" data-pg="01">Origin</a>
+      <a href="#pg02" data-pg="02">Work</a>
+      <a href="#pg03" data-pg="03">Craft</a>
+      <a href="#pg04" data-pg="04">Next</a>
+      <a href="#pg05" data-pg="05">Connect</a>
     </div>
-    <div id="w-bar-wrap"><div id="w-bar"></div></div>
-    <p id="w-terminal">
-      <span style="color:#ff2d2d">></span> software_engineer.exe
-      <span style="color:#444">--location milwaukee_wi</span>
-      <span class="cursor-blink"></span>
-    </p>
-    <button id="w-btn" aria-label="Enter portfolio">[ ENTER PORTFOLIO ]</button>
-    <p id="w-sub">CLASS OF 2030 &nbsp;·&nbsp; MARQUETTE UNIVERSITY &nbsp;·&nbsp; SOFTWARE ENGINEERING</p>
-  </div>
 
-  <!-- MAIN -->
-  <div id="main" role="main">
+    <!-- ═══ COVER ═══ -->
+    <section id="cover">
+      <div class="cover-grid">
+        <div class="cover-text">
+          <p class="cover-eyebrow">ISSUE NO. 02 — 2026</p>
+          <h1 class="cover-name">TYRONE<br><span class="glitch r" data-text="DUNN">DUNN</span></h1>
+          <p class="cover-sub" id="cover-typewriter"></p>
+          <p class="cover-desc">A self-taught developer and GFX artist from Milwaukee, now beginning Software Engineering at Marquette University — Class of 2030.</p>
+          <div class="cover-actions">
+            <button class="btn btn-p" onclick="goTo('pg05')">Get In Touch</button>
+            <button class="btn btn-o" onclick="goTo('pg02')">View The Work</button>
+          </div>
+        </div>
+        <div class="cover-image">
+          <img src="shoeethu1.png" alt="GFX render by Tyrone Dunn — streetwear character render">
+          <div class="cover-image-caption">
+            <span>FIG. 00</span>
+            <span>COVER — GFX RENDER, 2026</span>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-cue"><div class="sc-line"></div><span>Scroll</span></div>
+    </section>
 
-    <nav id="topnav">
-      <div class="nav-logo">T<span>.</span>DUNN</div>
-      <button id="hamburger" aria-label="Open navigation menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <div class="nav-prompt"><span>>_</span>&nbsp;ready</div>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#skills">Skills</a>
-        <a href="#goals">Goals</a>
-        <a href="#contact">Contact</a>
+    <!-- CONTENTS STRIP -->
+    <nav id="contents" aria-label="Table of contents">
+      <div class="contents-inner">
+        <a href="#pg01" class="contents-item"><span class="ci-num">01</span><span class="ci-name">Origin</span></a>
+        <a href="#pg02" class="contents-item"><span class="ci-num">02</span><span class="ci-name">The Work</span></a>
+        <a href="#pg03" class="contents-item"><span class="ci-num">03</span><span class="ci-name">The Craft</span></a>
+        <a href="#pg04" class="contents-item"><span class="ci-num">04</span><span class="ci-name">What's Next</span></a>
+        <a href="#pg05" class="contents-item"><span class="ci-num">05</span><span class="ci-name">Connect</span></a>
       </div>
     </nav>
 
-    <div id="mobile-menu">
-      <a href="#about"   onclick="closeMobileMenu()">01 — About</a>
-      <a href="#work"    onclick="closeMobileMenu()">02 — Work</a>
-      <a href="#skills"  onclick="closeMobileMenu()">03 — Skills</a>
-      <a href="#goals"   onclick="closeMobileMenu()">04 — Goals</a>
-      <a href="#contact" onclick="closeMobileMenu()">05 — Contact</a>
-    </div>
-
-    <div class="container">
-
-      <!-- HERO -->
-      <section id="hero">
-        <div class="hero-inner">
-          <div class="img-wrap">
-            <div class="img-frame">
-              <img src="https://firebasestorage.googleapis.com/v0/b/dot-routed-user-data/o/axfxGGpYzsSZy8cnJzwCWylob0I3%2FProfileImages%2Fthumb%40512_fba77a97-f152-4c95-9bd0-3a35614af8a8.jpeg?alt=media&token=JsGzyM0gIR1sfeqjOiE4R" alt="Tyrone Dunn">
-              <div class="img-corner tl"></div>
-              <div class="img-corner tr"></div>
-              <div class="img-corner bl"></div>
-              <div class="img-corner br"></div>
-            </div>
-            <div class="status-dot">OPEN TO INTERNSHIPS</div>
-          </div>
-          <div class="hero-text">
-            <p class="hero-eyebrow">PORTFOLIO_2026</p>
-            <h1 class="hero-name">TYRONE<br><span class="r glitch" data-text="DUNN">DUNN</span></h1>
-            <p class="hero-role"><span id="typewriter"></span><span class="tw-cursor">|</span></p>
-            <!-- UPDATED: description reflects senior year done + 3 live sites -->
-            <p class="hero-desc">Senior year done. Heading to Marquette University for Software Engineering this fall. Microsoft IT Help Desk certified. Self-taught developer and 3D artist with 3 live deployed websites already in the world.</p>
-            <div class="hero-stats">
-              <div class="hstat">
-                <div class="hstat-num" data-target="1">0</div>
-                <div class="hstat-label">Certification</div>
-              </div>
-              <div class="hstat-divider"></div>
-              <!-- UPDATED: projects count 7 → 10 -->
-              <div class="hstat">
-                <div class="hstat-num" data-target="10">0</div>
-                <div class="hstat-label">Projects</div>
-              </div>
-              <div class="hstat-divider"></div>
-              <div class="hstat">
-                <div class="hstat-num" data-target="2030">0</div>
-                <div class="hstat-label">Grad Year</div>
-              </div>
-            </div>
-            <div class="hero-tags">
-              <span class="htag">HTML &amp; CSS</span>
-              <span class="htag">JavaScript</span>
-              <!-- UPDATED: added Python tag -->
-              <span class="htag">Python</span>
-              <span class="htag">GFX Art</span>
-              <span class="htag">3D Rendering</span>
-              <span class="htag">IT Certified</span>
-              <!-- UPDATED: fixed '29 → '30 -->
-              <span class="htag">Marquette '30</span>
-            </div>
-            <div class="btn-row">
-              <button class="btn btn-p" onclick="smoothTo('contact')">Get In Touch</button>
-              <button class="btn btn-o" onclick="smoothTo('work')">View My Work</button>
-            </div>
-          </div>
-        </div>
-        <div class="scroll-hint"><div class="s-line"></div><span>Scroll</span></div>
-      </section>
-
-      <!-- MARQUEE -->
-      <div class="marquee-wrap">
-        <div class="marquee-track">
-          <span>SOFTWARE ENGINEERING</span><span class="mq-dot">·</span>
-          <span>GFX ART</span><span class="mq-dot">·</span>
-          <span>3D RENDERING</span><span class="mq-dot">·</span>
-          <span>WEB DEVELOPMENT</span><span class="mq-dot">·</span>
-          <span>MARQUETTE UNIVERSITY</span><span class="mq-dot">·</span>
-          <span>BLENDER</span><span class="mq-dot">·</span>
-          <span>JAVASCRIPT</span><span class="mq-dot">·</span>
-          <span>MILWAUKEE WI</span><span class="mq-dot">·</span>
-          <span>SOFTWARE ENGINEERING</span><span class="mq-dot">·</span>
-          <span>GFX ART</span><span class="mq-dot">·</span>
-          <span>3D RENDERING</span><span class="mq-dot">·</span>
-          <span>WEB DEVELOPMENT</span><span class="mq-dot">·</span>
-          <span>MARQUETTE UNIVERSITY</span><span class="mq-dot">·</span>
-          <span>BLENDER</span><span class="mq-dot">·</span>
-          <span>JAVASCRIPT</span><span class="mq-dot">·</span>
-          <span>MILWAUKEE WI</span><span class="mq-dot">·</span>
-        </div>
+    <!-- ═══ PG 01 — ORIGIN ═══ -->
+    <section id="pg01" class="page" data-page="01">
+      <div class="page-head">
+        <span class="page-num">01</span>
+        <h2 class="page-title scramble">Origin</h2>
       </div>
 
-      <!-- ABOUT -->
-      <section id="about" class="section">
-        <div class="about-grid">
-          <div class="about-left">
-            <div class="sec-head">
-              <span class="sec-num">01</span>
-              <h2 class="sec-title scramble">About</h2>
-              <div class="sec-line"></div>
-            </div>
-            <div class="t-card">
-              <div class="t-card-bar">
-                <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-                <span class="t-card-title">about_me.txt</span>
-              </div>
-              <div class="t-card-body">
-                <span class="code-comment">// Background</span>
-                <!-- UPDATED: reflects senior year wrapping up + 3 live sites -->
-                <p>Senior year wrapped up in <strong>Milwaukee, WI</strong>. Heading to <strong class="red-text">Marquette University</strong> for Software Engineering this fall. Microsoft IT Help Desk certified. Already shipped 3 live websites — a developer portfolio, an AI-powered city guide, and a full streetwear brand site — all built from scratch before day one of college.</p>
-              </div>
-            </div>
-            <div class="t-card">
-              <div class="t-card-bar">
-                <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-                <span class="t-card-title">philosophy.txt</span>
-              </div>
-              <div class="t-card-body">
-                <span class="code-comment">// What Drives Me</span>
-                <p>I'm drawn to both sides of tech — the technical precision of writing clean, functional code and the creative discipline of making things look exceptional. I don't wait to be taught; I build first and figure things out along the way.</p>
-              </div>
-            </div>
-            <!-- Currently Building widget — UPDATED -->
-            <div class="t-card building-card">
-              <div class="t-card-bar">
-                <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-                <span class="t-card-title">status.live</span>
-                <span class="live-badge">● LIVE</span>
-              </div>
-              <div class="t-card-body">
-                <span class="code-comment">// Currently Building</span>
-                <div class="build-rows">
-                  <div class="build-row"><span class="br-key">&gt; status</span><span class="br-val active-val">active &amp; building</span></div>
-                  <!-- UPDATED: Python further along -->
-                  <div class="build-row"><span class="br-key">&gt; language</span><span class="br-val">Python · Basics Complete</span></div>
-                  <!-- UPDATED: project reflects live work -->
-                  <div class="build-row"><span class="br-key">&gt; project</span><span class="br-val">Lucent brand site (live)</span></div>
-                  <!-- UPDATED: next goal -->
-                  <div class="build-row"><span class="br-key">&gt; next_goal</span><span class="br-val">React · Fall 2026</span></div>
-                  <div class="build-row"><span class="br-key">&gt; target</span><span class="br-val red-text">Internship · Summer 2027</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="about-tags">
-              <span class="about-tag">JavaScript</span>
-              <span class="about-tag">HTML &amp; CSS</span>
-              <!-- UPDATED: added Python -->
-              <span class="about-tag">Python</span>
-              <span class="about-tag">Blender</span>
-              <span class="about-tag">GFX Art</span>
-              <span class="about-tag">IT Help Desk</span>
-              <span class="about-tag">3D Rendering</span>
-            </div>
-          </div>
-          <div class="about-right">
-            <div class="about-img-block">
-              <div class="about-img-corner tl"></div>
-              <div class="about-img-corner tr"></div>
-              <div class="about-img-corner bl"></div>
-              <div class="about-img-corner br"></div>
-              <img src="https://firebasestorage.googleapis.com/v0/b/dot-routed-user-data/o/axfxGGpYzsSZy8cnJzwCWylob0I3%2FProfileImages%2Fthumb%40512_fba77a97-f152-4c95-9bd0-3a35614af8a8.jpeg?alt=media&token=JsGzyM0gIR1sfeqjOiE4R" alt="Tyrone Dunn" class="about-photo">
-              <div class="about-img-overlay">
-                <div class="about-img-name">Tyrone Dunn</div>
-                <div class="about-img-caption">Milwaukee, WI — 2026</div>
-              </div>
-            </div>
-          </div>
+      <div class="pg01-grid">
+        <div class="pg01-text">
+          <p class="pg-lead">Senior year, I built a portfolio site before anyone told me to. That decision is the whole story.</p>
+          <p>I'm from Milwaukee, Wisconsin — self-taught in HTML, CSS, and JavaScript, with a Microsoft IT Help Desk Pro certification earned before I ever sat in a college lecture hall. While most of my graduating class was finishing applications, I was already shipping code and rendering scenes in Blender.</p>
+          <p>This summer I started classes at Marquette University through the EOP-SSS program — a head start most freshmen don't get, and one I don't take lightly. I'm entering as Software Engineering, Class of 2030.</p>
+          <blockquote class="pull-quote">
+            <span class="pq-mark">"</span>
+            I build first and figure things out along the way.
+          </blockquote>
+          <p>That's the throughline across everything here — the code, the renders, the brand. Nobody handed me a syllabus for any of it.</p>
         </div>
-      </section>
-
-      <!-- WORK -->
-      <section id="work" class="section">
-        <div class="sec-head">
-          <span class="sec-num">02</span>
-          <h2 class="sec-title scramble">Work</h2>
-          <div class="sec-line"></div>
-        </div>
-        <div class="work-filters">
-          <button class="filter-btn active" onclick="filterWork('all',this)">All</button>
-          <button class="filter-btn" onclick="filterWork('gfx',this)">GFX Art</button>
-          <button class="filter-btn" onclick="filterWork('web',this)">Web Dev</button>
-          <button class="filter-btn" onclick="filterWork('3d',this)">3D Render</button>
-        </div>
-        <div class="work-grid" id="work-grid">
-
-          <div class="work-item large tilt-card" data-cat="gfx"
-            data-img="Pose1Light.png"
-            data-title="Roblox Character GFX"
-            data-cat-label="GFX Art"
-            data-desc="Cinematic Roblox rig render with dramatic lighting, post-processing, and full scene composition in Blender. Self-taught from scratch.">
-            <img src="Pose1Light.png" alt="Roblox Character GFX" class="work-img">
-            <div class="work-overlay">
-              <div class="work-cat">GFX Art</div>
-              <div class="work-name">Roblox Character GFX</div>
-              <div class="work-desc">Cinematic rig render with dramatic lighting &amp; post-processing in Blender.</div>
-              <div class="work-expand">Click to expand ↗</div>
-            </div>
+        <div class="pg01-side">
+          <div class="pg01-photo">
+            <img src="https://firebasestorage.googleapis.com/v0/b/dot-routed-user-data/o/axfxGGpYzsSZy8cnJzwCWylob0I3%2FProfileImages%2Fthumb%40512_fba77a97-f152-4c95-9bd0-3a35614af8a8.jpeg?alt=media&token=JsGzyM0gIR1sfeqjOiE4R" alt="Tyrone Dunn">
+            <span class="photo-caption">FIG. 01 — MILWAUKEE, WI. 2026.</span>
           </div>
-
-          <div class="work-item tilt-card" data-cat="gfx"
-            data-img="4PS.png"
-            data-title="Thumbnail Design"
-            data-cat-label="GFX Art"
-            data-desc="High-impact game thumbnail using custom rig poses, particle effects, and layered compositing for maximum visual appeal.">
-            <img src="4PS.png" alt="Thumbnail Design" class="work-img">
-            <div class="work-overlay">
-              <div class="work-cat">GFX Art</div>
-              <div class="work-name">Thumbnail Design</div>
-              <div class="work-desc">Custom rig poses, particles, and layered compositing.</div>
-              <div class="work-expand">Click to expand ↗</div>
-            </div>
-          </div>
-
-          <div class="work-item tilt-card" data-cat="gfx"
-            data-img="5WM.png"
-            data-title="Scene Composition"
-            data-cat-label="GFX Art"
-            data-desc="Full environment scene built around a Roblox character — atmospheric fog, HDRI lighting, and cinematic depth of field.">
-            <img src="5WM.png" alt="Scene Composition" class="work-img">
-            <div class="work-overlay">
-              <div class="work-cat">GFX Art</div>
-              <div class="work-name">Scene Composition</div>
-              <div class="work-desc">Atmospheric fog, HDRI lighting, cinematic depth of field.</div>
-              <div class="work-expand">Click to expand ↗</div>
-            </div>
-          </div>
-
-          <div class="work-item tilt-card" data-cat="gfx"
-            data-img="CC1.png"
-            data-title="Character Art"
-            data-cat-label="GFX Art"
-            data-desc="Detailed character render showcasing advanced material work, custom lighting rigs, and cinematic post-processing in Blender.">
-            <img src="CC1.png" alt="Character Art" class="work-img">
-            <div class="work-overlay">
-              <div class="work-cat">GFX Art</div>
-              <div class="work-name">Character Art</div>
-              <div class="work-desc">Advanced materials, custom lighting rigs, cinematic post-processing.</div>
-              <div class="work-expand">Click to expand ↗</div>
-            </div>
-          </div>
-
-          <div class="work-item large tilt-card" data-cat="web"
-            data-img="image.png"
-            data-title="This Portfolio"
-            data-cat-label="Web Development"
-            data-desc="Built entirely from scratch — HTML, CSS, and JavaScript. Features a custom starfield canvas, matrix welcome screen, filterable work catalog, lightbox modal, animated stats, typewriter effect, 3D tilt cards, and a working EmailJS contact form. No frameworks, no templates.">
-            <img src="image.png" alt="This Portfolio" class="work-img">
-            <div class="work-overlay">
-              <div class="work-cat">Web Development</div>
-              <div class="work-name">This Portfolio</div>
-              <div class="work-desc">Built from scratch — HTML, CSS, JS. No frameworks, no templates.</div>
-              <div class="work-expand">Click to expand ↗</div>
-            </div>
-          </div>
-
-          <!-- UPDATED: Hidden Gems replaces "Recent Creation" -->
-          <div class="work-item tilt-card" data-cat="web"
-            data-img="light.png"
-            data-title="Hidden Gems — City Guide"
-            data-cat-label="Web Development"
-            data-desc="AI-powered city guide app using the Anthropic Claude API. Search any city in the world and get a curated local guide with photos, live weather, currency conversion, trip planner, bookmarks, and dark mode. Built with HTML, CSS, JS and deployed on Vercel with serverless proxy functions to keep the API key secure.">
-            <img src="light.png" alt="Hidden Gems City Guide" class="work-img">
-            <div class="work-overlay">
-              <div class="work-cat">Web Development</div>
-              <div class="work-name">Hidden Gems — City Guide</div>
-              <div class="work-desc">AI-powered city guide. Anthropic API, live weather, trip planner. Deployed on Vercel.</div>
-              <a href="https://city-azure.vercel.app" target="_blank" class="work-expand" onclick="event.stopPropagation()">View Live ↗</a>
-            </div>
-          </div>
-
-          <!-- NEW: Lucent brand site -->
-          <div class="work-item tilt-card" data-cat="web"
-            data-img="image.png"
-            data-title="Lucent — Streetwear Brand"
-            data-cat-label="Web Development"
-            data-desc="Full e-commerce style brand site for Lucent, a hand-painted heavyweight streetwear brand. SS26 Drop 001 — limited to 50 pieces worldwide. Features product catalog, countdown timer, animated marquee, world selector, lookbook, and email signup. Pure HTML, CSS, and JavaScript.">
-            <div class="work-placeholder">
-              <div class="work-ph-inner">
-                <div class="work-ph-icon">◈</div>
-                <div class="work-ph-label">Lucent Brand</div>
-              </div>
-            </div>
-            <div class="work-overlay">
-              <div class="work-cat">Web Development</div>
-              <div class="work-name">Lucent — Streetwear Brand</div>
-              <div class="work-desc">Full brand site. SS26 Drop 001. Hand-painted limited drops. Pure HTML/CSS/JS.</div>
-              <a href="https://testbrand-ten.vercel.app" target="_blank" class="work-expand" onclick="event.stopPropagation()">View Live ↗</a>
-            </div>
-          </div>
-
-          <div class="work-item tilt-card" data-cat="3d"
-            data-img="7WM.png"
-            data-title="Blender Scene"
-            data-cat-label="3D Rendering"
-            data-desc="Self-taught 3D environment render — geometry modeling, PBR material nodes, three-point lighting setup, and post-processing all done manually in Blender.">
-            <img src="7WM.png" alt="Blender Scene" class="work-img">
-            <div class="work-overlay">
-              <div class="work-cat">3D Rendering</div>
-              <div class="work-name">Blender Scene</div>
-              <div class="work-desc">Geometry, PBR materials, lighting, and post-processing — self-taught.</div>
-              <div class="work-expand">Click to expand ↗</div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- CTA BANNER -->
-      <div class="cta-band">
-        <div class="cta-band-inner">
-          <div class="cta-band-text">
-            <span class="cta-band-label">AVAILABLE NOW</span>
-            <h3 class="cta-band-heading">Open to Internships &amp; Collaborations</h3>
-            <p class="cta-band-sub">Milwaukee, WI · Summer 2027 · Software Engineering</p>
-          </div>
-          <button class="btn btn-p cta-band-btn" onclick="smoothTo('contact')">Get In Touch →</button>
-        </div>
-      </div>
-
-      <!-- SKILLS -->
-      <section id="skills" class="section">
-        <div class="sec-head">
-          <span class="sec-num">03</span>
-          <h2 class="sec-title scramble">Skills</h2>
-          <div class="sec-line"></div>
-        </div>
-        <div class="skills-two-col">
-          <div class="t-card">
-            <div class="t-card-bar">
-              <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-              <span class="t-card-title">technical_skills.json</span>
-            </div>
-            <div class="t-card-body">
-              <span class="code-comment">// Development</span>
-              <div class="skills-wrap">
-                <div class="stag"><span>HTML5</span></div>
-                <div class="stag"><span>CSS3</span></div>
-                <div class="stag"><span>JavaScript</span></div>
-                <div class="stag"><span>Flexbox</span></div>
-                <div class="stag"><span>Responsive Design</span></div>
-                <div class="stag"><span>DOM Manipulation</span></div>
-                <div class="stag"><span>Git &amp; GitHub</span></div>
-                <div class="stag"><span>Vercel Deployment</span></div>
-                <!-- UPDATED: Python no longer just "Learning" -->
-                <div class="stag"><span>Python</span></div>
-                <div class="stag"><span>REST APIs</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="t-card">
-            <div class="t-card-bar">
-              <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-              <span class="t-card-title">creative_skills.json</span>
-            </div>
-            <div class="t-card-body">
-              <span class="code-comment">// Creative &amp; Professional</span>
-              <div class="skills-wrap">
-                <div class="stag"><span>Blender</span></div>
-                <div class="stag"><span>3D Rendering</span></div>
-                <div class="stag"><span>GFX Art</span></div>
-                <div class="stag"><span>Lighting Design</span></div>
-                <div class="stag"><span>IT Help Desk</span></div>
-                <div class="stag"><span>Microsoft Certified</span></div>
-                <div class="stag"><span>Visual Design</span></div>
-                <div class="stag"><span>Brand Development</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Skill proficiency bars — UPDATED Python 20% → 35% -->
-        <div class="t-card" style="margin-top:12px">
-          <div class="t-card-bar">
-            <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-            <span class="t-card-title">proficiency.exe</span>
-          </div>
-          <div class="t-card-body">
-            <span class="code-comment">// Proficiency levels</span>
-            <div class="skill-bars">
-              <div class="sbar-row">
-                <div class="sbar-label"><span>HTML &amp; CSS</span><span class="sbar-pct">88%</span></div>
-                <div class="sbar-track"><div class="sbar-fill" data-pct="88"></div></div>
-              </div>
-              <div class="sbar-row">
-                <div class="sbar-label"><span>JavaScript</span><span class="sbar-pct">70%</span></div>
-                <div class="sbar-track"><div class="sbar-fill" data-pct="70"></div></div>
-              </div>
-              <div class="sbar-row">
-                <div class="sbar-label"><span>GFX Art / Blender</span><span class="sbar-pct">82%</span></div>
-                <div class="sbar-track"><div class="sbar-fill" data-pct="82"></div></div>
-              </div>
-              <div class="sbar-row">
-                <div class="sbar-label"><span>3D Rendering</span><span class="sbar-pct">75%</span></div>
-                <div class="sbar-track"><div class="sbar-fill" data-pct="75"></div></div>
-              </div>
-              <div class="sbar-row">
-                <div class="sbar-label"><span>Git &amp; GitHub</span><span class="sbar-pct">65%</span></div>
-                <div class="sbar-track"><div class="sbar-fill" data-pct="65"></div></div>
-              </div>
-              <!-- UPDATED: Python 20% → 35% -->
-              <div class="sbar-row">
-                <div class="sbar-label"><span>Python</span><span class="sbar-pct">35%</span></div>
-                <div class="sbar-track"><div class="sbar-fill" data-pct="35"></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Skill Radar Chart — UPDATED Python 20% → 35% in legend -->
-      <div class="t-card" style="margin-top:12px">
-        <div class="t-card-bar">
-          <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-          <span class="t-card-title">skills_radar.svg</span>
-        </div>
-        <div class="t-card-body radar-card-body">
-          <canvas id="radar-chart" role="img" aria-label="Skills proficiency radar chart" width="280" height="280"></canvas>
-          <div class="radar-legend">
-            <div class="rl-item"><span class="rl-dot"></span>HTML &amp; CSS — 88%</div>
-            <div class="rl-item"><span class="rl-dot"></span>JavaScript — 70%</div>
-            <div class="rl-item"><span class="rl-dot"></span>GFX / Blender — 82%</div>
-            <div class="rl-item"><span class="rl-dot"></span>3D Rendering — 75%</div>
-            <div class="rl-item"><span class="rl-dot"></span>Git &amp; GitHub — 65%</div>
-            <!-- UPDATED -->
-            <div class="rl-item"><span class="rl-dot"></span>Python — 35%</div>
+          <div class="pg01-tags">
+            <span class="tag">JavaScript</span>
+            <span class="tag">HTML &amp; CSS</span>
+            <span class="tag">Blender</span>
+            <span class="tag">GFX Art</span>
+            <span class="tag">IT Certified</span>
+            <span class="tag">Marquette '30</span>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- GOALS — UPDATED: Pre-College phase marked done -->
-      <section id="goals" class="section">
-        <div class="sec-head">
-          <span class="sec-num">04</span>
-          <h2 class="sec-title scramble">Goals</h2>
-          <div class="sec-line"></div>
+    <!-- ═══ PG 02 — THE WORK (GFX GALLERY) ═══ -->
+    <section id="pg02" class="page" data-page="02">
+      <div class="page-head">
+        <span class="page-num">02</span>
+        <h2 class="page-title scramble">The Work</h2>
+      </div>
+      <p class="page-intro">A running plate index — cinematic renders, Roblox character art, and a handful of dev projects. Filter by medium below.</p>
+
+      <div class="filters">
+        <button class="filter-btn active" data-cat="all">All Plates</button>
+        <button class="filter-btn" data-cat="gfx">GFX</button>
+        <button class="filter-btn" data-cat="web">Web Dev</button>
+        <button class="filter-btn" data-cat="3d">3D Render</button>
+      </div>
+
+      <div class="plates" id="plates">
+
+        <figure class="plate plate-lg" data-cat="gfx"
+          data-img="shoeethu1.png" data-title="Streetwear Study"
+          data-cat-label="GFX Art" data-fig="01"
+          data-desc="A grounded character render exploring purple-on-black streetwear — custom rig pose, Palm Angels-inspired styling, and post-processed lighting for a moody, fashion-editorial finish.">
+          <img src="shoeethu1.png" alt="Streetwear character render">
+          <figcaption><span class="fig-tag">FIG. 01</span><span class="fig-title">Streetwear Study</span></figcaption>
+        </figure>
+
+        <figure class="plate plate-lg" data-cat="gfx"
+          data-img="oldtownroadhoops.png" data-title="Old Town Road"
+          data-cat-label="GFX Art" data-fig="02"
+          data-desc="A character-and-horse composition pairing western styling with a basketball — built around contrast: rugged leather and a soft mint colorway, balanced in one frame.">
+          <img src="oldtownroadhoops.png" alt="Cowboy character with horse and basketball render">
+          <figcaption><span class="fig-tag">FIG. 02</span><span class="fig-title">Old Town Road</span></figcaption>
+        </figure>
+
+        <figure class="plate" data-cat="gfx"
+          data-img="Pose1Light.png" data-title="Roblox Character GFX"
+          data-cat-label="GFX Art" data-fig="03"
+          data-desc="Cinematic Roblox rig render with dramatic lighting, post-processing, and full scene composition in Blender.">
+          <img src="Pose1Light.png" alt="Roblox character GFX render">
+          <figcaption><span class="fig-tag">FIG. 03</span><span class="fig-title">Character GFX</span></figcaption>
+        </figure>
+
+        <figure class="plate" data-cat="gfx"
+          data-img="4PS.png" data-title="Thumbnail Design"
+          data-cat-label="GFX Art" data-fig="04"
+          data-desc="High-impact game thumbnail using custom rig poses, particle effects, and layered compositing.">
+          <img src="4PS.png" alt="Thumbnail design render">
+          <figcaption><span class="fig-tag">FIG. 04</span><span class="fig-title">Thumbnail Design</span></figcaption>
+        </figure>
+
+        <figure class="plate" data-cat="gfx"
+          data-img="5WM.png" data-title="Scene Composition"
+          data-cat-label="GFX Art" data-fig="05"
+          data-desc="Full environment scene built around a Roblox character — atmospheric fog, HDRI lighting, and cinematic depth of field.">
+          <img src="5WM.png" alt="Scene composition render">
+          <figcaption><span class="fig-tag">FIG. 05</span><span class="fig-title">Scene Composition</span></figcaption>
+        </figure>
+
+        <figure class="plate" data-cat="gfx"
+          data-img="CC1.png" data-title="Character Art"
+          data-cat-label="GFX Art" data-fig="06"
+          data-desc="Detailed character render showcasing advanced material work, custom lighting rigs, and cinematic post-processing.">
+          <img src="CC1.png" alt="Character art render">
+          <figcaption><span class="fig-tag">FIG. 06</span><span class="fig-title">Character Art</span></figcaption>
+        </figure>
+
+        <figure class="plate plate-lg" data-cat="web"
+          data-img="image.png" data-title="This Portfolio"
+          data-cat-label="Web Development" data-fig="07"
+          data-desc="Built entirely from scratch — HTML, CSS, and JavaScript. Now on its second issue. No frameworks, no templates.">
+          <img src="image.png" alt="Portfolio website screenshot">
+          <figcaption><span class="fig-tag">FIG. 07</span><span class="fig-title">This Portfolio</span></figcaption>
+        </figure>
+
+        <figure class="plate" data-cat="web"
+          data-img="light.png" data-title="Recent Build"
+          data-cat-label="Web Development" data-fig="08"
+          data-desc="An ongoing web project, part of ongoing JavaScript and Python practice ahead of freshman year.">
+          <img src="light.png" alt="Web development project">
+          <figcaption><span class="fig-tag">FIG. 08</span><span class="fig-title">Recent Build</span></figcaption>
+        </figure>
+
+        <figure class="plate" data-cat="3d"
+          data-img="7WM.png" data-title="Blender Scene"
+          data-cat-label="3D Rendering" data-fig="09"
+          data-desc="Self-taught 3D environment render — geometry, PBR materials, lighting, and post-processing, all self-taught in Blender.">
+          <img src="7WM.png" alt="Blender 3D scene render">
+          <figcaption><span class="fig-tag">FIG. 09</span><span class="fig-title">Blender Scene</span></figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+    <!-- ═══ PG 03 — THE CRAFT ═══ -->
+    <section id="pg03" class="page" data-page="03">
+      <div class="page-head">
+        <span class="page-num">03</span>
+        <h2 class="page-title scramble">The Craft</h2>
+      </div>
+
+      <div class="craft-grid">
+        <div class="craft-col">
+          <h3 class="craft-h">Development</h3>
+          <ul class="craft-list">
+            <li><span>HTML5</span><span class="craft-bar"><i style="width:88%"></i></span></li>
+            <li><span>CSS3</span><span class="craft-bar"><i style="width:85%"></i></span></li>
+            <li><span>JavaScript</span><span class="craft-bar"><i style="width:70%"></i></span></li>
+            <li><span>Git &amp; GitHub</span><span class="craft-bar"><i style="width:65%"></i></span></li>
+            <li><span>Python</span><span class="craft-bar"><i style="width:22%"></i></span></li>
+          </ul>
         </div>
-        <div class="t-card">
-          <div class="t-card-bar">
-            <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-            <span class="t-card-title">roadmap.md</span>
-          </div>
-          <div class="t-card-body">
-            <span class="code-comment">// Where I'm Headed</span>
-            <div class="tl">
-              <!-- UPDATED: marked as done -->
-              <div class="tl-item">
-                <div class="tl-label" style="color:#22c55e;">✓ Done — Pre-College Build Phase</div>
-                <div class="tl-title">3 Live Sites. Ready for Day One.</div>
-                <div class="tl-desc">Shipped a developer portfolio, an AI-powered city guide app, and a full streetwear brand site. Completed Python basics. Deepened JavaScript. Arriving at Marquette with a real foundation already built.</div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-label">Fall 2026 — Starting Now</div>
-                <div class="tl-title">Freshman Year — Marquette</div>
-                <div class="tl-desc">Hit the ground running in COSC 1010 and 1020. Start LeetCode. Get involved in student tech orgs. Build on the foundation already laid.</div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-label">Summer 2027</div>
-                <div class="tl-title">First Tech Internship</div>
-                <div class="tl-desc">Target: Northwestern Mutual, GE Healthcare, Rockwell Automation, or Fiserv — all Milwaukee-based, all strong Marquette pipelines.</div>
-              </div>
-              <div class="tl-item" style="padding-bottom:0">
-                <div class="tl-label">2030+</div>
-                <div class="tl-title">Ship Something Real</div>
-                <div class="tl-desc">Graduate with a full-stack or cloud specialization, real internship experience, and a product I built that people actually use.</div>
-              </div>
+        <div class="craft-col">
+          <h3 class="craft-h">Creative</h3>
+          <ul class="craft-list">
+            <li><span>Blender</span><span class="craft-bar"><i style="width:82%"></i></span></li>
+            <li><span>3D Rendering</span><span class="craft-bar"><i style="width:78%"></i></span></li>
+            <li><span>Lighting Design</span><span class="craft-bar"><i style="width:75%"></i></span></li>
+            <li><span>GFX Compositing</span><span class="craft-bar"><i style="width:80%"></i></span></li>
+            <li><span>Visual Direction</span><span class="craft-bar"><i style="width:73%"></i></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <blockquote class="pull-quote pull-quote-center">
+        <span class="pq-mark">"</span>
+        The same discipline that makes a render look right is what makes code run right.
+      </blockquote>
+
+      <div class="craft-cert">
+        <span class="cc-label">Certification</span>
+        <span class="cc-name">Microsoft IT Help Desk Pro</span>
+        <span class="cc-year">2024</span>
+      </div>
+    </section>
+
+    <!-- ═══ PG 04 — WHAT'S NEXT ═══ -->
+    <section id="pg04" class="page" data-page="04">
+      <div class="page-head">
+        <span class="page-num">04</span>
+        <h2 class="page-title scramble">What's Next</h2>
+      </div>
+      <p class="page-intro">Issue No. 03 is already in motion. Here's the outline.</p>
+
+      <div class="next-list">
+        <div class="next-item">
+          <span class="next-date">Summer 2026</span>
+          <h3 class="next-title">EOP-SSS Program — Marquette University</h3>
+          <p class="next-desc">Starting early through a pre-college support program — building academic footing before freshman year begins.</p>
+        </div>
+        <div class="next-item">
+          <span class="next-date">Fall 2026</span>
+          <h3 class="next-title">Freshman Year — Software Engineering</h3>
+          <p class="next-desc">Officially Class of 2030. Core coursework, new student orgs, and continued independent project work.</p>
+        </div>
+        <div class="next-item">
+          <span class="next-date">Summer 2027</span>
+          <h3 class="next-title">First Technical Internship</h3>
+          <p class="next-desc">Targeting Milwaukee-based teams with strong Marquette pipelines — Northwestern Mutual, GE Healthcare, Rockwell, Fiserv.</p>
+        </div>
+        <div class="next-item">
+          <span class="next-date">2030 &amp; beyond</span>
+          <h3 class="next-title">Ship Something Real</h3>
+          <p class="next-desc">Graduate with a specialization, real industry experience, and a product people actually use.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PG 05 — CONNECT ═══ -->
+    <section id="pg05" class="page" data-page="05">
+      <div class="page-head">
+        <span class="page-num">05</span>
+        <h2 class="page-title scramble">Connect</h2>
+      </div>
+
+      <div class="connect-grid">
+        <div class="connect-form-col">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input id="from_name" type="text" class="form-input" placeholder="Your name">
             </div>
+            <div class="form-group">
+              <label class="form-label">Your Email</label>
+              <input id="from_email" type="email" class="form-input" placeholder="your@email.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Subject</label>
+            <select id="subject" class="form-input form-select">
+              <option value="" disabled selected>What's this about?</option>
+              <option>GFX Commission</option>
+              <option>Web Development Project</option>
+              <option>Internship Opportunity</option>
+              <option>Collaboration</option>
+              <option>General Question</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea id="message" class="form-input form-textarea" placeholder="Tell me about your project or opportunity..."></textarea>
+          </div>
+          <div id="form-status" class="form-status" style="display:none"></div>
+          <button type="button" id="submit-btn" class="btn btn-p btn-full">Send Message →</button>
+        </div>
+
+        <div class="connect-info-col">
+          <div class="ci-block">
+            <span class="ci-label">Status</span>
+            <span class="ci-value"><span class="status-dot"></span> Available for projects &amp; internships</span>
+          </div>
+          <div class="ci-block">
+            <span class="ci-label">Based In</span>
+            <span class="ci-value">Milwaukee, WI</span>
+          </div>
+          <div class="ci-block">
+            <span class="ci-label">University</span>
+            <span class="ci-value">Marquette — Class of 2030</span>
+          </div>
+          <div class="ci-divider"></div>
+          <div class="socials">
+            <a href="https://dot.cards/tyronedunn" class="social-link" target="_blank">Contact Card <span>→</span></a>
+            <a href="https://github.com/tyronedunn8855" class="social-link" target="_blank">GitHub <span>→</span></a>
+            <a href="https://linkedin.com" class="social-link" target="_blank">LinkedIn <span>→</span></a>
+            <a href="https://marquette.edu" class="social-link" target="_blank">Marquette <span>→</span></a>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- CONTACT -->
-      <section id="contact" class="section">
-        <div class="sec-head">
-          <span class="sec-num">05</span>
-          <h2 class="sec-title scramble">Contact</h2>
-          <div class="sec-line"></div>
-        </div>
-        <div class="contact-grid">
-          <div class="contact-form-col">
-            <div class="t-card" style="margin-bottom:0">
-              <div class="t-card-bar">
-                <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-                <span class="t-card-title">send_message.exe</span>
-              </div>
-              <div class="t-card-body">
-                <span class="code-comment">// Let's Build Something</span>
-                <div class="form-row">
-                  <div class="form-group">
-                    <label class="form-label">Your Name</label>
-                    <input id="from_name" type="text" class="form-input" placeholder="Your name">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Your Email</label>
-                    <input id="from_email" type="email" class="form-input" placeholder="your@email.com">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Subject</label>
-                  <select id="subject" class="form-input form-select">
-                    <option value="" disabled selected>What's this about?</option>
-                    <option>GFX Commission</option>
-                    <option>Web Development Project</option>
-                    <option>Internship Opportunity</option>
-                    <option>Collaboration</option>
-                    <option>General Question</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Message</label>
-                  <textarea id="message" class="form-input form-textarea" placeholder="Tell me about your project or opportunity..."></textarea>
-                </div>
-                <div id="form-status" class="form-status" style="display:none"></div>
-                <button type="button" id="submit-btn" class="btn btn-p btn-full">Send Message →</button>
-              </div>
-            </div>
-          </div>
+    <!-- ═══ COLOPHON / FOOTER ═══ -->
+    <footer id="colophon">
+      <div class="colophon-inner">
+        <div class="colophon-mark">TYRONE DUNN</div>
+        <p class="colophon-text">Issue No. 02. Designed and built without a template. Milwaukee, WI — 2026.</p>
+        <p class="colophon-meta">Next issue: Fall 2026.</p>
+      </div>
+    </footer>
 
-          <div class="contact-info-col">
-            <div class="contact-info-block">
-              <div class="contact-info-label">Status</div>
-              <div class="contact-info-value contact-status">
-                <span class="c-status-dot"></span> Available for projects &amp; internships
-              </div>
-            </div>
-            <div class="contact-info-block">
-              <div class="contact-info-label">Based In</div>
-              <div class="contact-info-value">Milwaukee, WI</div>
-            </div>
-            <div class="contact-info-block">
-              <div class="contact-info-label">University</div>
-              <div class="contact-info-value">Marquette — Class of 2030</div>
-            </div>
-            <div class="contact-divider"></div>
-            <div class="contact-info-label" style="margin-bottom:16px">Links</div>
-            <div class="socials-grid">
-              <a href="https://dot.cards/tyronedunn" class="social-item" target="_blank">
-                <span class="social-icon">@</span>
-                <div><span class="social-name">Contact Card</span><span class="social-handle">dot.cards/tyronedunn</span></div>
-              </a>
-              <a href="https://github.com/tyronedunn8855" class="social-item" target="_blank">
-                <span class="social-icon">&lt;/&gt;</span>
-                <div><span class="social-name">GitHub</span><span class="social-handle">@tyronedunn8855</span></div>
-              </a>
-              <a href="https://linkedin.com" class="social-item" target="_blank">
-                <span class="social-icon">in</span>
-                <div><span class="social-name">LinkedIn</span><span class="social-handle">Tyrone Dunn</span></div>
-              </a>
-              <a href="https://marquette.edu" class="social-item" target="_blank">
-                <span class="social-icon">🎓</span>
-                <div><span class="social-name">Marquette</span><span class="social-handle">Software Engineering</span></div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- Interactive Terminal -->
-    <div id="term-widget" role="complementary" aria-label="Interactive terminal">
+    <!-- ═══ TERMINAL ═══ -->
+    <div id="term-widget">
       <div id="term-bar">
-        <div class="term-mac-dots">
-          <span class="tmd tmd-r"></span>
-          <span class="tmd tmd-y"></span>
-          <span class="tmd tmd-g"></span>
-        </div>
-        <span id="term-title">tyrone@portfolio:~</span>
-        <button id="term-toggle" aria-label="Toggle terminal">&#8211;</button>
+        <div class="term-dots"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span></div>
+        <span id="term-title">tyrone@issue02:~</span>
+        <button id="term-toggle" aria-label="Toggle terminal">–</button>
       </div>
       <div id="term-body">
         <div id="term-output">
-          <div class="tline"><span class="tprompt">&gt;</span> Welcome. Type <span class="tcmd">help</span> for commands.</div>
+          <div class="tline">Issue No. 02 loaded. Type <span class="tcmd">help</span> for commands.</div>
         </div>
         <div id="term-input-row">
-          <span class="tprompt-full">tyrone@portfolio:~$&nbsp;</span>
+          <span class="tprompt">tyrone@issue02:~$&nbsp;</span>
           <input id="term-input" type="text" autocomplete="off" spellcheck="false" placeholder="type a command...">
         </div>
       </div>
     </div>
 
-    <footer>
-      <div class="f-name">TYRONE DUNN</div>
-      <p>Built from scratch &nbsp;<span>//</span>&nbsp; HTML · CSS · JavaScript &nbsp;<span>//</span>&nbsp; Milwaukee, WI &nbsp;<span>//</span>&nbsp; 2026</p>
-    </footer>
+  </div>
 
+  <!-- ═══ LIGHTBOX ═══ -->
+  <div id="lightbox">
+    <div id="lb-overlay"></div>
+    <div id="lb-content">
+      <button id="lb-close" aria-label="Close">×</button>
+      <button id="lb-prev" aria-label="Previous">←</button>
+      <button id="lb-next" aria-label="Next">→</button>
+      <div id="lb-counter"></div>
+      <img id="lb-img" src="" alt="">
+      <div id="lb-info">
+        <span id="lb-fig"></span>
+        <div id="lb-cat"></div>
+        <div id="lb-title"></div>
+        <div id="lb-desc"></div>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
