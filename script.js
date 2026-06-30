@@ -141,7 +141,7 @@ document.querySelectorAll('a[href^="#"]').forEach(function (link) {
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMobileMenu(); });
   addEventListener('resize', function () {
-    if (innerWidth > 780 && menu.classList.contains('open')) closeMobileMenu();
+    if (innerWidth > 900 && menu.classList.contains('open')) closeMobileMenu();
   }, { passive: true });
 })();
 
@@ -532,7 +532,7 @@ document.querySelectorAll('a[href^="#"]').forEach(function (link) {
     else if (e.key === 'ArrowDown') { e.preventDefault(); histIdx = Math.max(histIdx - 1, -1); input.value = histIdx === -1 ? '' : history[histIdx]; }
   });
 
-  if (innerWidth < 780) { widget.classList.add('minimized'); toggle.innerHTML = '+'; }
+  if (innerWidth < 900) { widget.classList.add('minimized'); toggle.innerHTML = '+'; }
   var termBody = document.getElementById('term-body');
   if (termBody) termBody.addEventListener('click', function () { input.focus(); });
 })();
