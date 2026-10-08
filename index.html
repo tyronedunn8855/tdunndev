@@ -3,205 +3,267 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tyrone Dunn — Issue Nº 03</title>
-  <meta name="description" content="Tyrone Dunn — web developer and GFX artist in Milwaukee. I build custom websites for local businesses and cinematic 3D renders. Issue Nº 03.">
+  <title>Tyrone Dunn · Websites for local businesses · Issue Nº 03</title>
+  <meta name="description" content="Tyrone Dunn builds custom websites for local businesses in Milwaukee: $80 one-time build, optional $15/month updates and management. Live client sites, rates, and 3D renders. Issue Nº 03.">
   <meta name="theme-color" content="#0b0e13">
+  <meta property="og:title" content="Tyrone Dunn · Issue Nº 03">
+  <meta property="og:description" content="Custom websites for local businesses. $80 build, optional $15/month management. Milwaukee, WI.">
+  <meta property="og:image" content="img/shoeethu1.jpg">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230b0e13'/><text x='50' y='72' font-size='64' text-anchor='middle' fill='%23ff2d2d' font-family='Arial Black,sans-serif' font-weight='900'>T</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- Reveal animations only arm when JS runs; without JS everything is visible. -->
+  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__tdReady)document.documentElement.classList.remove('js');},3000);</script>
 </head>
 <body>
 
   <a href="#sites" class="skip-link">Skip to content</a>
 
-  <!-- Loader -->
-  <div id="loader" aria-hidden="true">
-    <div class="loader-inner">
-      <span class="loader-issue">ISSUE Nº 03</span>
-      <span class="loader-name">TYRONE DUNN</span>
-      <div class="loader-rule"><i></i></div>
-    </div>
-  </div>
-
-  <!-- Header -->
+  <!-- ═══ Masthead (sticky, carries the CTA on every screen) ═══ -->
   <header id="masthead">
-    <a href="#top" class="mh-mark">T<i>.</i>D</a>
-    <nav class="mh-nav" id="mh-nav">
-      <a href="#sites">Sites</a>
-      <a href="#plates">Plates</a>
-      <a href="#origin">Origin</a>
-      <a href="#connect">Connect</a>
+    <a href="#top" class="mh-mark" aria-label="Tyrone Dunn, back to cover">T<i>.</i>D</a>
+    <nav class="mh-nav" aria-label="Sections">
+      <a href="#sites"><b>01</b> Work</a>
+      <a href="#rates"><b>02</b> Rates</a>
+      <a href="#plates"><b>03</b> Plates</a>
+      <a href="#origin"><b>04</b> Origin</a>
+      <a href="#connect"><b>05</b> Contact</a>
     </nav>
-    <span class="mh-issue">Issue Nº 03 — 2026</span>
-    <button id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+    <span class="mh-issue">Issue Nº 03 · 2026</span>
+    <a href="#connect" class="tag-cta mh-cta" data-subject="Website for my business">Free sample site</a>
+    <button id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
   </header>
-  <div id="mobile-menu">
-    <a href="#sites">Sites</a>
-    <a href="#plates">Plates</a>
-    <a href="#origin">Origin</a>
-    <a href="#connect">Connect</a>
+
+  <div id="mobile-menu" aria-label="Sections">
+    <p class="mm-label">In this issue</p>
+    <a href="#sites"><b>01</b> Work</a>
+    <a href="#rates"><b>02</b> Rates</a>
+    <a href="#plates"><b>03</b> Plates</a>
+    <a href="#origin"><b>04</b> Origin</a>
+    <a href="#connect"><b>05</b> Contact</a>
+    <a href="#connect" class="tag-cta mm-cta" data-subject="Website for my business">Get a free sample site</a>
   </div>
 
   <main id="top">
 
     <!-- ═══ COVER ═══ -->
-    <section id="cover">
-      <div class="cover-bg" data-parallax="0.25">
-        <img src="shoeethu1.png" alt="" aria-hidden="true">
+    <section id="cover" aria-labelledby="cover-title">
+      <div class="cover-dateline">
+        <span>Issue Nº 03</span>
+        <span>Milwaukee, WI</span>
+        <span class="hide-sm">Web developer &amp; 3D artist</span>
+        <span>2026</span>
       </div>
-      <div class="cover-inner">
-        <p class="cover-kicker">Web developer &amp; GFX artist — Milwaukee, WI</p>
-        <h1 class="cover-name" aria-label="Tyrone Dunn">
-          <span class="cn-line"><i>TYRONE</i></span>
-          <span class="cn-line cn-red"><i>DUNN</i></span>
-        </h1>
-        <div class="cover-foot">
-          <p class="cover-desc">I build custom websites for local businesses and cinematic renders for games. Self-taught, now studying Computer Science at Marquette.</p>
+
+      <h1 class="nameplate" id="cover-title">Tyrone <span>Dunn</span></h1>
+
+      <div class="cover-body">
+        <div class="cover-lead">
+          <p class="cover-kicker">This issue</p>
+          <p class="cover-line">Websites for local businesses. <em>$80</em> to build.</p>
+          <p class="cover-desc">Designed and coded from scratch, live on your phone and desktop. I build a free sample first, you decide after you see it.</p>
           <div class="cover-actions">
-            <a class="btn btn-solid" href="#connect">Start a project</a>
-            <a class="btn btn-line" href="#sites">See the work</a>
+            <a class="btn btn-solid" href="#connect" data-subject="Website for my business">Get a free sample site</a>
+            <a class="btn btn-line" href="#sites">See 4 live sites</a>
           </div>
         </div>
+
+        <figure class="cover-star">
+          <picture>
+            <source srcset="img/cover-cutout.webp" type="image/webp">
+            <img src="img/cover-cutout.png" width="509" height="1035" alt="Blender render of a Roblox character in a purple camo jacket and purple sneakers">
+          </picture>
+          <figcaption>Cover: Streetwear Study, rendered in Blender</figcaption>
+        </figure>
+
+        <ol class="cover-lines" aria-label="Inside this issue">
+          <li><a href="#sites"><b>01</b><span>Inside: Dawg City, Essence, ken.didit &amp; Hidden Gems</span></a></li>
+          <li><a href="#rates"><b>02</b><span>The rate card: $80 build, $15 a month</span></a></li>
+          <li><a href="#plates"><b>03</b><span>Seven plates from Blender</span></a></li>
+          <li><a href="#connect"><b>05</b><span>Reply card: start your site</span></a></li>
+        </ol>
       </div>
-      <div class="cover-caption">FIG. 00 — COVER RENDER, 2026</div>
-      <div class="scroll-cue" aria-hidden="true"><i></i></div>
     </section>
 
-    <!-- Marquee -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track">
-        <span>Websites&nbsp;·&nbsp;GFX&nbsp;·&nbsp;3D Renders&nbsp;·&nbsp;Milwaukee&nbsp;·&nbsp;</span>
-        <span>Websites&nbsp;·&nbsp;GFX&nbsp;·&nbsp;3D Renders&nbsp;·&nbsp;Milwaukee&nbsp;·&nbsp;</span>
-        <span>Websites&nbsp;·&nbsp;GFX&nbsp;·&nbsp;3D Renders&nbsp;·&nbsp;Milwaukee&nbsp;·&nbsp;</span>
-      </div>
-    </div>
-
-    <!-- ═══ 01 · SITES ═══ -->
-    <section id="sites" class="page">
+    <!-- ═══ 01 · WORK ═══ -->
+    <section id="sites" class="page" aria-labelledby="sites-title">
+      <div class="folio"><span>Tyrone Dunn · Issue Nº 03</span><span>01 / The Work</span></div>
       <div class="page-head" data-reveal>
         <span class="page-num">01</span>
-        <h2 class="page-title">The Sites</h2>
-        <p class="page-intro">Custom websites, designed and coded from scratch for real businesses. Every build works on phone and desktop and ships live, ready to share.</p>
+        <h2 class="page-title" id="sites-title">The Work</h2>
+        <p class="page-intro">Four sites, all live right now. Open any of them on your phone and click around. That is the same thing your customers will do.</p>
       </div>
 
-      <div class="site-card" data-reveal>
-        <div class="site-shot">
-          <div class="shot-bar"><i></i><i></i><span>essencechildcare.vercel.app</span></div>
-          <a href="https://essencechildcare.vercel.app" target="_blank" rel="noopener">
-            <img src="essence-site.jpg" alt="Essence of Childcare University website" loading="lazy">
+      <div class="spread">
+        <!-- Typographic card: no screenshot of dawgcity.vercel.app in the repo and the live site was unreachable from the build sandbox. Swap in a real screenshot when available. -->
+        <article class="feature" data-reveal>
+          <a class="shot shot-type shot-dawg" href="https://dawgcity.vercel.app" target="_blank" rel="noopener" aria-label="Open dawgcity.vercel.app in a new tab">
+            <span class="shot-bar"><i></i><i></i><span>dawgcity.vercel.app</span></span>
+            <span class="type-card">
+              <span class="tc-kicker">3rd Street Market Hall</span>
+              <span class="tc-name">Dawg<br>City</span>
+              <span class="tc-foot">Hot dogs · Milwaukee</span>
+            </span>
           </a>
-        </div>
-        <div class="site-info">
+          <p class="feature-meta"><span>Feature 01</span><span>Client · Food</span></p>
+          <h3>Dawg City</h3>
+          <p>A site for Dawg City, the hot dog stand inside 3rd Street Market Hall in Milwaukee. Built so people can find the stand online, not just by walking past it.</p>
+          <a class="visit" href="https://dawgcity.vercel.app" target="_blank" rel="noopener">Visit dawgcity.vercel.app <span aria-hidden="true">↗</span></a>
+        </article>
+
+        <article class="feature feature-low" data-reveal>
+          <a class="shot" href="https://essencechildcare.vercel.app" target="_blank" rel="noopener" aria-label="Open essencechildcare.vercel.app in a new tab">
+            <span class="shot-bar"><i></i><i></i><span>essencechildcare.vercel.app</span></span>
+            <img src="essence-site.jpg" width="800" height="913" alt="Homepage of the Essence of Childcare University website" loading="lazy">
+          </a>
+          <p class="feature-meta"><span>Feature 02</span><span>Client · Childcare</span></p>
           <h3>Essence Daycare</h3>
           <p>A full business site for a licensed Milwaukee childcare center: enrollment calls to action, hours, programs, photos, and a tour scheduler. Built to turn visiting parents into enrolled families.</p>
-          <div class="site-tags"><span>Business site</span><span>Enrollment CTA</span><span>Mobile-first</span></div>
-        </div>
-      </div>
+          <a class="visit" href="https://essencechildcare.vercel.app" target="_blank" rel="noopener">Visit essencechildcare.vercel.app <span aria-hidden="true">↗</span></a>
+        </article>
 
-      <div class="site-card site-card-flip" data-reveal>
-        <div class="site-shot">
-          <div class="shot-bar"><i></i><i></i><span>city-azure.vercel.app</span></div>
-          <a href="https://city-azure.vercel.app" target="_blank" rel="noopener">
-            <img src="hiddengems-site.jpg" alt="Hidden Gems city guide web app" loading="lazy">
+        <!-- Typographic card: no screenshot of kenyahairpage.vercel.app available. Swap in a real screenshot when available. -->
+        <article class="feature" data-reveal>
+          <a class="shot shot-type shot-ken" href="https://kenyahairpage.vercel.app" target="_blank" rel="noopener" aria-label="Open kenyahairpage.vercel.app in a new tab">
+            <span class="shot-bar"><i></i><i></i><span>kenyahairpage.vercel.app</span></span>
+            <span class="type-card">
+              <span class="tc-kicker">Hair braiding</span>
+              <span class="tc-name">ken.<br>didit</span>
+              <span class="tc-foot">Booking site</span>
+            </span>
           </a>
-        </div>
-        <div class="site-info">
+          <p class="feature-meta"><span>Feature 03</span><span>Client · Beauty</span></p>
+          <h3>ken.didit</h3>
+          <p>A booking site for ken.didit hair braiding, so clients can book an appointment online from their phone.</p>
+          <a class="visit" href="https://kenyahairpage.vercel.app" target="_blank" rel="noopener">Visit kenyahairpage.vercel.app <span aria-hidden="true">↗</span></a>
+        </article>
+
+        <article class="feature feature-low" data-reveal>
+          <a class="shot" href="https://city-azure.vercel.app" target="_blank" rel="noopener" aria-label="Open city-azure.vercel.app in a new tab">
+            <span class="shot-bar"><i></i><i></i><span>city-azure.vercel.app</span></span>
+            <img src="hiddengems-site.jpg" width="800" height="609" alt="Hidden Gems city guide homepage" loading="lazy">
+          </a>
+          <p class="feature-meta"><span>Feature 04</span><span>Web app</span></p>
           <h3>Hidden Gems</h3>
           <p>A city guide web app that surfaces local spots the guidebooks miss, with live photo search powered by the Anthropic and Pexels APIs behind a secure serverless proxy.</p>
-          <div class="site-tags"><span>Web app</span><span>API integration</span><span>Serverless</span></div>
-        </div>
-      </div>
-
-      <!-- Services -->
-      <div class="services" data-reveal>
-        <div class="services-head">
-          <h3>Want one for your business?</h3>
-          <p>One flat build price. You own everything.</p>
-        </div>
-        <div class="services-row">
-          <div class="svc">
-            <span class="svc-price">$80</span>
-            <span class="svc-term">one-time</span>
-            <p>Full custom site, designed and coded from scratch, live and ready to share.</p>
-          </div>
-          <div class="svc">
-            <span class="svc-price">+ URL</span>
-            <span class="svc-term">one-time, varies</span>
-            <p>Your own .com address. Price depends on the name you pick; setup included.</p>
-          </div>
-          <div class="svc svc-hot">
-            <span class="svc-price">$15</span>
-            <span class="svc-term">per month, optional</span>
-            <p>Updates anytime and full management. You never touch the tech side.</p>
-          </div>
-        </div>
-        <a class="btn btn-solid" href="#connect">Get a free sample site</a>
+          <a class="visit" href="https://city-azure.vercel.app" target="_blank" rel="noopener">Visit city-azure.vercel.app <span aria-hidden="true">↗</span></a>
+        </article>
       </div>
     </section>
 
-    <!-- ═══ 02 · PLATES ═══ -->
-    <section id="plates" class="page">
-      <div class="page-head" data-reveal>
-        <span class="page-num">02</span>
-        <h2 class="page-title">The Plates</h2>
-        <p class="page-intro">Cinematic renders and character art, modeled, lit, and composed in Blender. Click any plate to open it.</p>
+    <!-- ═══ 02 · RATES (printed page) ═══ -->
+    <section id="rates" class="page-paper" aria-labelledby="rates-title">
+      <div class="page">
+        <div class="folio"><span>Tyrone Dunn · Issue Nº 03</span><span>02 / The Rate Card</span></div>
+        <div class="rates-grid">
+          <div class="page-head" data-reveal>
+            <span class="page-num">02</span>
+            <h2 class="page-title" id="rates-title">The Rate Card</h2>
+            <p class="page-intro">One flat build price. You own everything.</p>
+
+            <ol class="steps">
+              <li><b>01</b><div><h3>Tell me about your business</h3><p>Send the reply card below, a DM, or an email. What you sell, who comes in, what you want people to do.</p></div></li>
+              <li><b>02</b><div><h3>I build a free sample</h3><p>You see a working sample site before you pay anything.</p></div></li>
+              <li><b>03</b><div><h3>You decide</h3><p>Like it? The $80 build makes it yours. Add a domain and the monthly plan if you want them.</p></div></li>
+            </ol>
+          </div>
+
+          <div class="rate-card" data-reveal>
+            <div class="rc-head">
+              <span>Rate card</span>
+              <span>Effective Issue Nº 03</span>
+            </div>
+            <dl class="rc-list">
+              <div class="rc-row">
+                <dt>Custom website build<small>Designed and coded from scratch, live and ready to share</small></dt>
+                <dd><strong>$80</strong><small>one-time</small></dd>
+              </div>
+              <div class="rc-row">
+                <dt>Custom domain<small>Your own address. Cost depends on the name you pick; setup included</small></dt>
+                <dd><strong>At cost</strong><small>one-time, varies</small></dd>
+              </div>
+              <div class="rc-row rc-pick">
+                <dt><span class="rc-flag">Recommended</span>Updates &amp; management<small>Updates anytime and full management. You never touch the tech side</small></dt>
+                <dd><strong>$15</strong><small>per month, optional</small></dd>
+              </div>
+            </dl>
+            <div class="rc-foot">
+              <p>Every site works on phone and desktop.</p>
+              <a class="btn btn-solid" href="#connect" data-subject="Website for my business">Get a free sample site</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 03 · PLATES ═══ -->
+    <section id="plates" class="page" aria-labelledby="plates-title">
+      <div class="folio"><span>Tyrone Dunn · Issue Nº 03</span><span>03 / The Plates</span></div>
+      <div class="page-head page-head-row" data-reveal>
+        <div>
+          <span class="page-num">03</span>
+          <h2 class="page-title" id="plates-title">The Plates</h2>
+        </div>
+        <p class="page-intro">Cinematic renders and character art, modeled, lit, and composed in Blender. Open any plate for the full image.</p>
       </div>
 
       <div class="plate-grid">
         <figure class="plate plate-wide" data-reveal data-title="Streetwear Study" data-fig="01"
-          data-desc="A grounded character render exploring purple-on-black streetwear — custom rig pose and post-processed lighting for a fashion-editorial finish.">
-          <img src="shoeethu1.png" alt="Streetwear character render" loading="lazy">
+          data-desc="A grounded character render exploring purple-on-black streetwear, with a custom rig pose and post-processed lighting for a fashion-editorial finish.">
+          <button type="button" class="plate-btn" aria-label="Open plate 01, Streetwear Study"><img src="img/shoeethu1.jpg" width="1920" height="1080" alt="Streetwear character render" loading="lazy"></button>
           <figcaption><span>FIG. 01</span><span>Streetwear Study</span></figcaption>
         </figure>
         <figure class="plate" data-reveal data-title="Old Town Road" data-fig="02"
-          data-desc="A character-and-horse composition pairing western styling with a basketball — rugged leather against a soft mint colorway.">
-          <img src="oldtownroadhoops.png" alt="Cowboy character with horse and basketball render" loading="lazy">
+          data-desc="A character-and-horse composition pairing western styling with a basketball: rugged leather against a soft mint colorway.">
+          <button type="button" class="plate-btn" aria-label="Open plate 02, Old Town Road"><img src="img/oldtownroadhoops.jpg" width="1400" height="787" alt="Cowboy character with horse and basketball render" loading="lazy"></button>
           <figcaption><span>FIG. 02</span><span>Old Town Road</span></figcaption>
         </figure>
         <figure class="plate" data-reveal data-title="Character GFX" data-fig="03"
           data-desc="Cinematic Roblox rig render with dramatic lighting, post-processing, and full scene composition in Blender.">
-          <img src="Pose1Light.png" alt="Roblox character GFX render" loading="lazy">
+          <button type="button" class="plate-btn" aria-label="Open plate 03, Character GFX"><img src="img/pose1light.jpg" width="1400" height="787" alt="Roblox character GFX render" loading="lazy"></button>
           <figcaption><span>FIG. 03</span><span>Character GFX</span></figcaption>
         </figure>
         <figure class="plate" data-reveal data-title="Thumbnail Design" data-fig="04"
           data-desc="High-impact game thumbnail using custom rig poses, particle effects, and layered compositing.">
-          <img src="4PS.png" alt="Thumbnail design render" loading="lazy">
+          <button type="button" class="plate-btn" aria-label="Open plate 04, Thumbnail Design"><img src="img/4ps.jpg" width="1400" height="787" alt="Thumbnail design render" loading="lazy"></button>
           <figcaption><span>FIG. 04</span><span>Thumbnail Design</span></figcaption>
         </figure>
         <figure class="plate" data-reveal data-title="Scene Composition" data-fig="05"
-          data-desc="Full environment scene built around a Roblox character — atmospheric fog, HDRI lighting, and cinematic depth of field.">
-          <img src="5WM.png" alt="Scene composition render" loading="lazy">
+          data-desc="Full environment scene built around a Roblox character: atmospheric fog, HDRI lighting, and cinematic depth of field.">
+          <button type="button" class="plate-btn" aria-label="Open plate 05, Scene Composition"><img src="img/5wm.jpg" width="1400" height="787" alt="Scene composition render" loading="lazy"></button>
           <figcaption><span>FIG. 05</span><span>Scene Composition</span></figcaption>
         </figure>
         <figure class="plate" data-reveal data-title="Character Art" data-fig="06"
           data-desc="Detailed character render showcasing material work, custom lighting rigs, and cinematic post-processing.">
-          <img src="CC1.png" alt="Character art render" loading="lazy">
+          <button type="button" class="plate-btn" aria-label="Open plate 06, Character Art"><img src="img/cc1.jpg" width="1400" height="787" alt="Character art render" loading="lazy"></button>
           <figcaption><span>FIG. 06</span><span>Character Art</span></figcaption>
         </figure>
         <figure class="plate plate-wide" data-reveal data-title="Blender Scene" data-fig="07"
-          data-desc="Self-taught 3D environment render — geometry, PBR materials, lighting, and post-processing in Blender.">
-          <img src="7WM.png" alt="Blender 3D scene render" loading="lazy">
+          data-desc="Self-taught 3D environment render: geometry, PBR materials, lighting, and post-processing in Blender.">
+          <button type="button" class="plate-btn" aria-label="Open plate 07, Blender Scene"><img src="img/7wm.jpg" width="1600" height="900" alt="Blender 3D scene render" loading="lazy"></button>
           <figcaption><span>FIG. 07</span><span>Blender Scene</span></figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- ═══ 03 · ORIGIN ═══ -->
-    <section id="origin" class="page">
+    <!-- ═══ 04 · ORIGIN ═══ -->
+    <section id="origin" class="page" aria-labelledby="origin-title">
+      <div class="folio"><span>Tyrone Dunn · Issue Nº 03</span><span>04 / Origin</span></div>
       <div class="page-head" data-reveal>
-        <span class="page-num">03</span>
-        <h2 class="page-title">Origin</h2>
+        <span class="page-num">04</span>
+        <h2 class="page-title" id="origin-title">Origin</h2>
       </div>
       <div class="origin-grid">
         <div class="origin-text" data-reveal>
           <p class="origin-lead">Senior year, I built a portfolio site before anyone told me to. That decision is the whole story.</p>
-          <p>I'm from Milwaukee — self-taught in HTML, CSS, and JavaScript, with a Microsoft IT Help Desk Pro certification earned before I ever sat in a college lecture hall. While my graduating class finished applications, I was shipping code and rendering scenes in Blender.</p>
+          <p>I'm from Milwaukee, self-taught in HTML, CSS, and JavaScript, with a Microsoft IT Help Desk Pro certification earned before I ever sat in a college lecture hall. While my graduating class finished applications, I was shipping code and rendering scenes in Blender.</p>
           <p>Now I study Computer Science at Marquette University, Class of 2030, and build websites for businesses across the city. Nobody handed me a syllabus for any of it.</p>
-          <blockquote class="pull-quote">I build first and figure things out along the way.</blockquote>
+          <blockquote class="pull-quote"><p>I build first and figure things out along the way.</p></blockquote>
         </div>
-        <aside class="origin-side" data-reveal>
+        <aside class="origin-side" data-reveal aria-label="Quick facts">
+          <p class="side-label">Contributor notes</p>
           <ul class="origin-facts">
             <li><span>Based in</span><span>Milwaukee, WI</span></li>
             <li><span>Studying</span><span>Computer Science, Marquette '30</span></li>
@@ -213,55 +275,70 @@
       </div>
     </section>
 
-    <!-- ═══ 04 · CONNECT ═══ -->
-    <section id="connect" class="page">
-      <div class="page-head" data-reveal>
-        <span class="page-num">04</span>
-        <h2 class="page-title">Connect</h2>
-        <p class="page-intro">Want a site for your business, a render, or a collaboration? I answer every message.</p>
-      </div>
-      <div class="connect-grid" data-reveal>
-        <form class="connect-form" id="contact-form">
-          <div class="form-row">
-            <label>Your name<input id="from_name" type="text" required placeholder="Your name"></label>
-            <label>Your email<input id="from_email" type="email" required placeholder="your@email.com"></label>
-          </div>
-          <label>Subject
-            <select id="subject">
-              <option value="" disabled selected>What's this about?</option>
-              <option>Website for my business</option>
-              <option>GFX commission</option>
-              <option>Internship opportunity</option>
-              <option>Collaboration</option>
-              <option>General question</option>
-            </select>
-          </label>
-          <label>Message<textarea id="message" required placeholder="Tell me about your business or project..."></textarea></label>
-          <div id="form-status" role="status"></div>
-          <button type="submit" class="btn btn-solid" id="submit-btn">Send message</button>
-        </form>
-        <aside class="connect-side">
-          <a class="side-link" href="mailto:tyrone.dunn8855@gmail.com">tyrone.dunn8855@gmail.com</a>
-          <a class="side-link" href="https://instagram.com/hermesblankets" target="_blank" rel="noopener">IG @hermesblankets</a>
-          <a class="side-link" href="https://github.com/tyronedunn8855" target="_blank" rel="noopener">GitHub</a>
-          <a class="side-link" href="https://dot.cards/tyronedunn" target="_blank" rel="noopener">Contact card</a>
-        </aside>
+    <!-- ═══ 05 · CONNECT (reply card) ═══ -->
+    <section id="connect" class="page-paper" aria-labelledby="connect-title">
+      <div class="page">
+        <div class="folio"><span>Tyrone Dunn · Issue Nº 03</span><span>05 / Reply Card</span></div>
+        <div class="page-head" data-reveal>
+          <span class="page-num">05</span>
+          <h2 class="page-title" id="connect-title">Reply Card</h2>
+          <p class="page-intro">Want a site for your business, a render, or a collaboration? Fill this in and I will reply by email. I answer every message.</p>
+        </div>
+        <div class="connect-grid" data-reveal>
+          <form class="reply-card" id="contact-form" novalidate>
+            <div class="rc-head"><span>Reply card</span><span>No stamp needed</span></div>
+            <div class="form-row">
+              <label for="from_name">Your name<input id="from_name" name="from_name" type="text" autocomplete="name" required></label>
+              <label for="from_email">Your email<input id="from_email" name="from_email" type="email" autocomplete="email" required></label>
+            </div>
+            <label for="subject">What's this about?
+              <select id="subject" name="subject">
+                <option value="" disabled selected>Pick one</option>
+                <option>Website for my business</option>
+                <option>GFX commission</option>
+                <option>Internship opportunity</option>
+                <option>Collaboration</option>
+                <option>General question</option>
+              </select>
+            </label>
+            <label for="message">Message<textarea id="message" name="message" required placeholder="Business name, what you sell, and what you want the site to do."></textarea></label>
+            <div id="form-status" role="status" aria-live="polite"></div>
+            <button type="submit" class="btn btn-solid" id="submit-btn">Send message</button>
+          </form>
+          <aside class="connect-side" aria-label="Other ways to reach me">
+            <p class="side-label">Or reach me directly</p>
+            <a class="side-link" href="mailto:tyrone.dunn8855@gmail.com"><small>Email</small>tyrone.dunn8855@gmail.com</a>
+            <a class="side-link" href="https://instagram.com/hermesblankets" target="_blank" rel="noopener"><small>Instagram</small>@hermesblankets</a>
+            <a class="side-link" href="https://github.com/tyronedunn8855" target="_blank" rel="noopener"><small>Code</small>GitHub</a>
+            <a class="side-link" href="https://dot.cards/tyronedunn" target="_blank" rel="noopener"><small>Card</small>Contact card</a>
+          </aside>
+        </div>
       </div>
     </section>
 
+    <!-- ═══ Colophon ═══ -->
     <footer id="colophon">
-      <span class="colo-mark">TYRONE DUNN</span>
-      <p>Issue Nº 03. Designed and built without a template. Milwaukee, WI — 2026.</p>
+      <div class="colo-cta">
+        <p class="colo-next">Your business could be Feature 05.</p>
+        <a class="btn btn-solid" href="#connect" data-subject="Website for my business">Get a free sample site</a>
+      </div>
+      <p class="colo-name" aria-hidden="true">Tyrone Dunn</p>
+      <div class="colo-grid">
+        <div><h2>Colophon</h2><p>Issue Nº 03. Written, designed, and coded by Tyrone Dunn without a template. Set in Oswald, DM Sans, and IBM Plex Mono.</p></div>
+        <div><h2>Contents</h2><ul><li><a href="#sites">01 Work</a></li><li><a href="#rates">02 Rates</a></li><li><a href="#plates">03 Plates</a></li><li><a href="#origin">04 Origin</a></li><li><a href="#connect">05 Reply card</a></li></ul></div>
+        <div><h2>Contact</h2><ul><li><a href="mailto:tyrone.dunn8855@gmail.com">tyrone.dunn8855@gmail.com</a></li><li><a href="https://instagram.com/hermesblankets" target="_blank" rel="noopener">IG @hermesblankets</a></li><li><a href="https://github.com/tyronedunn8855" target="_blank" rel="noopener">GitHub</a></li></ul></div>
+      </div>
+      <div class="folio folio-end"><span>Milwaukee, WI · 2026</span><span>End of Issue Nº 03</span></div>
     </footer>
   </main>
 
   <!-- Lightbox -->
-  <div id="lightbox" aria-hidden="true">
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Plate viewer" hidden>
     <button id="lb-close" aria-label="Close">×</button>
-    <button id="lb-prev" aria-label="Previous">←</button>
-    <button id="lb-next" aria-label="Next">→</button>
+    <button id="lb-prev" aria-label="Previous plate">←</button>
+    <button id="lb-next" aria-label="Next plate">→</button>
     <figure>
-      <img id="lb-img" src="" alt="">
+      <img id="lb-img" src="data:," alt="">
       <figcaption><span id="lb-fig"></span><span id="lb-title"></span><p id="lb-desc"></p></figcaption>
     </figure>
   </div>
