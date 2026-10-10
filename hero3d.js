@@ -545,9 +545,19 @@ function whenNear(sel, margin, fn) {
   const io = new IntersectionObserver((en) => { if (en.some((x) => x.isIntersecting)) { io.disconnect(); fn(); } }, { rootMargin: margin });
   io.observe(el);
 }
+// The loader plays on every visit. Parsing the model and compiling shaders while it runs slows the opening
+// (and the headline behind it), so the live model waits until the loader has lifted. The poster holds his place.
+function afterIntro(fn) {
+  const root = document.documentElement;
+  if (!root.classList.contains('intro')) { fn(); return; }
+  const mo = new MutationObserver(() => { if (!root.classList.contains('intro')) { mo.disconnect(); setTimeout(fn, 120); } });
+  mo.observe(root, { attributes: true, attributeFilter: ['class'] });
+}
 function boot() {
-  whenNear('#cover', '300px 0px', initCover);
-  whenNear('.turntable', '700px 0px', initTurntable);
+  afterIntro(() => {
+    whenNear('#cover', '300px 0px', initCover);
+    whenNear('.turntable', '700px 0px', initTurntable);
+  });
 }
 try {
   if (document.readyState === 'complete') setTimeout(boot, 60);

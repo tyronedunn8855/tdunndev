@@ -270,6 +270,9 @@
     tl.to(rail, { scaleX: 1, duration: 1 }, 0);
     // The offer and buttons step aside as soon as the camera moves
     tl.to(lead, { y: 36, autoAlpha: 0, duration: D(C.lead.out), stagger: 0.01, ease: 'power2.inOut' }, C.lead.out[0]);
+    // The scroll cue leaves with the offer and does not come back: by then the film has been found
+    var cue = $('.scroll-cue', cover);
+    if (cue) tl.to(cue, { autoAlpha: 0, duration: D(C.lead.out) * 0.6 }, C.lead.out[0]);
     // Nameplate splits: letters leave upward, the two words drift apart
     tl.to(charsA, { yPercent: -110, duration: D(C.name.out) * 0.7, stagger: { each: D(C.name.out) * 0.05, from: 'end' }, ease: EASE_MOVE }, C.name.out[0]);
     tl.to(charsB, { yPercent: -110, duration: D(C.name.out) * 0.7, stagger: { each: D(C.name.out) * 0.05, from: 'start' }, ease: EASE_MOVE }, C.name.out[0]);
@@ -349,7 +352,7 @@
     if (!poster || poster.complete) parts.poster = 1;
     else { poster.addEventListener('load', function () { parts.poster = 1; }); poster.addEventListener('error', function () { parts.poster = 1; }); }
 
-    var t0 = performance.now(), shown = 0, finished = false, MIN = 1.25, MAX = 3.6;
+    var t0 = performance.now(), shown = 0, finished = false, MIN = 1.25, MAX = 2.6;
     function loaded() {
       var f = filmReady() ;
       var film = f === null ? 1 : f;
@@ -378,8 +381,8 @@
         .fromTo(sheetMark, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3 * k, ease: 'power2.out' }, 0.3 * k)
         .to(loader, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.62 * k, ease: 'expo.inOut' }, 0.5 * k)
         .to(T.chars, { yPercent: 0, duration: 1.0 * k, stagger: 0.028 * k, ease: EASE_OUT }, 0.8 * k)
-        .to(T.star, { y: 0, autoAlpha: 1, duration: 1.1 * k, ease: EASE_OUT }, 1.0 * k)
-        .to(T.lead, { y: 0, autoAlpha: 1, duration: 0.9 * k, stagger: 0.08 * k, ease: EASE_OUT }, 1.12 * k)
+        .to(T.star, { y: 0, autoAlpha: 1, duration: 1.1 * k, ease: EASE_OUT }, 0.55 * k)
+        .to(T.lead, { y: 0, autoAlpha: 1, duration: 0.9 * k, stagger: 0.08 * k, ease: EASE_OUT }, 0.62 * k)
         .to(T.mast, { yPercent: 0, duration: 0.8 * k, ease: EASE_OUT }, 1.05 * k);
     }
     skipIntro = function (e) {
@@ -496,24 +499,54 @@
     });
   });
 
-  /* ─── Current section in the masthead ─── */
+  /* ─── Current section in the masthead ───
+     The section whose top has passed a line a third of the way down the screen is current. Checked on
+     scroll, so short sections like About are never skipped. At the very bottom, the last section wins. */
   var navLinks = $$('.mh-nav a');
-  if ('IntersectionObserver' in window) {
-    var secIo = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        var id = '#' + en.target.id;
-        navLinks.forEach(function (l) {
-          var on = l.getAttribute('href') === id;
-          l.classList.toggle('active', on);
-          if (on) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
-        });
-      });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    ['cover', 'work', 'features', 'owners', 'rates', 'plates', 'origin', 'connect'].forEach(function (id) {
-      var el = document.getElementById(id); if (el) secIo.observe(el);
+  var spySecs = ['cover', 'work', 'features', 'owners', 'rates', 'plates', 'origin', 'connect'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  var spyOn = null, spyQ = false;
+  function spy() {
+    spyQ = false;
+    var line = headH() + window.innerHeight * 0.3, cur = spySecs[0];
+    spySecs.forEach(function (sec) { if (sec.getBoundingClientRect().top <= line) cur = sec; });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = spySecs[spySecs.length - 1];
+    if (cur === spyOn) return;
+    spyOn = cur;
+    navLinks.forEach(function (l) {
+      var on = l.getAttribute('href') === '#' + cur.id;
+      l.classList.toggle('active', on);
+      if (on) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
     });
   }
+  window.addEventListener('scroll', function () { if (!spyQ) { spyQ = true; requestAnimationFrame(spy); } }, { passive: true });
+  window.addEventListener('resize', spy);
+  spy();
+
+  /* ─── Owner panel demo: tap a day in "her panel" and her booking calendar follows ───
+     A local demo, wired to nothing. The short pause stands in for a save so the cause and the effect read
+     in order; the calendar always ends up matching every day's button. */
+  (function () {
+    var od = $('.od'); if (!od) return;
+    var btns = $$('.od-days button', od), cells = $$('.od-cal i', od), msg = $('.od-status span', od), next = $('.od-next', od), timer = 0;
+    function isOn(b) { return b.getAttribute('aria-pressed') === 'true'; }
+    od.addEventListener('click', function (e) {
+      var b = e.target.closest('.od-days button'); if (!b) return;
+      var on = !isOn(b), day = $('span', b).textContent;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      od.classList.remove('saved'); od.classList.add('saving'); msg.textContent = 'Saving';
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        od.classList.remove('saving'); void od.offsetWidth; od.classList.add('saved');
+        msg.textContent = 'Saved. ' + day + ' is ' + (on ? 'open' : 'closed') + ' on her site';
+        btns.forEach(function (x, i) {
+          var c = cells[i], want = isOn(x);
+          if (c.classList.contains('on') !== want) { c.classList.toggle('on', want); if (!reduce) { c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); } }
+        });
+        var n = btns.filter(isOn).length;
+        next.textContent = n ? n + ' open day' + (n > 1 ? 's' : '') + ' this week' : 'No open days this week';
+      }, reduce ? 0 : 450);
+    });
+  })();
 
   /* ─── Desktop view toggles on each site ─── */
   $$('.view-tabs').forEach(function (group) {
@@ -572,11 +605,13 @@
     var view = $('.reel-view', box), track = $('.reel-track', box);
     var slides = Array.prototype.slice.call(track.children);
     var now = $('.rc-now', box), btns = $$('.car-btn', box), cur = 0;
-    $('.rc-all', box).textContent = slides.length;
+    // The closing "your site next" card is a slide but not a site, so the count skips it
+    var real = slides.filter(function (s) { return !s.classList.contains('panel-end'); }).length;
+    $('.rc-all', box).textContent = real;
     function pad() { return parseFloat(getComputedStyle(track).paddingLeft) || 0; }
     function setCur(i) {
       cur = i;
-      now.textContent = i + 1;
+      now.textContent = Math.min(i + 1, real);
       btns.forEach(function (b) { b.disabled = Number(b.dataset.dir) < 0 ? i <= 0 : i >= slides.length - 1; });
     }
     function go(i) {
