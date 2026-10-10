@@ -197,7 +197,7 @@
 
     // Cover: nameplate and cover star drift apart as you leave
     gsap.to('.nameplate', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '#cover', start: 'top top', end: 'bottom top', scrub: true } });
-    gsap.to('.cover-star img', { yPercent: -8, ease: 'none', scrollTrigger: { trigger: '#cover', start: 'top top', end: 'bottom top', scrub: true } });
+    gsap.to('.cover-star picture', { yPercent: -8, ease: 'none', scrollTrigger: { trigger: '#cover', start: 'top top', end: 'bottom top', scrub: true } });
 
     // Newsprint sheets set onto the page: they start inset with rounded corners and open to full bleed
     $$('.sheet').forEach(function (s) {

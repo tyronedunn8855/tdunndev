@@ -107,9 +107,11 @@ button { font: inherit; color: inherit; }
   backdrop-filter: saturate(1.2) blur(8px);
   border-bottom: 1px solid var(--line);
 }
-.mh-mark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-stretch: 112%; font-size: 17px; text-transform: uppercase; letter-spacing: 0.01em; }
-.mh-mark .reg { color: var(--press); transition: transform 0.6s var(--ease); }
-.mh-mark:hover .reg { transform: rotate(90deg); }
+/* Logo: TD monogram in a registration ring + condensed Archivo wordmark (logo.svg) */
+.td-mark { width: 30px; height: 30px; flex: none; display: block; }
+.mh-mark { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 900; font-stretch: 62%; font-size: 26px; line-height: 1; text-transform: uppercase; letter-spacing: 0.02em; word-spacing: 0.08em; }
+.mh-mark .td-mark { color: var(--press); transition: transform 0.6s var(--ease); }
+.mh-mark:hover .td-mark { transform: rotate(-8deg) scale(1.06); }
 .mh-nav { display: flex; gap: clamp(14px, 1.8vw, 28px); margin-left: auto; }
 .mh-nav a {
   position: relative; font-size: 15px; font-weight: 500; text-decoration: none; color: var(--ash);
@@ -217,6 +219,21 @@ button { font: inherit; color: inherit; }
 }
 .cover-star img { width: auto; max-height: min(66svh, 660px); filter: drop-shadow(0 22px 26px rgba(18, 17, 16, 0.38)); }
 .cover-star figcaption { font-family: var(--mono); font-size: 12px; margin-top: 8px; text-align: center; }
+/* Live 3D: the canvas sits over the poster cutout, 132% of its height for lift headroom.
+   The poster stays in the layout (opacity only), so the swap never shifts anything. */
+.star-stage { position: relative; }
+.star-stage picture { display: block; transition: opacity 0.9s var(--ease); }
+.star-3d {
+  position: absolute; left: 50%; bottom: -2%; height: 132%; width: auto; aspect-ratio: 0.86;
+  transform: translateX(-50%); pointer-events: none; opacity: 0; transition: opacity 0.9s var(--ease);
+}
+.cover-star.is-live .star-3d { opacity: 1; }
+.cover-star.is-live picture { opacity: 0; }
+.cap-live { display: none; }
+.cover-star.is-live .cap-live { display: inline; }
+.cover-star.is-live .cap-poster { display: none; }
+.cap-live::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--press-ink); margin-right: 8px; vertical-align: 1px; }
+.cover-lead, .cover-lines { position: relative; z-index: 3; }
 
 .cover-lines { list-style: none; border-top: 3px solid var(--ink); }
 .cover-lines a {
@@ -545,7 +562,8 @@ button { font: inherit; color: inherit; }
 .colo-grid a:hover { color: var(--press); }
 .folio-end { margin: 40px 0 0; align-items: center; }
 .folio-end span { display: inline-flex; align-items: center; gap: 8px; }
-.folio-end .reg { width: 16px; height: 16px; color: var(--press); }
+.folio-end .td-mark { width: 20px; height: 20px; color: var(--press); }
+.colo-mark { width: 56px; height: 56px; color: var(--press); margin-bottom: 22px; }
 
 /* ─── Lightbox ─── */
 #lightbox {

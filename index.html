@@ -8,8 +8,14 @@
   <meta name="theme-color" content="#121110">
   <meta property="og:title" content="Tyrone Dunn · Issue Nº 04">
   <meta property="og:description" content="Custom websites for local businesses. $80 build, optional $15/month management, free sample first. Milwaukee, WI.">
-  <meta property="og:image" content="img/shoeethu1.jpg">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23d8d2c4'/><circle cx='50' cy='50' r='22' fill='none' stroke='%23121110' stroke-width='7'/><path d='M50 12v76M12 50h76' stroke='%23121110' stroke-width='7'/></svg>">
+  <meta property="og:image" content="https://tyronedunn8855.github.io/tdunndev/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tyrone Dunn logo with the line: Websites for local businesses. $80 to build.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -42,7 +48,7 @@
   <!-- ═══ Masthead (sticky, carries the free-sample CTA on every screen) ═══ -->
   <header id="masthead">
     <a href="#top" class="mh-mark" aria-label="Tyrone Dunn, back to cover">
-      <svg class="reg" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="11"/><path d="M20 0v40M0 20h40"/></svg>
+      <svg class="td-mark" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="7"/><path fill="currentColor" d="M46.5 0h7v12h-7zM46.5 88h7v12h-7zM0 46.5h12v7H0zM88 46.5h12v7H88z"/><path fill="currentColor" fill-rule="evenodd" d="M25 31H56A19 19 0 0 1 56 69H41V41H25ZM52 41V59H56A9 9 0 0 0 56 41Z"/></svg>
       <span>Tyrone Dunn</span>
     </a>
     <nav class="mh-nav" aria-label="Sections">
@@ -92,12 +98,17 @@
           </div>
         </div>
 
-        <figure class="cover-star">
-          <picture>
-            <source srcset="img/cover-cutout.webp" type="image/webp">
-            <img src="img/cover-cutout.png" width="509" height="1035" alt="Blender render of a Roblox character in a purple camo jacket and purple sneakers" fetchpriority="high">
-          </picture>
-          <figcaption>Cover: Streetwear Study, rendered in Blender</figcaption>
+        <!-- Cover star: the cutout is the poster and the fallback. hero3d.js swaps in the live
+             Blender model (models/portfolio3d1.glb) once it has rendered a frame. -->
+        <figure class="cover-star" data-state="poster">
+          <div class="star-stage">
+            <picture>
+              <source srcset="img/cover-cutout.webp" type="image/webp">
+              <img src="img/cover-cutout.png" width="509" height="1035" alt="Blender render of a Roblox character in a purple camo jacket and purple sneakers" fetchpriority="high">
+            </picture>
+            <canvas class="star-3d" aria-hidden="true"></canvas>
+          </div>
+          <figcaption><span class="cap-poster">Cover: Streetwear Study, rendered in Blender</span><span class="cap-live">Live 3D model, built in Blender</span></figcaption>
         </figure>
 
         <ol class="cover-lines" aria-label="Inside this issue">
@@ -592,12 +603,12 @@
       </div>
       <p class="colo-name" aria-hidden="true">Tyrone Dunn</p>
       <div class="colo-grid">
-        <div><h2>Colophon</h2><p>Issue Nº 04. Written, designed, and coded by Tyrone Dunn without a template. Set in Archivo and IBM Plex Mono.</p></div>
+        <div><svg class="td-mark colo-mark" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="7"/><path fill="currentColor" d="M46.5 0h7v12h-7zM46.5 88h7v12h-7zM0 46.5h12v7H0zM88 46.5h12v7H88z"/><path fill="currentColor" fill-rule="evenodd" d="M25 31H56A19 19 0 0 1 56 69H41V41H25ZM52 41V59H56A9 9 0 0 0 56 41Z"/></svg><h2>Colophon</h2><p>Issue Nº 04. Written, designed, and coded by Tyrone Dunn without a template. Set in Archivo and IBM Plex Mono.</p></div>
         <div><h2>Contents</h2><ul><li><a href="#work">p.01 Work</a></li><li><a href="#owners">p.02 Owner controls</a></li><li><a href="#rates">p.03 Rates</a></li><li><a href="#plates">p.04 3D plates</a></li><li><a href="#connect">p.06 Reply card</a></li></ul></div>
         <div><h2>Contact</h2><ul><li><a href="mailto:tyrone.dunn8855@gmail.com">tyrone.dunn8855@gmail.com</a></li><li><a href="https://instagram.com/hermesblankets" target="_blank" rel="noopener">IG @hermesblankets</a></li><li><a href="https://github.com/tyronedunn8855" target="_blank" rel="noopener">GitHub</a></li></ul></div>
       </div>
       <div class="folio folio-end">
-        <span><svg class="reg" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="11"/><path d="M20 0v40M0 20h40"/></svg> Milwaukee, WI · 2026</span>
+        <span><svg class="td-mark" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="7"/><path fill="currentColor" d="M46.5 0h7v12h-7zM46.5 88h7v12h-7zM0 46.5h12v7H0zM88 46.5h12v7H88z"/><path fill="currentColor" fill-rule="evenodd" d="M25 31H56A19 19 0 0 1 56 69H41V41H25ZM52 41V59H56A9 9 0 0 0 56 41Z"/></svg> Milwaukee, WI · 2026</span>
         <span>End of Issue Nº 04</span>
       </div>
     </footer>
@@ -619,5 +630,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="script.js"></script>
+  <!-- Live 3D cover model. If three.js or the model can't load, the cutout above simply stays. -->
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
+  <script type="module" src="hero3d.js"></script>
 </body>
 </html>
