@@ -72,6 +72,7 @@
     </a>
     <nav class="mh-nav" aria-label="Sections">
       <a href="#work">Work</a>
+      <a href="#features">Features</a>
       <a href="#owners">Owners</a>
       <a href="#rates">Rates</a>
       <a href="#plates">3D</a>
@@ -85,6 +86,7 @@
   <div id="mobile-menu" aria-label="Sections">
     <nav class="mm-links" aria-label="Sections">
       <a href="#work">Work</a>
+      <a href="#features">Features</a>
       <a href="#owners">Owners</a>
       <a href="#rates">Rates</a>
       <a href="#plates">3D</a>
@@ -138,77 +140,24 @@
       </div>
     </section>
 
-    <!-- ═══ Work ═══ -->
+    <!-- ═══ Work ═══
+         Wide screens with motion: script.js pins .reel and slides the track sideways as you scroll (one pin).
+         Everywhere else the track is a native swipe carousel with buttons, so nothing pins and nothing traps the scroll. -->
     <section id="work" class="sec" aria-labelledby="work-title">
-      <div class="wrap">
-        <!-- On wide screens script.js pins this block and slides the six frames sideways as you scroll -->
-        <div class="work-reel">
-        <header class="sec-head">
+      <div class="reel" data-carousel>
+        <header class="reel-head wrap">
           <h2 class="sec-title" id="work-title">Six sites, all live</h2>
-          <p class="sec-intro">Four are for Milwaukee-area businesses, two are my own projects. Each one shows the real desktop and phone view, what it does that a template would not, and what the latest update changed.</p>
+          <p class="sec-intro">Four Milwaukee-area businesses and two of my own projects. Each one shows what the site does, what the owner runs, and what I handle on the monthly plan.</p>
+          <div class="reel-ctrl">
+            <p class="reel-count" aria-live="polite"><span class="rc-now">1</span> / <span class="rc-all">7</span></p>
+            <button type="button" class="car-btn" data-dir="-1" aria-label="Previous site"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+            <button type="button" class="car-btn" data-dir="1" aria-label="Next site"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+          </div>
+          <div class="reel-rail" aria-hidden="true"><i></i></div>
         </header>
-
-        <ul class="sheet-index" aria-label="Sites on this page">
-          <li><a href="#site-lucent"><span class="si-thumb" style="--plate:#1d1924"><img src="img/sites/lucent-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/lucent-mobile.webp" width="520" height="1125" alt="" loading="lazy"></span><span class="si-name">Lucent</span><span class="si-kind">My streetwear brand</span><time datetime="2026-09-11">Sep 11</time></a></li>
-          <li><a href="#site-essence"><span class="si-thumb" style="--plate:#2b3370"><img src="img/sites/essence-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/essence-mobile.webp" width="520" height="1125" alt="" loading="lazy"></span><span class="si-name">Essence</span><span class="si-kind">Childcare center</span><time datetime="2026-10-07">Oct 7</time></a></li>
-          <li><a href="#site-dawgcity"><span class="si-thumb" style="--plate:#b4231a"><img src="img/sites/dawgcity-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/dawgcity-mobile.webp" width="520" height="1125" alt="" loading="lazy"></span><span class="si-name">Dawg City</span><span class="si-kind">Hot dog stand</span><time datetime="2026-10-07">Oct 7</time></a></li>
-          <li><a href="#site-kendidit"><span class="si-thumb" style="--plate:#d9cff2"><img src="img/sites/kenya-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/kenya-mobile.webp" width="520" height="1125" alt="" loading="lazy"></span><span class="si-name">ken.didit</span><span class="si-kind">Braids and locs</span><time datetime="2026-10-09">Oct 9</time></a></li>
-          <li><a href="#site-marlatrice"><span class="si-thumb" style="--plate:#ece4d6"><img src="img/sites/mariah-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/mariah-mobile.webp" width="520" height="1125" alt="" loading="lazy"></span><span class="si-name">Mar Latrice</span><span class="si-kind">Hair salon</span><time datetime="2026-10-08">Oct 8</time></a></li>
-          <li><a href="#site-hiddengems"><span class="si-thumb" style="--plate:#f0e6d6"><img src="img/sites/hiddengems-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/hiddengems-mobile.webp" width="375" height="812" alt="" loading="lazy"></span><span class="si-name">Hidden Gems</span><span class="si-kind">My city guide app</span><time datetime="2026-10-09">Oct 9</time></a></li>
-        </ul>
-        <div class="reel-rail" aria-hidden="true"><i></i></div>
-        </div>
-
-        <!-- Lucent -->
-        <article class="site" id="site-lucent" style="--plate:#1d1924; --plate-fg:#f3efe8;" aria-labelledby="n-lucent">
-          <header class="site-head">
-            <h3 class="site-name" id="n-lucent">Lucent</h3>
-            <p class="site-kind">My own streetwear brand · Drop 01 store</p>
-            <div class="site-meta">
-              <p class="site-upd">Last updated <time datetime="2026-09-11">Sep 11, 2026</time></p>
-              <a class="visit" href="https://testbrand-ten.vercel.app" target="_blank" rel="noopener">Open testbrand-ten.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a>
-            </div>
-          </header>
-          <div class="site-stage">
-            <div class="devices" data-view="front">
-              <span class="plate-bg" aria-hidden="true"></span>
-              <figure class="dev-desk">
-                <div class="dev-bar" aria-hidden="true"><i></i><i></i><i></i><span>testbrand-ten.vercel.app</span></div>
-                <div class="dev-screen">
-                  <img class="v-front" src="img/sites/lucent-desktop.webp" width="1200" height="750" alt="Lucent homepage on desktop: 'Every garment is a statement' over a dark city scene" loading="lazy">
-                  <img class="v-inside" src="img/sites/lucent-mid.webp" width="1200" height="750" alt="Lucent Bloom chapter with Blush, Orchid and Iris colorway cards" loading="lazy">
-                </div>
-              </figure>
-              <figure class="dev-phone"><img src="img/sites/lucent-mobile.webp" width="520" height="1125" alt="Lucent homepage on a phone" loading="lazy"></figure>
-            </div>
-            <div class="view-tabs" role="group" aria-label="Desktop view for Lucent"><button type="button" aria-pressed="true" data-view="front">Front page</button><button type="button" aria-pressed="false" data-view="inside">Inside</button></div>
-          </div>
-          <div class="site-body">
-            <p class="site-what">The drop site for Lucent, my streetwear brand. Pick a colorway and the whole page changes with it: colors, corners and the animated scene behind everything.</p>
-            <div class="site-does">
-              <h4>What it does</h4>
-              <ul class="site-feats">
-                <li>Nine colorway swatches swap the product photo and move the site into one of four hand-built parallax scenes: Concrete, Shore, Bloom and Meadow.</li>
-                <li>The starting colorway follows the visitor's local time of day.</li>
-                <li>Product page with stock per size, a three-question size finder, US/UK/EU/AU sizing and a side-by-side colorway compare.</li>
-                <li>Cart drawer with bundle pricing, gift wrap and a free-shipping progress bar.</li>
-                <li>A launch countdown that switched the site from pre-launch to pre-order on its own.</li>
-              </ul>
-            </div>
-            <div class="site-latest"><h4>What the latest update added</h4><p>A big expansion of the one-file store. In one day of uploads it grew from 776 lines to 1,924.</p></div>
-          </div>
-        </article>
-
-        <!-- Essence -->
-        <article class="site site-flip" id="site-essence" style="--plate:#2b3370; --plate-fg:#f7f3ea;" aria-labelledby="n-essence">
-          <header class="site-head">
-            <h3 class="site-name" id="n-essence">Essence of Childcare University</h3>
-            <p class="site-kind">Client · Licensed childcare center, Milwaukee</p>
-            <div class="site-meta">
-              <p class="site-upd">Last updated <time datetime="2026-10-07">Oct 7, 2026</time></p>
-              <a class="visit" href="https://essencechildcare.vercel.app" target="_blank" rel="noopener">Open essencechildcare.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a>
-            </div>
-          </header>
+        <div class="reel-view" role="region" aria-roledescription="carousel" aria-label="Live sites">
+          <div class="reel-track">
+        <article class="site panel" id="site-essence" style="--plate:#2b3370; --plate-fg:#f7f3ea;" aria-labelledby="n-essence" aria-roledescription="slide">
           <div class="site-stage">
             <div class="devices" data-view="front">
               <span class="plate-bg" aria-hidden="true"></span>
@@ -221,34 +170,22 @@
               </figure>
               <figure class="dev-phone"><img src="img/sites/essence-mobile.webp" width="520" height="1125" alt="Essence homepage on a phone with the sticky Call, Tour and Enroll bar" loading="lazy"></figure>
             </div>
-            <div class="view-tabs" role="group" aria-label="Desktop view for Essence"><button type="button" aria-pressed="true" data-view="front">Front page</button><button type="button" aria-pressed="false" data-view="inside">Inside</button></div>
+            <div class="view-tabs" role="group" aria-label="Desktop view for Essence of Childcare University"><button type="button" aria-pressed="true" data-view="front">Front page</button><button type="button" aria-pressed="false" data-view="inside">Inside</button></div>
           </div>
           <div class="site-body">
-            <p class="site-what">A full site for a Milwaukee childcare center that is open until midnight. Every classroom has its own color, and the photos are of the real rooms and kids' activities.</p>
-            <div class="site-does">
-              <h4>What it does</h4>
-              <ul class="site-feats">
-                <li>Eleven pages, from Programs and Tuition to Transportation and Careers.</li>
-                <li>An hours strip that draws the 6 AM to 12 AM open window on a 24-hour bar.</li>
-                <li>A 27-photo gallery with category filters and a keyboard-friendly lightbox.</li>
-                <li>Enrollment, job and tour forms that never pretend to send. Until a form service is connected, parents get a pre-filled call, text or email instead.</li>
-                <li>A sticky Call, Tour and Enroll bar on phones, plus automatic dark mode.</li>
-              </ul>
+            <header class="site-head">
+              <h3 class="site-name" id="n-essence">Essence of Childcare University</h3>
+              <p class="site-kind">Client · Licensed childcare center, Milwaukee</p>
+              <p class="site-meta"><a class="visit" href="https://essencechildcare.vercel.app" target="_blank" rel="noopener">Open essencechildcare.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a><span class="site-upd">Updated <time datetime="2026-10-10">Oct 10, 2026</time></span></p>
+            </header>
+            <p class="site-what">A licensed childcare center in Milwaukee, open from 6 AM to midnight. The site answers what parents ask before they call: rooms, tuition, meals, rides and how to enroll.</p>
+            <div class="tabs" data-tabs>
+              <div class="tab-list" role="tablist" aria-label="Essence of Childcare University details"><button type="button" role="tab" id="essence-t0" aria-controls="essence-p0" aria-selected="true">Features</button><button type="button" role="tab" id="essence-t1" aria-controls="essence-p1" aria-selected="false" tabindex="-1">For the owner</button><button type="button" role="tab" id="essence-t2" aria-controls="essence-p2" aria-selected="false" tabindex="-1">$15 plan</button></div>
+              <div class="tab-panel" role="tabpanel" id="essence-p0" aria-labelledby="essence-t0" tabindex="0"><ul class="site-feats"><li>Eleven pages, from Programs and Tuition to Transportation and Careers.</li><li>An hours bar for the 6 AM to 12 AM window, plus an open-now status in Milwaukee time.</li><li>A color for every classroom, Infant to School-Age, and a meal strip for the food program.</li><li>27 real photos with filters and a full-size viewer you work with the keyboard.</li><li>Enrollment, job and tour forms with error checks. Until a form service is connected, they hand parents a pre-filled text, call or email instead of faking a send.</li><li>11 parent forms, plus a QR code to the center's shared Drive folder.</li><li>A Call, Tour and Enroll bar on phones, a page jump bar and automatic dark mode.</li></ul></div><div class="tab-panel" role="tabpanel" id="essence-p1" aria-labelledby="essence-t1" tabindex="0" hidden><p><b>She runs:</b> the parent documents. They live in the center's shared Google Drive folder, and the QR code on the site always opens the current files.</p><p><b>New families:</b> parents compare centers at night. Tuition, hours and the tour form are one tap away on any phone.</p><p><b>Time saved:</b> the fees table, transportation prices and parent FAQ answer common questions before anyone picks up the phone.</p></div><div class="tab-panel" role="tabpanel" id="essence-p2" aria-labelledby="essence-t2" tabindex="0" hidden><p>I make every change for her: new photos, her own wording on any card, new programs, fees or pages.</p><p><b>Recent updates:</b> her wording on three cards, nine new photos, a Transportation page, and a speed pass to cut the first load on phones from about 5.6 MB to 0.5 MB.</p><p>When she opens a form service account, I connect the forms so they send straight to her inbox.</p></div>
             </div>
-            <div class="site-latest"><h4>What the latest update added</h4><p>A Transportation page with round-trip and one-way pricing. Late September added the owner's own wording, a QR code to the parents' shared forms folder, and nine new photos.</p></div>
           </div>
         </article>
-
-        <!-- Dawg City -->
-        <article class="site" id="site-dawgcity" style="--plate:#b4231a; --plate-fg:#fff6e8;" aria-labelledby="n-dawgcity">
-          <header class="site-head">
-            <h3 class="site-name" id="n-dawgcity">Dawg City</h3>
-            <p class="site-kind">Client · Hot dog stand at 3rd Street Market Hall</p>
-            <div class="site-meta">
-              <p class="site-upd">Last updated <time datetime="2026-10-07">Oct 7, 2026</time></p>
-              <a class="visit" href="https://dawgcity.vercel.app" target="_blank" rel="noopener">Open dawgcity.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a>
-            </div>
-          </header>
+        <article class="site panel site-flip" id="site-dawgcity" style="--plate:#b4231a; --plate-fg:#fff6e8;" aria-labelledby="n-dawgcity" aria-roledescription="slide">
           <div class="site-stage">
             <div class="devices" data-view="front">
               <span class="plate-bg" aria-hidden="true"></span>
@@ -264,31 +201,19 @@
             <div class="view-tabs" role="group" aria-label="Desktop view for Dawg City"><button type="button" aria-pressed="true" data-view="front">Front page</button><button type="button" aria-pressed="false" data-view="inside">Inside</button></div>
           </div>
           <div class="site-body">
-            <p class="site-what">A dark, loud food site for the hot dog stand inside 3rd Street Market Hall, with the full menu and both ways to order.</p>
-            <div class="site-does">
-              <h4>What it does</h4>
-              <ul class="site-feats">
-                <li>A live open or closed badge worked out from the stand's real hours, with today's row highlighted.</li>
-                <li>A tabbed menu of 39 items, with prices matched to the live ordering page.</li>
-                <li>A pinned photo reel that slides sideways as you scroll on desktop and swipes on phones.</li>
-                <li>A counting loader into a letter-by-letter headline, plus signature cards with 3D tilt and glare.</li>
-                <li>Order Pickup opens me&amp;u, Get Delivery opens DoorDash, and a map shows the West Hall spot.</li>
-              </ul>
+            <header class="site-head">
+              <h3 class="site-name" id="n-dawgcity">Dawg City</h3>
+              <p class="site-kind">Client · Mr. Ken's hot dog stand, 3rd Street Market Hall</p>
+              <p class="site-meta"><a class="visit" href="https://dawgcity.vercel.app" target="_blank" rel="noopener">Open dawgcity.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a><span class="site-upd">Updated <time datetime="2026-10-10">Oct 10, 2026</time></span></p>
+            </header>
+            <p class="site-what">A specialty hot dog stand inside 3rd Street Market Hall in Milwaukee. The site sells the food first: big photos, the full menu and two buttons to order.</p>
+            <div class="tabs" data-tabs>
+              <div class="tab-list" role="tablist" aria-label="Dawg City details"><button type="button" role="tab" id="dawgcity-t0" aria-controls="dawgcity-p0" aria-selected="true">Features</button><button type="button" role="tab" id="dawgcity-t1" aria-controls="dawgcity-p1" aria-selected="false" tabindex="-1">For the owner</button><button type="button" role="tab" id="dawgcity-t2" aria-controls="dawgcity-p2" aria-selected="false" tabindex="-1">$15 plan</button></div>
+              <div class="tab-panel" role="tabpanel" id="dawgcity-p0" aria-labelledby="dawgcity-t0" tabindex="0"><ul class="site-feats"><li>A live open or closed badge from the stand's real hours, in Milwaukee time, with today highlighted.</li><li>A 39-item menu in tabs, with prices matched to the live ordering page.</li><li>Order Pickup opens me&amp;u. Get Delivery opens DoorDash.</li><li>A fixed Pickup, Delivery and Directions bar on phones.</li><li>A map of the West Hall spot, with an address card if the map fails to load.</li><li>A counting loader, a letter-by-letter headline, tilt cards and a sideways photo reel.</li></ul></div><div class="tab-panel" role="tabpanel" id="dawgcity-p1" aria-labelledby="dawgcity-t1" tabindex="0" hidden><p><b>He runs:</b> online orders and item availability, in the me&amp;u and DoorDash accounts he already uses.</p><p><b>New customers:</b> someone searching on a phone sees open or closed, the menu and an order button within one screen.</p><p><b>Time saved:</b> menu prices match live ordering, so the counter and the site never disagree on a price.</p></div><div class="tab-panel" role="tabpanel" id="dawgcity-p2" aria-labelledby="dawgcity-t2" tabindex="0" hidden><p>Menu items, prices and hours live in the site code, so I change them for him. Text me a new price, a new dawg or holiday hours and I push the update.</p><p><b>Recent updates:</b> Chili Cheese on the signature cards, perch as a +$3.50 add-on, and a phone pass with lighter photos and a fixed order bar.</p></div>
             </div>
-            <div class="site-latest"><h4>What the latest update added</h4><p>The full rebuild: loader, split-letter hero, depth buttons, tilt cards, pinned reel and map, with the real Boss Hogg and Hickory photos and menu prices matched to live ordering.</p></div>
           </div>
         </article>
-
-        <!-- ken.didit (live URL: kenyastyles.vercel.app, repo tyronedunn8855/kenyahairpage) -->
-        <article class="site site-flip" id="site-kendidit" style="--plate:#d9cff2; --plate-fg:#1d1630;" aria-labelledby="n-kendidit">
-          <header class="site-head">
-            <h3 class="site-name" id="n-kendidit">ken.didit</h3>
-            <p class="site-kind">Client · Kenya's braids, locs and quick weaves</p>
-            <div class="site-meta">
-              <p class="site-upd">Last updated <time datetime="2026-10-09">Oct 9, 2026</time></p>
-              <a class="visit" href="https://kenyastyles.vercel.app" target="_blank" rel="noopener">Open kenyastyles.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a>
-            </div>
-          </header>
+        <article class="site panel" id="site-kendidit" style="--plate:#d9cff2; --plate-fg:#1d1630;" aria-labelledby="n-kendidit" aria-roledescription="slide">
           <div class="site-stage">
             <div class="devices" data-view="front">
               <span class="plate-bg" aria-hidden="true"></span>
@@ -304,31 +229,19 @@
             <div class="view-tabs" role="group" aria-label="Desktop view for ken.didit"><button type="button" aria-pressed="true" data-view="front">Front page</button><button type="button" aria-pressed="false" data-view="inside">Booking</button></div>
           </div>
           <div class="site-body">
-            <p class="site-what">A booking site for Kenya's braiding business. Clients pick a style, see the price and time, choose an open day and pay the deposit in one pass.</p>
-            <div class="site-does">
-              <h4>What it does</h4>
-              <ul class="site-feats">
-                <li>23 styles in 6 categories, each with its price and how long it takes. Tap one to start booking with it already picked.</li>
-                <li>A booking calendar that reads Kenya's own Google Sheet, with a backup schedule if the sheet can't load.</li>
-                <li>A live appointment slip with the estimated total, the $15 deposit and the balance due.</li>
-                <li>The deposit goes through Stripe (Apple Pay or card), then the request goes to Kenya by text or Instagram DM.</li>
-                <li>An 18-photo gallery where "Book this style" picks the matching service for you.</li>
-              </ul>
+            <header class="site-head">
+              <h3 class="site-name" id="n-kendidit">ken.didit</h3>
+              <p class="site-kind">Client · Kenya's braids, locs and quick weaves</p>
+              <p class="site-meta"><a class="visit" href="https://kenyastyles.vercel.app" target="_blank" rel="noopener">Open kenyastyles.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a><span class="site-upd">Updated <time datetime="2026-10-10">Oct 10, 2026</time></span></p>
+            </header>
+            <p class="site-what">Kenya braids hair and books clients through Instagram. The site turns a long DM thread into one booking flow: pick a style, see the price and time, pick an open day, pay the deposit.</p>
+            <div class="tabs" data-tabs>
+              <div class="tab-list" role="tablist" aria-label="ken.didit details"><button type="button" role="tab" id="kendidit-t0" aria-controls="kendidit-p0" aria-selected="true">Features</button><button type="button" role="tab" id="kendidit-t1" aria-controls="kendidit-p1" aria-selected="false" tabindex="-1">For the owner</button><button type="button" role="tab" id="kendidit-t2" aria-controls="kendidit-p2" aria-selected="false" tabindex="-1">$15 plan</button></div>
+              <div class="tab-panel" role="tabpanel" id="kendidit-p0" aria-labelledby="kendidit-t0" tabindex="0"><ul class="site-feats"><li>23 styles in 6 categories, each with its price and how long it takes.</li><li>A 3-step booker. Add-ons change both the price and the time estimate.</li><li>A calendar fed by Kenya's Google Sheet, with a backup schedule built in.</li><li>A live slip with the total, the $15 deposit and the balance due.</li><li>Deposit through Stripe (Apple Pay or card), then the request goes to Kenya by text or Instagram DM.</li><li>After sending, the client gets a calendar file and a Google Calendar link.</li><li>An 18-photo gallery where "Book this style" picks the service, and a plaited-k logo.</li></ul></div><div class="tab-panel" role="tabpanel" id="kendidit-p1" aria-labelledby="kendidit-t1" tabindex="0" hidden><p><b>She runs:</b> her open days and times. She types them into a Google Sheet and the calendar updates itself. Payments sit in her Stripe dashboard.</p><p><b>New clients:</b> people book from the link in her bio at any hour, and they see the price and time before they ask.</p><p><b>Time saved:</b> every request arrives with the style, add-ons, date, time and deposit status, so no back-and-forth to collect details.</p></div><div class="tab-panel" role="tabpanel" id="kendidit-p2" aria-labelledby="kendidit-t2" tabindex="0" hidden><p>I change prices, styles, times and gallery photos for her, and keep the sheet and the deposit link working.</p><p><b>Recent updates:</b> her October openings, every photo upscaled and shown uncropped, a saved-progress booking flow and a new logo.</p></div>
             </div>
-            <div class="site-latest"><h4>What the latest update added</h4><p>The calendar now reads Kenya's Google Sheet and opens on the first month with open dates. Her October openings went in the same day.</p></div>
           </div>
         </article>
-
-        <!-- Mar Latrice Styles -->
-        <article class="site" id="site-marlatrice" style="--plate:#ece4d6; --plate-fg:#141210;" aria-labelledby="n-marlatrice">
-          <header class="site-head">
-            <h3 class="site-name" id="n-marlatrice">Mar Latrice Styles</h3>
-            <p class="site-kind">Client · Healthy-hair salon, West Allis</p>
-            <div class="site-meta">
-              <p class="site-upd">Last updated <time datetime="2026-10-08">Oct 8, 2026</time></p>
-              <a class="visit" href="https://mariahhairpage.vercel.app" target="_blank" rel="noopener">Open mariahhairpage.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a>
-            </div>
-          </header>
+        <article class="site panel site-flip" id="site-marlatrice" style="--plate:#ece4d6; --plate-fg:#141210;" aria-labelledby="n-marlatrice" aria-roledescription="slide">
           <div class="site-stage">
             <div class="devices" data-view="front">
               <span class="plate-bg" aria-hidden="true"></span>
@@ -344,34 +257,49 @@
             <div class="view-tabs" role="group" aria-label="Desktop view for Mar Latrice Styles"><button type="button" aria-pressed="true" data-view="front">Front page</button><button type="button" aria-pressed="false" data-view="inside">Menu</button></div>
           </div>
           <div class="site-body">
-            <p class="site-what">An editorial salon site built from her logo lockup, with every service, price, deposit and time on the page and booking through her Square.</p>
-            <div class="site-does">
-              <h4>What it does</h4>
-              <ul class="site-feats">
-                <li>A 33-service menu in 7 categories with price, deposit and time on every row. It works with JavaScript off.</li>
-                <li>Live search and category chips with a running count of matching services.</li>
-                <li>Tap any service for a detail sheet with a Book on Square button.</li>
-                <li>"How booking works" in four steps, written from her real deposit policy, plus her ten policies in plain words.</li>
-                <li>Seven of her Instagram posts shown uncropped, each linking to the original.</li>
-              </ul>
+            <header class="site-head">
+              <h3 class="site-name" id="n-marlatrice">Mar Latrice Styles</h3>
+              <p class="site-kind">Client · Healthy-hair salon, West Allis</p>
+              <p class="site-meta"><a class="visit" href="https://mariahhairpage.vercel.app" target="_blank" rel="noopener">Open mariahhairpage.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a><span class="site-upd">Updated <time datetime="2026-10-10">Oct 10, 2026</time></span></p>
+            </header>
+            <p class="site-what">A healthy-hair salon in West Allis. The site lists every service with its price, deposit and time, then sends clients to her Square to book.</p>
+            <div class="tabs" data-tabs>
+              <div class="tab-list" role="tablist" aria-label="Mar Latrice Styles details"><button type="button" role="tab" id="marlatrice-t0" aria-controls="marlatrice-p0" aria-selected="true">Features</button><button type="button" role="tab" id="marlatrice-t1" aria-controls="marlatrice-p1" aria-selected="false" tabindex="-1">For the owner</button><button type="button" role="tab" id="marlatrice-t2" aria-controls="marlatrice-p2" aria-selected="false" tabindex="-1">$15 plan</button></div>
+              <div class="tab-panel" role="tabpanel" id="marlatrice-p0" aria-labelledby="marlatrice-t0" tabindex="0"><ul class="site-feats"><li>33 services in 7 categories, with price, deposit and time on every row. The menu works with JavaScript off.</li><li>Search and category chips with a running count of matches.</li><li>Tap a service for a detail sheet with a Book on Square button.</li><li>A live 3D silk press: a lock of hair goes from coiled to sleek as you scroll.</li><li>"How booking works" in four steps, and her ten policies in plain words.</li><li>Seven of her Instagram posts, uncropped, each linking to the original.</li></ul></div><div class="tab-panel" role="tabpanel" id="marlatrice-p1" aria-labelledby="marlatrice-t1" tabindex="0" hidden><p><b>She runs:</b> open times, deposits and services in her Square account. The site sends people to Square for live times, so a schedule change never waits on me.</p><p><b>New clients:</b> first-timers get a clear "start here" service and the full menu before they book, so they pick the right appointment.</p><p><b>Time saved:</b> deposits, the 48-hour cancel rule and the late fee sit on the page, so clients read the rules before they book.</p></div><div class="tab-panel" role="tabpanel" id="marlatrice-p2" aria-labelledby="marlatrice-t2" tabindex="0" hidden><p>When she adds or reprices a service in Square, I update the menu on the site to match.</p><p>New work for the gallery and any policy change go in the same way: send it, and I post it.</p></div>
             </div>
-            <div class="site-latest"><h4>What the latest update added</h4><p>The first full build: the logo-lockup design, her full Square menu, her real work and her policies.</p></div>
           </div>
         </article>
-
-        <!-- Hidden Gems
-             TODO(Ty): these shots were rendered offline, so the map area on the desktop and phone views is blank.
-             Replace hiddengems-desktop.webp / hiddengems-mobile.webp with live screenshots that show the map tiles.
-             The results-cards shot is left out on purpose because it used placeholder photos. -->
-        <article class="site site-flip" id="site-hiddengems" style="--plate:#f0e6d6; --plate-fg:#1b1712;" aria-labelledby="n-hiddengems">
-          <header class="site-head">
-            <h3 class="site-name" id="n-hiddengems">Hidden Gems</h3>
-            <p class="site-kind">My own web app · City guide</p>
-            <div class="site-meta">
-              <p class="site-upd">Last updated <time datetime="2026-10-09">Oct 9, 2026</time></p>
-              <a class="visit" href="https://city-azure.vercel.app" target="_blank" rel="noopener">Open city-azure.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a>
+        <article class="site panel" id="site-lucent" style="--plate:#1d1924; --plate-fg:#f3efe8;" aria-labelledby="n-lucent" aria-roledescription="slide">
+          <div class="site-stage">
+            <div class="devices" data-view="front">
+              <span class="plate-bg" aria-hidden="true"></span>
+              <figure class="dev-desk">
+                <div class="dev-bar" aria-hidden="true"><i></i><i></i><i></i><span>testbrand-ten.vercel.app</span></div>
+                <div class="dev-screen">
+                  <img class="v-front" src="img/sites/lucent-desktop.webp" width="1200" height="750" alt="Lucent homepage on desktop: 'Every garment is a statement' over a dark city scene" loading="lazy">
+                  <img class="v-inside" src="img/sites/lucent-mid.webp" width="1200" height="750" alt="Lucent Bloom chapter with Blush, Orchid and Iris colorway cards" loading="lazy">
+                </div>
+              </figure>
+              <figure class="dev-phone"><img src="img/sites/lucent-mobile.webp" width="520" height="1125" alt="Lucent homepage on a phone" loading="lazy"></figure>
             </div>
-          </header>
+            <div class="view-tabs" role="group" aria-label="Desktop view for Lucent"><button type="button" aria-pressed="true" data-view="front">Front page</button><button type="button" aria-pressed="false" data-view="inside">Inside</button></div>
+          </div>
+          <div class="site-body">
+            <header class="site-head">
+              <h3 class="site-name" id="n-lucent">Lucent</h3>
+              <p class="site-kind">My own streetwear brand · Drop 01 store</p>
+              <p class="site-meta"><a class="visit" href="https://testbrand-ten.vercel.app" target="_blank" rel="noopener">Open testbrand-ten.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a><span class="site-upd">Updated <time datetime="2026-09-11">Sep 11, 2026</time></span></p>
+            </header>
+            <p class="site-what">Lucent is my streetwear brand. Pick a colorway in the Drop 01 store and the whole page changes with it: colors, corners and the scene behind everything.</p>
+            <div class="tabs" data-tabs>
+              <div class="tab-list" role="tablist" aria-label="Lucent details"><button type="button" role="tab" id="lucent-t0" aria-controls="lucent-p0" aria-selected="true">Features</button><button type="button" role="tab" id="lucent-t1" aria-controls="lucent-p1" aria-selected="false" tabindex="-1">Behind the store</button><button type="button" role="tab" id="lucent-t2" aria-controls="lucent-p2" aria-selected="false" tabindex="-1">Built to grow</button></div>
+              <div class="tab-panel" role="tabpanel" id="lucent-p0" aria-labelledby="lucent-t0" tabindex="0"><ul class="site-feats"><li>Nine colorways move the site through four hand-built scenes: Concrete, Shore, Bloom and Meadow.</li><li>The first colorway follows the visitor's time of day.</li><li>Stock per size, a three-question size finder, US/UK/EU/AU sizes and a side-by-side compare.</li><li>A cart with bundle pricing, gift wrap and a free-shipping bar.</li><li>A countdown switched the store from pre-launch to pre-order on its own.</li><li>Five currencies, light and dark mode, and a sound toggle.</li></ul></div><div class="tab-panel" role="tabpanel" id="lucent-p1" aria-labelledby="lucent-t1" tabindex="0" hidden><p>An admin page edits price and stock per size and exports the numbers as a file.</p><p>Checkout and email signups go live once Stripe and a mail service are connected. Until then the store says so instead of faking an order.</p></div><div class="tab-panel" role="tabpanel" id="lucent-p2" aria-labelledby="lucent-t2" tabindex="0" hidden><p>One file, no build step. New drops, colorways, prices and stock go in through one settings block.</p><p>In one day of updates the store grew from 776 lines to 1,924.</p></div>
+            </div>
+          </div>
+        </article>
+        <!-- TODO(Ty): these shots were rendered offline, so the map area on the desktop and phone views is blank.
+             Replace hiddengems-desktop.webp / hiddengems-mobile.webp with live screenshots that show the map tiles. -->
+        <article class="site panel site-flip" id="site-hiddengems" style="--plate:#f0e6d6; --plate-fg:#1b1712;" aria-labelledby="n-hiddengems" aria-roledescription="slide">
           <div class="site-stage">
             <div class="devices" data-view="front">
               <span class="plate-bg" aria-hidden="true"></span>
@@ -385,41 +313,103 @@
             </div>
           </div>
           <div class="site-body">
-            <p class="site-what">A city guide that finds local spots the guidebooks miss. It is styled like a field guide, and every spot card is a numbered luggage tag.</p>
-            <div class="site-does">
-              <h4>What it does</h4>
-              <ul class="site-feats">
-                <li>Pick a city by map pin, list or search, choose one of six vibes, and get six spots, each with a photo, a must-try and an insider tip.</li>
-                <li>A city panel with weather, local time, currency rate, daily budget and safety notes.</li>
-                <li>Saved places, local phrases, nearby cities and a printable 3-day itinerary.</li>
-                <li>API keys stay on the server. A locked-down Vercel proxy talks to the Anthropic and Pexels APIs with rate limits.</li>
-              </ul>
+            <header class="site-head">
+              <h3 class="site-name" id="n-hiddengems">Hidden Gems</h3>
+              <p class="site-kind">My own web app · City guide</p>
+              <p class="site-meta"><a class="visit" href="https://city-azure.vercel.app" target="_blank" rel="noopener">Open city-azure.vercel.app <svg aria-hidden="true"><use href="#i-out"/></svg></a><span class="site-upd">Updated <time datetime="2026-10-09">Oct 9, 2026</time></span></p>
+            </header>
+            <p class="site-what">A city guide for the local spots guidebooks miss. It looks like a field guide, and every spot card is a numbered luggage tag.</p>
+            <div class="tabs" data-tabs>
+              <div class="tab-list" role="tablist" aria-label="Hidden Gems details"><button type="button" role="tab" id="hiddengems-t0" aria-controls="hiddengems-p0" aria-selected="true">Features</button><button type="button" role="tab" id="hiddengems-t1" aria-controls="hiddengems-p1" aria-selected="false" tabindex="-1">How it works</button><button type="button" role="tab" id="hiddengems-t2" aria-controls="hiddengems-p2" aria-selected="false" tabindex="-1">Security</button></div>
+              <div class="tab-panel" role="tabpanel" id="hiddengems-p0" aria-labelledby="hiddengems-t0" tabindex="0"><ul class="site-feats"><li>Pick a city by map pin, list or search, then one of six vibes.</li><li>Six spots per search, each with a photo, a must-try and an insider tip.</li><li>A city panel with weather, local time, currency rate, daily budget and safety notes.</li><li>Saved places, local phrases, nearby cities and a printable 3-day plan.</li></ul></div><div class="tab-panel" role="tabpanel" id="hiddengems-p1" aria-labelledby="hiddengems-t1" tabindex="0" hidden><p>Each search goes to a small server function on Vercel. The function asks Claude for the picks and Pexels for the photos.</p><p>Loading, error and no-photo states are designed too, so a slow answer never looks broken.</p></div><div class="tab-panel" role="tabpanel" id="hiddengems-p2" aria-labelledby="hiddengems-t2" tabindex="0" hidden><p>API keys stay on the server. The proxy only takes this app's requests from this site, caps size and length, and rate-limits each visitor.</p><p>Text from the AI is escaped before it reaches the page.</p></div>
             </div>
-            <div class="site-latest"><h4>What the latest update added</h4><p>A field-guide redesign with new loading, error and no-photo states, accessibility fixes and a hardened API proxy.</p></div>
           </div>
         </article>
 
-        <div class="next-up">
-          <p>Your business could be next.</p>
+        <aside class="panel panel-end" aria-label="Get a free sample">
+          <p class="end-line">Your business could be next.</p>
+          <p class="end-sub">I build a free sample site first. You pay the $80 only if you want it.</p>
           <a class="btn btn-ink" href="#connect" data-subject="Website for my business">Get a free sample</a>
+        </aside>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ Owner controls ═══ -->
+    <!-- ═══ What your site can do ═══
+         One short pinned scene (with motion): scrolling swaps the four groups in place, and the group buttons
+         jump to them. Without the pin the buttons work as ordinary tabs. Every line is a service I offer. -->
+    <section id="features" class="sec" aria-labelledby="features-title">
+      <div class="cap wrap">
+        <header class="cap-head">
+          <h2 class="sec-title" id="features-title">What your site can do</h2>
+          <p class="sec-intro">Everything here is something I build. Pick what fits your business and I put it in your free sample.</p>
+        </header>
+        <div class="cap-stage" data-tabs>
+          <div class="cap-tabs tab-list" role="tablist" aria-label="Site features">
+            <button type="button" role="tab" id="cap-t0" aria-controls="cap-p0" aria-selected="true">Get booked</button>
+            <button type="button" role="tab" id="cap-t1" aria-controls="cap-p1" aria-selected="false" tabindex="-1">Show your work</button>
+            <button type="button" role="tab" id="cap-t2" aria-controls="cap-p2" aria-selected="false" tabindex="-1">Stand out</button>
+            <button type="button" role="tab" id="cap-t3" aria-controls="cap-p3" aria-selected="false" tabindex="-1">Get found, stay current</button>
+          </div>
+          <div class="cap-rail" aria-hidden="true"><i></i></div>
+          <div class="cap-groups">
+            <div class="cap-group tab-panel" role="tabpanel" id="cap-p0" aria-labelledby="cap-t0">
+              <p class="cap-word" aria-hidden="true">Booked</p>
+              <ul class="cap-list">
+                <li><b>Booking calendars</b><span>Clients pick a service, a day and a time, and the request reaches you ready to confirm.</span></li>
+                <li><b>Google Sheet schedules</b><span>Type your open days into a sheet you already use, and the site updates itself.</span></li>
+                <li><b>Price lists</b><span>Every service with its price and time, so people show up knowing the cost.</span></li>
+                <li><b>Contact forms</b><span>Questions and tour requests arrive with the details filled in, plus spam protection.</span></li>
+              </ul>
+            </div>
+            <div class="cap-group tab-panel" role="tabpanel" id="cap-p1" aria-labelledby="cap-t1" hidden>
+              <p class="cap-word" aria-hidden="true">Seen</p>
+              <ul class="cap-list">
+                <li><b>Photo galleries</b><span>Your real work, sharp and uncropped, with filters and full-size views.</span></li>
+                <li><b>Logos</b><span>A logo made for your business, plus the app icon and share image to match.</span></li>
+                <li><b>Mobile-first design</b><span>Built for the phone in your customer's hand first, then the laptop.</span></li>
+              </ul>
+            </div>
+            <div class="cap-group tab-panel" role="tabpanel" id="cap-p2" aria-labelledby="cap-t2" hidden>
+              <p class="cap-word" aria-hidden="true">Moving</p>
+              <ul class="cap-list">
+                <li><b>Interactive 3D</b><span>A live 3D model visitors turn and play with, like the figure on my cover. Priced on its own.</span></li>
+                <li><b>Scroll animations</b><span>Words and photos move as people scroll, so your page feels made by hand.</span></li>
+                <li><b>Loading screens</b><span>A branded loader with your logo, tied to real load progress, not a fake timer.</span></li>
+              </ul>
+            </div>
+            <div class="cap-group tab-panel" role="tabpanel" id="cap-p3" aria-labelledby="cap-t3" hidden>
+              <p class="cap-word" aria-hidden="true">Found</p>
+              <ul class="cap-list">
+                <li><b>Search and share setup</b><span>Titles, descriptions and preview images, so Google and group chats show you right.</span></li>
+                <li><b>Your own domain</b><span>Your own web address, bought at cost and set up for you.</span></li>
+                <li><b>Monthly updates</b><span>On the $15 plan, send me a change and I make it. You never touch the code.</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Owner controls (tabs) ═══ -->
     <section id="owners" class="sec" aria-labelledby="owners-title">
       <div class="wrap">
         <header class="sec-head">
           <h2 class="sec-title" id="owners-title">Change your site without calling me</h2>
-          <p class="sec-intro">Some updates should not wait on a developer. Here is what owners already run themselves, and what I can set up next.</p>
+          <p class="sec-intro">Some updates should not wait on a developer. Here is what owners run themselves today, and what I set up next.</p>
         </header>
-
-        <h3 class="owners-label"><span class="key key-live" aria-hidden="true"></span>Live now</h3>
-        <div class="live-grid">
-          <article class="live-card live-kenya">
-            <p class="live-site">ken.didit</p>
-            <h4>Kenya runs her booking calendar from a Google Sheet</h4>
-            <p>She types her open dates and times into a sheet. Dropdowns keep each entry clean, and a how-to tab explains every column. The booking calendar on her site reads the sheet and updates itself. If the sheet can't be reached, a backup schedule built into the site takes over.</p>
+        <div class="tabs owners-tabs" data-tabs>
+          <div class="tab-list" role="tablist" aria-label="Owner controls">
+            <button type="button" role="tab" id="own-t0" aria-controls="own-p0" aria-selected="true"><span class="key key-live" aria-hidden="true"></span>Kenya's Google Sheet</button>
+            <button type="button" role="tab" id="own-t1" aria-controls="own-p1" aria-selected="false" tabindex="-1"><span class="key key-live" aria-hidden="true"></span>Mar Latrice's Square</button>
+            <button type="button" role="tab" id="own-t2" aria-controls="own-p2" aria-selected="false" tabindex="-1"><span class="key key-plan" aria-hidden="true"></span>Planned next</button>
+          </div>
+          <div class="tab-panel own-panel" role="tabpanel" id="own-p0" aria-labelledby="own-t0" tabindex="0">
+            <div class="own-text">
+              <h3>Kenya runs her booking calendar from a Google Sheet</h3>
+              <p>She types her open dates and times into a sheet. Dropdowns keep each entry clean, and a how-to tab explains every column. Her booking calendar reads the sheet and updates itself. If the sheet is down, a backup schedule built into the site takes over.</p>
+            </div>
             <!-- Diagram of the data flow, drawn in HTML. Not a screenshot of Kenya's sheet. -->
             <figure class="flow" aria-label="Illustration: rows in a Google Sheet become open days and times on the booking calendar">
               <div class="flow-sheet" aria-hidden="true">
@@ -437,66 +427,52 @@
               </div>
               <figcaption>Illustration of how it works, not a screenshot</figcaption>
             </figure>
-          </article>
-          <article class="live-card">
-            <p class="live-site">Mar Latrice Styles</p>
-            <h4>Mar Latrice books through her own Square</h4>
-            <p>Her availability, deposits and services live in her Square account. The site sends clients straight to Square for live open times, so changing a slot never needs me.</p>
+          </div>
+          <div class="tab-panel own-panel" role="tabpanel" id="own-p1" aria-labelledby="own-t1" tabindex="0" hidden>
+            <div class="own-text">
+              <h3>Mar Latrice books through her own Square</h3>
+              <p>Her availability, deposits and services live in her Square account. The site sends clients straight to Square for live open times, so changing a slot never needs me.</p>
+            </div>
             <dl class="live-points">
               <div><dt>Open times</dt><dd>Managed in Square</dd></div>
               <div><dt>Deposits</dt><dd>Collected by Square</dd></div>
               <div><dt>Site menu</dt><dd>33 services with deposits and times</dd></div>
             </dl>
-          </article>
-        </div>
-
-        <div class="planned">
-          <h3 class="owners-label"><span class="key key-plan" aria-hidden="true"></span>Planned, not built yet</h3>
-          <p class="planned-intro">Ideas I can offer future clients, each run from a Google Sheet or folder you already know how to use.</p>
-          <ul class="planned-list">
-            <li><b>Menu and prices</b>Edit a row in a sheet and the menu on your site changes.</li>
-            <li><b>Hours and closures</b>Holiday closures and an announcement banner, set from a sheet.</li>
-            <li><b>Sold-out toggles</b>Mark a food item sold out for the day with one dropdown.</li>
-            <li><b>Photo gallery</b>Drop photos in a shared Drive or Instagram folder and the gallery picks them up.</li>
-            <li><b>Specials and events</b>A list of this week's specials or upcoming events.</li>
-            <li><b>Staff or class schedule</b>Who is working or what class runs when.</li>
-            <li><b>Lead inbox</b>Form messages from your site land in a Google Sheet.</li>
-          </ul>
+          </div>
+          <div class="tab-panel own-panel" role="tabpanel" id="own-p2" aria-labelledby="own-t2" tabindex="0" hidden>
+            <p class="planned-intro">Not built yet. Each one runs from a Google Sheet or folder you already know how to use.</p>
+            <ul class="planned-list">
+              <li><b>Menu and prices</b>Edit a row in a sheet and the menu on your site changes.</li>
+              <li><b>Hours and closures</b>Holiday closures and an announcement banner, set from a sheet.</li>
+              <li><b>Sold-out toggles</b>Mark a food item sold out for the day with one dropdown.</li>
+              <li><b>Photo gallery</b>Drop photos in a shared Drive folder and the gallery picks them up.</li>
+              <li><b>Specials and events</b>This week's specials or upcoming events.</li>
+              <li><b>Lead inbox</b>Form messages from your site land in a Google Sheet.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ Rates ═══ -->
+    <!-- ═══ Rates: one compact card ═══ -->
     <section id="rates" class="sec" aria-labelledby="rates-title">
-      <div class="wrap rates-grid">
-        <div class="rates-text">
-          <h2 class="sec-title" id="rates-title">What it costs</h2>
-          <p class="sec-intro">One flat build price, and a free sample first.</p>
-          <ol class="steps">
-            <li><span class="step-n" aria-hidden="true">1</span><div><h3>Tell me about your business</h3><p>Send the reply card below, a DM, or an email. What you sell, who comes in, what you want people to do.</p></div></li>
-            <li><span class="step-n" aria-hidden="true">2</span><div><h3>I build a free sample</h3><p>You see a working sample site before you pay anything.</p></div></li>
-            <li><span class="step-n" aria-hidden="true">3</span><div><h3>You decide</h3><p>Like it? The $80 build makes it yours. Add a domain and the monthly plan if you want them.</p></div></li>
-          </ol>
-        </div>
-
+      <div class="wrap">
         <div class="rate-card">
           <p class="card-band"><span>Rate card</span><span>Tyrone Dunn, Milwaukee</span></p>
-          <dl class="rc-list">
-            <div class="rc-row rc-main">
-              <dt>Custom website build<small>Designed and coded from scratch, live and ready to share</small></dt>
-              <dd><strong>$80</strong><small>one-time</small></dd>
-            </div>
-            <div class="rc-row">
-              <dt>Custom domain<small>Your own address. Cost depends on the name you pick.</small></dt>
-              <dd><strong>At cost</strong><small>one-time, varies</small></dd>
-            </div>
-            <div class="rc-row rc-pick">
-              <dt><span class="rc-flag">Recommended</span>Updates &amp; management<small>Updates anytime and full management. You never touch the tech side.</small></dt>
-              <dd><strong>$15</strong><small>per month, optional</small></dd>
-            </div>
-          </dl>
+          <div class="rc-top">
+            <h2 class="sec-title" id="rates-title">What it costs</h2>
+            <dl class="rc-list">
+              <div class="rc-row rc-main"><dt>Custom website<small>Designed and coded from scratch</small></dt><dd><strong>$80</strong><small>one-time</small></dd></div>
+              <div class="rc-row"><dt>Your own domain<small>Price depends on the name</small></dt><dd><strong>At cost</strong><small>one-time</small></dd></div>
+              <div class="rc-row rc-pick"><dt><span class="rc-flag">Recommended</span>Updates and management<small>Changes anytime, you never touch the tech</small></dt><dd><strong>$15</strong><small>per month, optional</small></dd></div>
+            </dl>
+          </div>
           <div class="rc-foot">
-            <p>Every site works on phone and desktop.</p>
+            <ol class="steps">
+              <li><span class="step-n" aria-hidden="true">1</span>Tell me about your business</li>
+              <li><span class="step-n" aria-hidden="true">2</span>I build a free sample</li>
+              <li><span class="step-n" aria-hidden="true">3</span>You decide</li>
+            </ol>
             <a class="btn btn-ink" href="#connect" data-subject="Website for my business">Get a free sample</a>
           </div>
         </div>
@@ -505,84 +481,86 @@
 
     <!-- ═══ 3D (the one ink section: renders read best on dark) ═══ -->
     <section id="plates" class="sec sec-ink" aria-labelledby="plates-title">
-      <div class="wrap">
-        <div class="turn-grid">
+      <div class="wrap turn-grid">
+        <div class="turn-side">
           <header class="turn-head">
             <h2 class="sec-title" id="plates-title">3D work</h2>
             <p class="sec-intro">Art for my Roblox game Lumen, and character renders I model, light and compose in Blender.</p>
           </header>
-          <div class="turn-notes">
-            <h3>The cover model, up close</h3>
-            <p>The figure on the cover is a live 3D model from my Blender scene, running in your browser. <span class="turn-hint">Scroll to turn it, or drag it.</span></p>
-            <dl class="spec">
-              <div><dt>Triangles</dt><dd>13,400</dd></div>
-              <div><dt>File size</dt><dd>About 360 KB</dd></div>
-              <div><dt>Export</dt><dd>glTF with meshopt and WebP textures</dd></div>
-            </dl>
-          </div>
           <!-- Second 3D moment: the same model on a turntable. The poster is a still of this exact view. -->
           <figure class="turntable" data-state="poster">
             <div class="tt-stage">
               <img class="tt-poster" src="img/turntable-poster.webp" width="1280" height="1280" alt="The caped Roblox-style hero model standing on a dark turntable" loading="lazy">
               <canvas class="tt-3d" aria-hidden="true"></canvas>
             </div>
+            <figcaption class="turn-notes"><span class="turn-hint">Scroll to turn it, or drag it.</span> 13,400 triangles, about 360 KB.</figcaption>
             <div class="tt-controls">
               <button type="button" class="tt-btn" data-turn="-1"><svg aria-hidden="true"><use href="#i-left"/></svg><span>Turn left</span></button>
               <button type="button" class="tt-btn" data-turn="1"><span>Turn right</span><svg aria-hidden="true"><use href="#i-right"/></svg></button>
             </div>
           </figure>
         </div>
+        <div class="renders" data-carousel>
+          <div class="renders-head">
+            <h3 class="gallery-title">Renders and game art</h3>
+            <div class="reel-ctrl">
+              <p class="reel-count" aria-live="polite"><span class="rc-now">1</span> / <span class="rc-all">11</span></p>
+              <button type="button" class="car-btn" data-dir="-1" aria-label="Previous render"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+              <button type="button" class="car-btn" data-dir="1" aria-label="Next render"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+            </div>
+          </div>
+          <div class="reel-view" role="region" aria-roledescription="carousel" aria-label="Renders. Select one to see it full size.">
+            <div class="reel-track plate-track">
+              <figure class="plate p-night" data-title="Lumen: Start Small, Shine Big" data-desc="Thumbnail for Lumen, my Roblox game." data-full="img/3d/lumen-thumbnail.webp" data-w="1672" data-h="941">
+                <button type="button" class="plate-btn" aria-label="Open image: Lumen game thumbnail"><img src="img/3d/lumen-thumbnail-sm.webp" width="960" height="540" alt="Lumen game thumbnail: a character holding a candle beside a glowing orb, with the words Start Small Shine Big" loading="lazy"></button>
+                <figcaption><span>Lumen</span><span>Roblox game thumbnail</span></figcaption>
+              </figure>
+              <figure class="plate p-night" data-title="Lumen game icon" data-desc="The icon for Lumen, my Roblox game." data-full="img/3d/lumen-icon.webp" data-w="1254" data-h="1254">
+                <button type="button" class="plate-btn" aria-label="Open image: Lumen game icon"><img src="img/3d/lumen-icon-sm.webp" width="960" height="960" alt="Lumen game icon: a glowing ringed orb over floating islands and the word Lumen" loading="lazy"></button>
+                <figcaption><span>Lumen</span><span>Game icon</span></figcaption>
+              </figure>
 
-        <h3 class="gallery-title">Renders and game art <span>Select any image to see it full size.</span></h3>
-        <div class="plate-grid">
-          <figure class="plate p-8 p-night" data-title="Lumen: Start Small, Shine Big" data-desc="Thumbnail for Lumen, my Roblox game." data-full="img/3d/lumen-thumbnail.webp" data-w="1672" data-h="941">
-            <button type="button" class="plate-btn" aria-label="Open image: Lumen game thumbnail"><img src="img/3d/lumen-thumbnail-sm.webp" width="960" height="540" alt="Lumen game thumbnail: a character holding a candle beside a glowing orb, with the words Start Small Shine Big" loading="lazy"></button>
-            <figcaption><span>Lumen</span><span>Roblox game thumbnail</span></figcaption>
-          </figure>
-          <figure class="plate p-4 p-night" data-title="Lumen game icon" data-desc="The icon for Lumen, my Roblox game." data-full="img/3d/lumen-icon.webp" data-w="1254" data-h="1254">
-            <button type="button" class="plate-btn" aria-label="Open image: Lumen game icon"><img src="img/3d/lumen-icon-sm.webp" width="960" height="960" alt="Lumen game icon: a glowing ringed orb over floating islands and the word Lumen" loading="lazy"></button>
-            <figcaption><span>Lumen</span><span>Game icon</span></figcaption>
-          </figure>
+              <figure class="plate p-bone p-cut" data-title="The Trio" data-desc="Fan-art character render in Blender: three characters posed as a group, rendered on a transparent background." data-full="img/3d/trio.webp" data-w="1920" data-h="1080">
+                <button type="button" class="plate-btn" aria-label="Open image: The Trio"><img src="img/3d/trio-sm.webp" width="960" height="540" alt="Three Roblox-style fan-art characters posed together, one reading a black notebook, one in a bear costume, one in a white mask" loading="lazy"></button>
+                <figcaption><span>Blender</span><span>The Trio</span></figcaption>
+              </figure>
+              <figure class="plate p-paper p-cut" data-title="Caped Figure" data-desc="Fan-art Blender render of a caped hero seen from behind, on a transparent background." data-full="img/3d/bat-shadow.webp" data-w="1920" data-h="1080">
+                <button type="button" class="plate-btn" aria-label="Open image: Caped Figure"><img src="img/3d/bat-shadow-sm.webp" width="960" height="540" alt="Dark caped Roblox-style hero seen from behind" loading="lazy"></button>
+                <figcaption><span>Blender</span><span>Caped Figure</span></figcaption>
+              </figure>
 
-          <figure class="plate p-7 p-bone p-cut" data-title="The Trio" data-desc="Fan-art character render in Blender: three characters posed as a group, rendered on a transparent background." data-full="img/3d/trio.webp" data-w="1920" data-h="1080">
-            <button type="button" class="plate-btn" aria-label="Open image: The Trio"><img src="img/3d/trio-sm.webp" width="960" height="540" alt="Three Roblox-style fan-art characters posed together, one reading a black notebook, one in a bear costume, one in a white mask" loading="lazy"></button>
-            <figcaption><span>Blender</span><span>The Trio</span></figcaption>
-          </figure>
-          <figure class="plate p-5 p-paper p-cut" data-title="Caped Figure" data-desc="Fan-art Blender render of a caped hero seen from behind, on a transparent background." data-full="img/3d/bat-shadow.webp" data-w="1920" data-h="1080">
-            <button type="button" class="plate-btn" aria-label="Open image: Caped Figure"><img src="img/3d/bat-shadow-sm.webp" width="960" height="540" alt="Dark caped Roblox-style hero seen from behind" loading="lazy"></button>
-            <figcaption><span>Blender</span><span>Caped Figure</span></figcaption>
-          </figure>
+              <figure class="plate " data-title="Library" data-desc="Fan-art Blender render: three characters among tall bookshelves, one climbing a ladder." data-full="img/3d/library.webp" data-w="1920" data-h="1080">
+                <button type="button" class="plate-btn" aria-label="Open image: Library"><img src="img/3d/library-sm.webp" width="960" height="540" alt="Three Roblox-style characters in a library with tall shelves and a ladder" loading="lazy"></button>
+                <figcaption><span>Blender</span><span>Library</span></figcaption>
+              </figure>
+              <figure class="plate " data-title="Mantel" data-desc="Fan-art Blender render: a caped hero sitting on a fireplace mantel between candles." data-full="img/3d/bat-desk.webp" data-w="1920" data-h="1080">
+                <button type="button" class="plate-btn" aria-label="Open image: Mantel"><img src="img/3d/bat-desk-sm.webp" width="960" height="540" alt="Roblox-style caped hero sitting on a mantel between two candles" loading="lazy"></button>
+                <figcaption><span>Blender</span><span>Mantel</span></figcaption>
+              </figure>
 
-          <figure class="plate p-6" data-title="Library" data-desc="Fan-art Blender render: three characters among tall bookshelves, one climbing a ladder." data-full="img/3d/library.webp" data-w="1920" data-h="1080">
-            <button type="button" class="plate-btn" aria-label="Open image: Library"><img src="img/3d/library-sm.webp" width="960" height="540" alt="Three Roblox-style characters in a library with tall shelves and a ladder" loading="lazy"></button>
-            <figcaption><span>Blender</span><span>Library</span></figcaption>
-          </figure>
-          <figure class="plate p-6" data-title="Mantel" data-desc="Fan-art Blender render: a caped hero sitting on a fireplace mantel between candles." data-full="img/3d/bat-desk.webp" data-w="1920" data-h="1080">
-            <button type="button" class="plate-btn" aria-label="Open image: Mantel"><img src="img/3d/bat-desk-sm.webp" width="960" height="540" alt="Roblox-style caped hero sitting on a mantel between two candles" loading="lazy"></button>
-            <figcaption><span>Blender</span><span>Mantel</span></figcaption>
-          </figure>
+              <figure class="plate " data-title="Graveyard" data-desc="Fan-art Blender render: a character walking between candlelit headstones, seen from above." data-full="img/3d/graveyard.webp" data-w="1920" data-h="1080">
+                <button type="button" class="plate-btn" aria-label="Open image: Graveyard"><img src="img/3d/graveyard-sm.webp" width="960" height="540" alt="Roblox-style character walking between headstones and candles, seen from above" loading="lazy"></button>
+                <figcaption><span>Blender</span><span>Graveyard</span></figcaption>
+              </figure>
+              <figure class="plate " data-title="Game Night" data-desc="High-impact game thumbnail using custom rig poses and layered compositing." data-full="img/3d/4ps.webp" data-w="1400" data-h="787">
+                <button type="button" class="plate-btn" aria-label="Open image: Game Night"><img src="img/3d/4ps-sm.webp" width="960" height="540" alt="Two Roblox characters gaming on a couch in a sunlit room" loading="lazy"></button>
+                <figcaption><span>Blender</span><span>Game Night</span></figcaption>
+              </figure>
+              <figure class="plate " data-title="Skatepark" data-desc="Self-taught 3D environment render: geometry, PBR materials, lighting, and post-processing in Blender." data-full="img/3d/7wm.webp" data-w="1600" data-h="900">
+                <button type="button" class="plate-btn" aria-label="Open image: Skatepark"><img src="img/3d/7wm-sm.webp" width="960" height="540" alt="Roblox characters skating a rail in a graffiti skatepark" loading="lazy"></button>
+                <figcaption><span>Blender</span><span>Skatepark</span></figcaption>
+              </figure>
 
-          <figure class="plate p-4" data-title="Graveyard" data-desc="Fan-art Blender render: a character walking between candlelit headstones, seen from above." data-full="img/3d/graveyard.webp" data-w="1920" data-h="1080">
-            <button type="button" class="plate-btn" aria-label="Open image: Graveyard"><img src="img/3d/graveyard-sm.webp" width="960" height="540" alt="Roblox-style character walking between headstones and candles, seen from above" loading="lazy"></button>
-            <figcaption><span>Blender</span><span>Graveyard</span></figcaption>
-          </figure>
-          <figure class="plate p-4" data-title="Game Night" data-desc="High-impact game thumbnail using custom rig poses and layered compositing." data-full="img/3d/4ps.webp" data-w="1400" data-h="787">
-            <button type="button" class="plate-btn" aria-label="Open image: Game Night"><img src="img/3d/4ps-sm.webp" width="960" height="540" alt="Two Roblox characters gaming on a couch in a sunlit room" loading="lazy"></button>
-            <figcaption><span>Blender</span><span>Game Night</span></figcaption>
-          </figure>
-          <figure class="plate p-4" data-title="Skatepark" data-desc="Self-taught 3D environment render: geometry, PBR materials, lighting, and post-processing in Blender." data-full="img/3d/7wm.webp" data-w="1600" data-h="900">
-            <button type="button" class="plate-btn" aria-label="Open image: Skatepark"><img src="img/3d/7wm-sm.webp" width="960" height="540" alt="Roblox characters skating a rail in a graffiti skatepark" loading="lazy"></button>
-            <figcaption><span>Blender</span><span>Skatepark</span></figcaption>
-          </figure>
-
-          <figure class="plate p-6" data-title="Campsite" data-desc="Full environment scene built around Roblox characters: tents, a campfire and woodland lighting." data-full="img/3d/5wm.webp" data-w="1400" data-h="787">
-            <button type="button" class="plate-btn" aria-label="Open image: Campsite"><img src="img/3d/5wm-sm.webp" width="960" height="540" alt="Roblox characters at a campsite with tents and a campfire" loading="lazy"></button>
-            <figcaption><span>Blender</span><span>Campsite</span></figcaption>
-          </figure>
-          <figure class="plate p-6" data-title="Old Town Road" data-desc="A character-and-horse composition pairing western styling with a basketball: rugged leather against a soft mint colorway." data-full="img/3d/oldtownroadhoops.webp" data-w="1400" data-h="787">
-            <button type="button" class="plate-btn" aria-label="Open image: Old Town Road"><img src="img/3d/oldtownroadhoops-sm.webp" width="960" height="540" alt="Cowboy character with a horse and a basketball" loading="lazy"></button>
-            <figcaption><span>Blender</span><span>Old Town Road</span></figcaption>
-          </figure>
+              <figure class="plate " data-title="Campsite" data-desc="Full environment scene built around Roblox characters: tents, a campfire and woodland lighting." data-full="img/3d/5wm.webp" data-w="1400" data-h="787">
+                <button type="button" class="plate-btn" aria-label="Open image: Campsite"><img src="img/3d/5wm-sm.webp" width="960" height="540" alt="Roblox characters at a campsite with tents and a campfire" loading="lazy"></button>
+                <figcaption><span>Blender</span><span>Campsite</span></figcaption>
+              </figure>
+              <figure class="plate " data-title="Old Town Road" data-desc="A character-and-horse composition pairing western styling with a basketball: rugged leather against a soft mint colorway." data-full="img/3d/oldtownroadhoops.webp" data-w="1400" data-h="787">
+                <button type="button" class="plate-btn" aria-label="Open image: Old Town Road"><img src="img/3d/oldtownroadhoops-sm.webp" width="960" height="540" alt="Cowboy character with a horse and a basketball" loading="lazy"></button>
+                <figcaption><span>Blender</span><span>Old Town Road</span></figcaption>
+              </figure>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -593,11 +571,9 @@
         <div class="origin-text">
           <h2 class="sec-title" id="origin-title">About me</h2>
           <p class="origin-lead">Senior year, I built a portfolio site before anyone told me to. I have been building ever since.</p>
-          <p>I'm from Milwaukee, self-taught in HTML, CSS, and JavaScript, with a Microsoft IT Help Desk Pro certification earned before I ever sat in a college lecture hall. While my graduating class finished applications, I was shipping code and rendering scenes in Blender.</p>
-          <p>Now I study Computer Science at Marquette University, Class of 2030, and build websites for businesses across the city. I also make 3D art in Blender and Roblox, and I run my own streetwear brand, Lucent.</p>
+          <p>I'm from Milwaukee and taught myself HTML, CSS and JavaScript. Now I study Computer Science at Marquette, build websites for businesses across the city, make 3D art in Blender and Roblox, and run my streetwear brand, Lucent.</p>
         </div>
         <dl class="origin-facts" aria-label="Quick facts">
-          <div><dt>Based in</dt><dd>Milwaukee, WI</dd></div>
           <div><dt>Studying</dt><dd>Computer Science, Marquette '30</dd></div>
           <div><dt>Certified</dt><dd>Microsoft IT Help Desk Pro</dd></div>
           <div><dt>Tools</dt><dd>JavaScript, Blender, Roblox Studio, Vercel</dd></div>
@@ -611,7 +587,7 @@
       <div class="wrap">
         <header class="sec-head">
           <h2 class="sec-title" id="connect-title">Start with a free sample</h2>
-          <p class="sec-intro">Want a site for your business, a render, or a collaboration? Fill in the reply card and I will reply by email.</p>
+          <p class="sec-intro">Tell me about your business, or ask about a render or a collab. I reply by email.</p>
         </header>
         <div class="connect-grid">
           <div class="reply-wrap">
@@ -671,14 +647,10 @@
     <!-- ═══ Colophon ═══ -->
     <footer id="colophon">
       <div class="wrap">
-        <div class="colo-cta">
-          <p>Your business could be next.</p>
-          <a class="btn btn-bone" href="#connect" data-subject="Website for my business">Get a free sample</a>
-        </div>
         <img class="colo-logo" src="logo-reverse.svg" width="656" height="120" alt="Tyrone Dunn, websites and 3D, Milwaukee WI" loading="lazy">
         <div class="colo-grid">
           <div><h2>Colophon</h2><p>Written, designed, and coded by Tyrone Dunn without a template. Set in Archivo. The cover figure is a live model from Blender.</p></div>
-          <div><h2>Sections</h2><ul><li><a href="#work">Work</a></li><li><a href="#owners">Owner controls</a></li><li><a href="#rates">Rates</a></li><li><a href="#plates">3D work</a></li><li><a href="#connect">Contact</a></li></ul></div>
+          <div><h2>Sections</h2><ul><li><a href="#work">Work</a></li><li><a href="#features">Features</a></li><li><a href="#owners">Owner controls</a></li><li><a href="#rates">Rates</a></li><li><a href="#plates">3D work</a></li><li><a href="#connect">Contact</a></li></ul></div>
           <div><h2>Contact</h2><ul><li><a href="mailto:tyrone.dunn8855@gmail.com">tyrone.dunn8855@gmail.com</a></li><li><a href="https://instagram.com/hermesblankets" target="_blank" rel="noopener">IG @hermesblankets</a></li><li><a href="https://github.com/tyronedunn8855" target="_blank" rel="noopener">GitHub</a></li></ul></div>
         </div>
         <p class="colo-base"><span>Milwaukee, WI</span><button type="button" class="motion-toggle" aria-pressed="false">Turn motion off</button><a href="#top">Back to top</a></p>
@@ -702,7 +674,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.12.1/dist/email.min.js" defer></script>
   <script src="script.js" defer></script>
   <!-- Live 3D. If three.js or the model can't load, the posters simply stay. -->
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>

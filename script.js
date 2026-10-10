@@ -510,7 +510,7 @@
         });
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
-    ['cover', 'work', 'owners', 'rates', 'plates', 'origin', 'connect'].forEach(function (id) {
+    ['cover', 'work', 'features', 'owners', 'rates', 'plates', 'origin', 'connect'].forEach(function (id) {
       var el = document.getElementById(id); if (el) secIo.observe(el);
     });
   }
@@ -527,12 +527,93 @@
     });
   });
 
+  /* ═══ KIT: tabs ═══
+     Real tablists: click or arrow keys pick a tab. A box can take over what "pick" means (box.__select),
+     which the pinned feature scene uses to scroll to a group instead. */
+  function initTabs(box) {
+    var tabs = $$('[role="tab"]', box);
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+    function select(i, focus) {
+      tabs.forEach(function (t, j) {
+        var on = j === i;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        if (!box.__staged && panels[j]) panels[j].hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { if (box.__select) box.__select(i); else select(i); });
+      t.addEventListener('keydown', function (e) {
+        var n = tabs.length, j = null;
+        if (e.key === 'ArrowRight') j = (i + 1) % n;
+        else if (e.key === 'ArrowLeft') j = (i - 1 + n) % n;
+        else if (e.key === 'Home') j = 0;
+        else if (e.key === 'End') j = n - 1;
+        if (j === null) return;
+        e.preventDefault();
+        tabs[j].focus();
+        tabs[j].click();
+      });
+    });
+    return { select: select, tabs: tabs, panels: panels };
+  }
+  $$('[data-tabs]').forEach(function (box) { box.__tabs = initTabs(box); });
+
+  function scrollToY(y) {
+    if (lenis) lenis.scrollTo(y, { duration: 1.0 });
+    else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+
+  /* ═══ KIT: swipe carousel ═══
+     Native horizontal scroll with snap, plus buttons and a counter. On a pinned reel the box hands
+     "go to slide i" to the pin (box.__go), which scrolls the page instead. */
+  function initCarousel(box) {
+    var view = $('.reel-view', box), track = $('.reel-track', box);
+    var slides = Array.prototype.slice.call(track.children);
+    var now = $('.rc-now', box), btns = $$('.car-btn', box), cur = 0;
+    $('.rc-all', box).textContent = slides.length;
+    function pad() { return parseFloat(getComputedStyle(track).paddingLeft) || 0; }
+    function setCur(i) {
+      cur = i;
+      now.textContent = i + 1;
+      btns.forEach(function (b) { b.disabled = Number(b.dataset.dir) < 0 ? i <= 0 : i >= slides.length - 1; });
+    }
+    function go(i) {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      if (box.__go) { box.__go(i); return; }
+      view.scrollTo({ left: slides[i].offsetLeft - pad(), behavior: reduce ? 'auto' : 'smooth' });
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { go(cur + Number(b.dataset.dir)); }); });
+    var ticking = false;
+    view.addEventListener('scroll', function () {
+      if (ticking || box.__go) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var x = view.scrollLeft + pad(), best = 0, d = Infinity;
+        slides.forEach(function (s, i) { var dd = Math.abs(s.offsetLeft - x); if (dd < d) { d = dd; best = i; } });
+        if (view.scrollLeft + view.clientWidth >= view.scrollWidth - 4) best = slides.length - 1;
+        if (best !== cur) setCur(best);
+      });
+    }, { passive: true });
+    // Keyboard: tabbing into a slide brings it into view
+    track.addEventListener('focusin', function (e) {
+      var s = e.target.closest('.reel-track > *');
+      if (s) { var i = slides.indexOf(s); if (i >= 0 && i !== cur) { setCur(i); if (box.__go) box.__go(i); } }
+    });
+    setCur(0);
+    return { slides: slides, view: view, track: track, setCur: setCur, pad: pad, box: box };
+  }
+  var workCar = $('#work [data-carousel]') ? initCarousel($('#work [data-carousel]')) : null;
+  var renderCar = $('.renders[data-carousel]') ? initCarousel($('.renders[data-carousel]')) : null;
+
   /* ═══ KIT: scroll reveals (GSAP) ═══ */
   function setupReveals() {
     var rm = reduce; // reduced motion: quick fades only, no movement
 
     // Headings: words rise out of masks, line by line
-    $$('.sec-title, .site-name, .next-up p, .colo-cta p, .gallery-title, .owners-label, .turn-notes h3, .live-card h4, .origin-lead, .side-label, .steps h3, .planned-intro, .rc-row dt').forEach(function (h) {
+    $$('#features .sec-title, #owners .sec-title, #rates .sec-title, #plates .sec-title, #origin .sec-title, #connect .sec-title, #work .sec-title, .gallery-title, .own-text h3, .origin-lead, .side-label, .end-line').forEach(function (h) {
       if (rm) { gsap.set(h, { opacity: 0 }); onEnterOnce(h, function () { gsap.to(h, { opacity: 1, duration: 0.3, ease: 'none' }); }); return; }
       var words = splitWords(h);
       if (!words.length) return;
@@ -542,8 +623,8 @@
       });
     });
 
-    // Body copy, lists and small blocks: staggered rise
-    var bodySel = '.sec-intro, .site-what, .site-does h4, .site-feats li, .site-latest, .site-meta, .view-tabs, .planned-list li, .origin-text p:not(.origin-lead), .origin-facts > div, .live-site, .live-card > p, .live-points > div, .flow, .spec > div, .turn-notes p, .side-link, .colo-grid > div, .colo-base, .steps li p, .step-n, .rc-row dd small, .rc-foot, .next-up .btn, .colo-cta .btn, .connect-grid .reply-wrap, .tt-controls';
+    // Body copy and small blocks outside the reel: staggered rise
+    var bodySel = '.sec-intro, .owners-tabs > .tab-list, .owners-tabs > .tab-panel:not([hidden]), .origin-text p:not(.origin-lead), .origin-facts > div, .side-link, .colo-grid > div, .colo-base, .connect-grid .reply-wrap, .renders-head .reel-ctrl, .tt-controls, .turn-notes';
     var body = $$(bodySel);
     gsap.set(body, rm ? { opacity: 0 } : { opacity: 0, y: 26 });
     body.forEach(function (el) { pending.push({ el: el, done: false, play: function () { gsap.to(el, { opacity: 1, y: 0, duration: rm ? 0.3 : 0.8, ease: rm ? 'none' : 'power3.out' }); } }); });
@@ -560,62 +641,147 @@
       }
     });
 
-    if (rm) return;
+    var mm = gsap.matchMedia();
 
-    // Clip-path image reveals: the frame opens upward while the picture settles from a slight zoom
-    function clipReveal(box, img, start) {
-      gsap.set(box, { clipPath: 'inset(100% 0% 0% 0%)' });
-      if (img) gsap.set(img, { scale: 1.18 });
-      onEnterOnce(box, function () {
-        gsap.to(box, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.15, ease: 'expo.inOut' });
-        if (img) gsap.to(img, { scale: 1, duration: 1.6, ease: EASE_OUT, clearProps: 'scale' });
-      }, start);
-    }
-    $$('.plate').forEach(function (pl, i) {
-      var btn = $('.plate-btn', pl);
-      gsap.set(btn, { clipPath: 'inset(100% 0% 0% 0%)' });
-      gsap.set($('img', btn), { scale: 1.22 });
-      gsap.set($('figcaption', pl), { opacity: 0, y: 12 });
-      pending.push({ el: pl, done: false, play: function () { gsap.to(btn, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1, ease: 'expo.inOut' }); gsap.to($('img', btn), { scale: 1, duration: 1.5, ease: EASE_OUT, clearProps: 'scale' }); gsap.to($('figcaption', pl), { opacity: 1, y: 0, duration: 0.6, delay: 0.5 }); } });
-    });
-    ST.batch('.plate', {
-      start: 'top 90%', once: true,
-      onEnter: function (batch) {
-        var each = Math.min(0.1, 0.5 / Math.max(1, batch.length));
-        batch.forEach(function (pl, i) {
-          pending.forEach(function (r) { if (r.el === pl && !r.done) { r.done = true; gsap.delayedCall(i * each, r.play); } });
-        });
+    // ── Work panels: the color plate wipes in from the side, the devices settle, then the text rises.
+    function prepPanel(p) {
+      if (p.classList.contains('panel-end')) {
+        gsap.set(p, { clipPath: 'inset(0% 0% 0% 100%)' });
+        gsap.set(p.children, { opacity: 0, y: 24 });
+        return;
       }
-    });
+      gsap.set($('.plate-bg', p), { clipPath: 'inset(0% 0% 0% 100%)' });
+      gsap.set([$('.dev-desk', p), $('.dev-phone', p)], { opacity: 0, y: 60 });
+      gsap.set($('.dev-screen', p), { clipPath: 'inset(0% 0% 100% 0%)' });
+      gsap.set($$('.site-head, .site-what, .tabs, .view-tabs', p), { opacity: 0, y: 28 });
+    }
+    function playPanel(p) {
+      if (p.__played) return;
+      p.__played = true;
+      if (p.classList.contains('panel-end')) {
+        gsap.timeline().to(p, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, ease: 'expo.inOut' })
+          .to(p.children, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out' }, 0.4);
+        return;
+      }
+      gsap.timeline()
+        .to($('.plate-bg', p), { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, ease: 'expo.inOut' })
+        .to($('.dev-desk', p), { opacity: 1, y: 0, duration: 1.0, ease: EASE_OUT }, 0.3)
+        .to($('.dev-screen', p), { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.0, ease: 'expo.inOut' }, 0.4)
+        .to($('.dev-phone', p), { opacity: 1, y: 0, duration: 1.0, ease: EASE_OUT }, 0.5)
+        .to($$('.site-head, .site-what, .tabs, .view-tabs', p), { opacity: 1, y: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out' }, 0.35);
+    }
+    if (workCar && !rm) {
+      var panels = workCar.slides;
+      panels.forEach(prepPanel);
+      // Safety: tabbing into a panel shows it at once
+      workCar.track.addEventListener('focusin', function (e) { var p = e.target.closest('.panel'); if (p) playPanel(p); });
+      onEnterOnce(workCar.view, function () { playPanel(panels[0]); if (!root.classList.contains('reel-on')) playPanel(panels[1]); }, 'top 80%');
 
-    // Each site feature: color plate wipes up, devices settle, then drift at two depths while in view
-    $$('.site').forEach(function (site) {
-      var plate = $('.plate-bg', site), desk = $('.dev-desk', site), phone = $('.dev-phone', site), screen = $('.dev-screen', site);
-      var devices = $('.devices', site);
-      gsap.set(plate, { clipPath: 'inset(100% 0% 0% 0%)' });
-      gsap.set([desk, phone], { opacity: 0, y: 60 });
-      gsap.set(screen, { clipPath: 'inset(0% 0% 100% 0%)' });
-      onEnterOnce(devices, function () {
-        gsap.timeline()
-          .to(plate, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, ease: 'expo.inOut' })
-          .to(desk, { opacity: 1, y: 0, duration: 1.0, ease: EASE_OUT }, 0.35)
-          .to(screen, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.0, ease: 'expo.inOut' }, 0.45)
-          .to(phone, { opacity: 1, y: 0, duration: 1.0, ease: EASE_OUT }, 0.55);
-      }, 'top 82%');
-      var amp = window.innerWidth < 700 ? 0.5 : 1;
-      gsap.fromTo(phone, { yPercent: 10 * amp }, { yPercent: -14 * amp, ease: 'none', scrollTrigger: { trigger: devices, start: 'top bottom', end: 'bottom top', scrub: true } });
-      gsap.fromTo($('.dev-screen img.v-front', site), { yPercent: -3 * amp, scale: 1.06 }, { yPercent: 3 * amp, scale: 1.06, ease: 'none', scrollTrigger: { trigger: devices, start: 'top bottom', end: 'bottom top', scrub: true } });
-    });
+      // Wide, tall screens: one pin, the track pans sideways
+      mm.add('(min-width: 1000px) and (min-height: 700px)', function () {
+        root.classList.add('reel-on');
+        var reel = $('#work .reel'), track = workCar.track, view = workCar.view, rail = $('#work .reel-rail i');
+        var dist = function () { return Math.max(0, track.scrollWidth - view.clientWidth); };
+        var pan = gsap.to(track, { x: function () { return -dist(); }, ease: 'none' });
+        var st = ST.create({
+          trigger: reel, start: 'top top', end: function () { return '+=' + Math.round(dist() * 0.4); },
+          pin: true, scrub: 0.8, animation: pan, invalidateOnRefresh: true, anticipatePin: 1,
+          onUpdate: function (self) {
+            gsap.set(rail, { scaleX: self.progress });
+            var x = self.progress * dist() + view.clientWidth * 0.35, best = 0;
+            panels.forEach(function (p, i) { if (p.offsetLeft <= x) best = i; });
+            workCar.setCur(best);
+          },
+          onLeave: function () { panels.forEach(playPanel); },
+          // Panels sit far to the right of the screen, so lazy loading would wait too long: load them all once the reel is near
+          onToggle: function () { $$('img[loading="lazy"]', track).forEach(function (im) { im.loading = 'eager'; }); }
+        });
+        workCar.box.__go = function (i) {
+          var x = panels[i].offsetLeft - workCar.pad();
+          scrollToY(st.start + (st.end - st.start) * clamp01(x / Math.max(1, dist())));
+        };
+        panels.forEach(function (p, i) {
+          if (i > 0) ST.create({ trigger: p, containerAnimation: pan, start: 'left 88%', once: true, onEnter: function () { playPanel(p); } });
+          // Depth while panning: the phone travels a little faster than the desktop
+          var ph = $('.dev-phone', p), img = $('.dev-screen img.v-front', p);
+          if (ph) gsap.fromTo(ph, { xPercent: 22 }, { xPercent: -22, ease: 'none', scrollTrigger: { trigger: p, containerAnimation: pan, start: 'left right', end: 'right left', scrub: true } });
+          if (img) gsap.fromTo(img, { xPercent: -3, scale: 1.08 }, { xPercent: 3, scale: 1.08, ease: 'none', scrollTrigger: { trigger: p, containerAnimation: pan, start: 'left right', end: 'right left', scrub: true } });
+        });
+        return function () {
+          root.classList.remove('reel-on');
+          workCar.box.__go = null;
+          gsap.set(track, { clearProps: 'transform' });
+        };
+      });
+      // Everywhere else: native swipe. Panels play as they slide into view.
+      mm.add('(max-width: 999px), (max-height: 699px)', function () {
+        var io = new IntersectionObserver(function (en) {
+          en.forEach(function (x) { if (x.isIntersecting) { playPanel(x.target); io.unobserve(x.target); } });
+        }, { root: workCar.view, threshold: 0.2 });
+        panels.forEach(function (p) { if (!p.__played) io.observe(p); });
+        return function () { io.disconnect(); };
+      });
+    }
 
-    // Rates: the card lifts in, the $80 rises out of its own mask big, then the rows follow
+    // ── What your site can do: one short pin, the four groups swap in place as you scroll.
+    var cap = $('#features .cap'), stage = $('.cap-stage');
+    if (cap && stage && !rm) {
+      var groups = $$('.cap-group', stage), capRail = $('.cap-rail i', stage), n = groups.length;
+      mm.add('(min-height: 560px)', function () {
+        root.classList.add('cap-on');
+        stage.__staged = true;
+        var cur = 0;
+        groups.forEach(function (g, i) { g.hidden = false; g.inert = i !== 0; gsap.set(g, { autoAlpha: i === 0 ? 1 : 0 }); });
+        stage.__tabs.select(0);
+        var w0 = $('.cap-word', groups[0]), l0 = $$('.cap-list li', groups[0]);
+        gsap.set(w0, { clipPath: 'inset(100% 0% 0% 0%)', yPercent: 40 });
+        gsap.set(l0, { opacity: 0, y: 26 });
+        onEnterOnce(stage, function () {
+          gsap.to(w0, { clipPath: 'inset(0% 0% 0% 0%)', yPercent: 0, duration: 0.9, ease: EASE_OUT });
+          gsap.to(l0, { opacity: 1, y: 0, duration: 0.7, stagger: 0.07, ease: 'power3.out', delay: 0.15 });
+        }, 'top 75%');
+        function show(i) {
+          if (i === cur) return;
+          var dir = i > cur ? 1 : -1, out = groups[cur], inn = groups[i];
+          cur = i;
+          stage.__tabs.select(i);
+          out.inert = true; inn.inert = false;
+          var ow = $('.cap-word', out), ol = $$('.cap-list li', out), iw = $('.cap-word', inn), il = $$('.cap-list li', inn);
+          gsap.killTweensOf([out, inn, ow, iw].concat(ol, il));
+          gsap.to(ow, { yPercent: -40 * dir, clipPath: dir > 0 ? 'inset(0% 0% 100% 0%)' : 'inset(100% 0% 0% 0%)', duration: 0.45, ease: EASE_MOVE });
+          gsap.to(ol, { y: -20 * dir, opacity: 0, duration: 0.3, stagger: 0.03, ease: 'power2.out' });
+          gsap.set(out, { autoAlpha: 0, delay: 0.45 });
+          gsap.set(inn, { autoAlpha: 1 });
+          gsap.fromTo(iw, { yPercent: 40 * dir, clipPath: dir > 0 ? 'inset(100% 0% 0% 0%)' : 'inset(0% 0% 100% 0%)' }, { yPercent: 0, clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: EASE_OUT, delay: 0.12 });
+          gsap.fromTo(il, { y: 26 * dir, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.06, ease: 'power3.out', delay: 0.2 });
+        }
+        var st = ST.create({
+          trigger: cap, start: 'top top', end: function () { return '+=' + Math.round(window.innerHeight * 0.85); },
+          pin: true, anticipatePin: 1, invalidateOnRefresh: true,
+          onUpdate: function (self) {
+            gsap.set(capRail, { scaleX: self.progress });
+            show(Math.min(n - 1, Math.floor(self.progress * n)));
+          }
+        });
+        stage.__select = function (i) { scrollToY(st.start + (st.end - st.start) * ((i + 0.5) / n)); };
+        return function () {
+          root.classList.remove('cap-on');
+          stage.__staged = false; stage.__select = null;
+          groups.forEach(function (g) { g.inert = false; gsap.set(g, { clearProps: 'all' }); gsap.set($$('.cap-word, .cap-list li', g), { clearProps: 'all' }); });
+          stage.__tabs.select(cur);
+        };
+      });
+    }
+
+    // Rates: the card lifts in, the $80 rises out of its own mask big, then the other prices follow
     var card = $('.rate-card');
-    if (card) {
+    if (card && !rm) {
       var main = $('.rc-main dd strong', card);
       var rows = $$('.rc-row', card).filter(function (r) { return !r.classList.contains('rc-main'); });
       var band = $('.card-band', card), flag = $('.rc-flag', card);
-      gsap.set(card, { opacity: 0, y: 80 });
+      gsap.set(card, { opacity: 0, y: 60 });
       gsap.set(band, { clipPath: 'inset(0% 100% 0% 0%)' });
-      gsap.set(main, { clipPath: 'inset(0% 0% 100% 0%)', yPercent: 40, scale: 1.25, transformOrigin: '100% 100%' });
+      gsap.set(main, { clipPath: 'inset(0% 0% 100% 0%)', yPercent: 40, scale: 1.25, transformOrigin: '0% 100%' });
       gsap.set(rows, { opacity: 0, y: 24 });
       gsap.set(flag, { opacity: 0, scale: 0.92 });
       onEnterOnce(card, function () {
@@ -623,76 +789,50 @@
           .to(card, { opacity: 1, y: 0, duration: 1.0, ease: EASE_OUT })
           .to(band, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'expo.inOut' }, 0.15)
           .to(main, { clipPath: 'inset(0% 0% 0% 0%)', yPercent: 0, scale: 1, duration: 1.3, ease: EASE_OUT }, 0.35)
-          .to(rows, { opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out' }, 0.7)
-          .to(flag, { opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out' }, 1.0);
+          .to(rows, { opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out' }, 0.6)
+          .to(flag, { opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out' }, 0.95);
       }, 'top 80%');
     }
 
-    // Owner cards and the planned box: lift in
-    $$('.live-card, .planned').forEach(function (c) {
-      gsap.set(c, { opacity: 0, y: 50 });
-      onEnterOnce(c, function () { gsap.to(c, { opacity: 1, y: 0, duration: 1.0, ease: EASE_OUT }); });
-    });
+    if (rm) return;
 
-    // Turntable stage and the footer logo
+    // Turntable stage: the frame opens upward
     var tt = $('.tt-stage');
-    if (tt) clipReveal(tt, null, 'top 85%');
+    if (tt) {
+      gsap.set(tt, { clipPath: 'inset(100% 0% 0% 0%)' });
+      onEnterOnce(tt, function () { gsap.to(tt, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.15, ease: 'expo.inOut' }); }, 'top 85%');
+    }
+    // Renders: each frame opens upward as it slides into the carousel; the picture settles from a zoom
+    if (renderCar) {
+      var playPlate = function (pl) {
+        if (pl.__played) return; pl.__played = true;
+        var btn = $('.plate-btn', pl);
+        gsap.to(btn, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1, ease: 'expo.inOut' });
+        gsap.to($('img', btn), { scale: 1, duration: 1.5, ease: EASE_OUT, clearProps: 'scale' });
+        gsap.to($('figcaption', pl), { opacity: 1, y: 0, duration: 0.6, delay: 0.5 });
+      };
+      renderCar.slides.forEach(function (pl) {
+        var btn = $('.plate-btn', pl);
+        gsap.set(btn, { clipPath: 'inset(100% 0% 0% 0%)' });
+        gsap.set($('img', btn), { scale: 1.22 });
+        gsap.set($('figcaption', pl), { opacity: 0, y: 12 });
+      });
+      renderCar.track.addEventListener('focusin', function (e) { var pl = e.target.closest('.plate'); if (pl) playPlate(pl); });
+      onEnterOnce(renderCar.view, function () {
+        var pio = new IntersectionObserver(function (en) {
+          en.forEach(function (x) { if (x.isIntersecting) { playPlate(x.target); pio.unobserve(x.target); } });
+        }, { root: renderCar.view, threshold: 0.15 });
+        renderCar.slides.forEach(function (pl) { pio.observe(pl); });
+      }, 'top 85%');
+    }
     var logo = $('.colo-logo');
     if (logo) {
       gsap.fromTo(logo, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: logo, start: 'top 98%', end: 'top 60%', scrub: 0.6 } });
     }
 
-    // Work: the six frames. Wide screens get the pinned sideways reel; phones get a staggered grid.
-    var reel = $('.work-reel'), track = $('.sheet-index'), rail = $('.reel-rail i');
-    var items = $$('.sheet-index li');
-    var mm = gsap.matchMedia();
-    mm.add('(min-width: 1100px) and (min-height: 620px)', function () {
-        root.classList.add('reel-on');
-        var dist = function () { return Math.max(0, track.scrollWidth - track.parentNode.clientWidth); };
-        var pan = gsap.to(track, { x: function () { return -dist(); }, ease: 'none' });
-        var st = ST.create({
-          trigger: reel, start: 'top top', end: function () { return '+=' + Math.round(dist() * 1.1); },
-          pin: true, scrub: 0.8, animation: pan, invalidateOnRefresh: true, anticipatePin: 1,
-          onUpdate: function (self) { gsap.set(rail, { scaleX: self.progress }); }
-        });
-        // Frames reveal as they slide into view; each picture drifts a little inside its frame
-        items.forEach(function (li, i) {
-          var thumb = $('.si-thumb', li), img = $('.si-thumb img', li), ph = $('.si-phone', li);
-          gsap.set(thumb, { clipPath: 'inset(0% 0% 0% 100%)' });
-          gsap.set(ph, { opacity: 0, y: 40 });
-          var play = function () {
-            gsap.to(thumb, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1, ease: 'expo.inOut' });
-            gsap.to(ph, { opacity: 1, y: 0, duration: 0.9, delay: 0.35, ease: EASE_OUT });
-          };
-          var r = { el: li, play: play, done: false }; pending.push(r);
-          ST.create({ trigger: li, containerAnimation: pan, start: 'left 96%', once: true, onEnter: function () { if (!r.done) { r.done = true; play(); } } });
-          gsap.fromTo(img, { xPercent: -4, scale: 1.1 }, { xPercent: 4, scale: 1.1, ease: 'none', scrollTrigger: { trigger: li, containerAnimation: pan, start: 'left right', end: 'right left', scrub: true } });
-        });
-        // Keyboard: tabbing to a frame scrolls the reel so it is on screen
-        var onFocus = function (e) {
-          var li = e.target.closest('li'); if (!li) return;
-          var x = li.offsetLeft - 24, d = dist();
-          var y = st.start + (st.end - st.start) * clamp01(x / Math.max(1, d));
-          if (Math.abs(window.scrollY - y) > 4) { if (lenis) lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y); }
-        };
-        track.addEventListener('focusin', onFocus);
-        return function () { root.classList.remove('reel-on'); track.removeEventListener('focusin', onFocus); };
-    });
-    mm.add('(max-width: 1099px), (max-height: 619px)', function () {
-        items.forEach(function (li, i) {
-          var thumb = $('.si-thumb', li), img = $('.si-thumb img', li);
-          gsap.set(thumb, { clipPath: 'inset(100% 0% 0% 0%)' });
-          gsap.set(img, { scale: 1.18 });
-          onEnterOnce(li, function () {
-            gsap.to(thumb, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.0, delay: (i % 3) * 0.08, ease: 'expo.inOut' });
-            gsap.to(img, { scale: 1, duration: 1.4, delay: (i % 3) * 0.08, ease: EASE_OUT });
-          }, 'top 92%');
-        });
-    });
-
     // Magnetic buttons (mouse only): a short pull toward the cursor and a press
     if (fine) {
-      $$('.btn, .tt-btn').forEach(function (b) {
+      $$('.btn, .tt-btn, .car-btn').forEach(function (b) {
         b.classList.add('mag');
         var xTo = gsap.quickTo(b, 'x', { duration: 0.45, ease: 'power3.out' });
         var yTo = gsap.quickTo(b, 'y', { duration: 0.45, ease: 'power3.out' });
@@ -715,35 +855,12 @@
     // before printing or when find-in-page lands on hidden text.
     ST.addEventListener('scrollEnd', function () { sweep(false); });
     ST.addEventListener('refresh', function () { sweep(false); });
-    window.addEventListener('beforeprint', function () { sweep(true); });
+    window.addEventListener('beforeprint', function () { sweep(true); $$('.panel, .plate').forEach(function (p) { gsap.set(p.querySelectorAll('*'), { clearProps: 'opacity,transform,clipPath' }); gsap.set(p, { clearProps: 'clipPath' }); }); });
     document.addEventListener('focusin', function (e) { pending.forEach(function (r) { if (!r.done && r.el.contains(e.target)) { r.done = true; r.play(); } }); });
     window.addEventListener('load', function () { ST.refresh(); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ST.refresh(); });
   } else if (!reduce) {
     root.classList.add('css-motion');
-  }
-
-  /* ─── Without GSAP: CSS entrance for each site (html.css-motion) ─── */
-  if (!hasGsap) {
-    var pendingSites = $$('.site');
-    var checkSites = function () {
-      var line = window.innerHeight * 0.85;
-      pendingSites = pendingSites.filter(function (s) {
-        var d = s.querySelector('.devices') || s;
-        if (d.getBoundingClientRect().top < line) { s.classList.add('in'); return false; }
-        return true;
-      });
-      if (!pendingSites.length) { window.removeEventListener('scroll', onSiteScroll); window.removeEventListener('resize', onSiteScroll); }
-    };
-    var siteTick = false;
-    var onSiteScroll = function () { if (!siteTick) { siteTick = true; requestAnimationFrame(function () { siteTick = false; checkSites(); }); } };
-    if (reduce) { pendingSites.forEach(function (s) { s.classList.add('in'); }); }
-    else {
-      window.addEventListener('scroll', onSiteScroll, { passive: true });
-      window.addEventListener('resize', onSiteScroll, { passive: true });
-      window.addEventListener('beforeprint', function () { pendingSites.forEach(function (s) { s.classList.add('in'); }); });
-      checkSites();
-    }
   }
 
   /* ─── Lightbox ─── */
