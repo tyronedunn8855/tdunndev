@@ -459,9 +459,11 @@
     if (!target) return 0;
     return Math.max(0, target.getBoundingClientRect().top + window.scrollY - headH() - 8);
   }
-  function jumpTo(target, done) {
-    var y = targetY(target);
-    var far = Math.abs(y - window.scrollY) > window.innerHeight * 1.6;
+  // nav: a masthead or menu link. Those always get the wipe, so moving between sections reads as a page
+  // change; links inside the text keep a plain smooth scroll unless the jump is long.
+  function jumpTo(target, done, nav) {
+    var y = targetY(target), dist = Math.abs(y - window.scrollY);
+    var far = dist > window.innerHeight * 1.6 || (nav && dist > 80);
     if (!lenis) { window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' }); done(); return; }
     if (!far || !wipe) { lenis.scrollTo(y, { duration: 1.1, onComplete: done }); return; }
     if (wipeTl) wipeTl.kill();
@@ -492,7 +494,7 @@
       if (lenis) {
         e.preventDefault();
         if (id !== '#top' && history.replaceState) history.replaceState(null, '', id);
-        jumpTo(target, focusIt);
+        jumpTo(target, focusIt, !!a.closest('.mh-nav, .mm-links, .mh-mark'));
       } else {
         setTimeout(focusIt, 0);
       }
@@ -545,6 +547,120 @@
         var n = btns.filter(isOn).length;
         next.textContent = n ? n + ' open day' + (n > 1 ? 's' : '') + ' this week' : 'No open days this week';
       }, reduce ? 0 : 450);
+    });
+  })();
+
+  /* ─── Live previews: a short recording of each real site plays inside its phone frame ───
+     Recorded from the live site, scrolling down and back up. A clip loads only once its slide is on
+     screen, plays only while visible, and never plays with motion off or with Save-Data on. */
+  (function () {
+    var vids = $$('.dev-vid');
+    var saveData = navigator.connection && navigator.connection.saveData;
+    if (reduce || saveData || !vids.length || !('IntersectionObserver' in window)) return;
+    var webm = document.createElement('video').canPlayType('video/webm; codecs="vp9"');
+    function load(v) {
+      if (v.dataset.ready) return;
+      v.dataset.ready = '1';
+      if (webm) { var w = document.createElement('source'); w.src = v.dataset.src + '.webm'; w.type = 'video/webm'; v.appendChild(w); }
+      var m = document.createElement('source'); m.src = v.dataset.src + '.mp4'; m.type = 'video/mp4'; v.appendChild(m);
+      v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true });
+      v.load();
+    }
+    var vio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var v = en.target;
+        if (en.isIntersecting) { load(v); var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); }
+        else if (v.dataset.ready) v.pause();
+      });
+    }, { threshold: 0.4 });
+    vids.forEach(function (v) { vio.observe(v); });
+  })();
+
+  /* ─── Site feature lists: the three strongest show, the rest open on request ─── */
+  $$('.site-feats').forEach(function (ul) {
+    var n = ul.children.length; if (n <= 4) return;
+    ul.classList.add('clip');
+    if (!ul.id) ul.id = 'feats-' + Math.random().toString(36).slice(2, 8);
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'feats-more'; b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', ul.id);
+    b.textContent = 'Show all ' + n;
+    b.addEventListener('click', function () {
+      var open = ul.classList.toggle('clip') === false;
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      b.textContent = open ? 'Show fewer' : 'Show all ' + n;
+      if (open && !reduce && hasGsap) gsap.from($$('li:nth-child(n+4)', ul), { opacity: 0, y: 8, duration: 0.35, stagger: 0.04, ease: 'power2.out' });
+      if (hasGsap) ST.refresh();
+    });
+    ul.parentNode.insertBefore(b, ul.nextSibling);
+  });
+
+  /* ─── Masthead name: a short scramble on hover, settling left to right ───
+     Mouse only, once per hover, never with motion off. The word's width is held so nothing shifts,
+     and the link keeps its own label for screen readers. */
+  (function () {
+    var word = $('.mh-mark span'); if (!word || reduce || !fine) return;
+    var text = word.textContent, glyphs = 'ABCDEFGHJKLMNOPRSTUVWXYZ', running = false;
+    $('.mh-mark').addEventListener('pointerenter', function (e) {
+      if (running || e.pointerType !== 'mouse') return;
+      running = true;
+      word.style.display = 'inline-block'; word.style.width = word.getBoundingClientRect().width + 'px'; word.style.whiteSpace = 'nowrap';
+      var t0 = performance.now(), dur = 520;
+      (function step(now) {
+        var k = Math.min(1, (now - t0) / dur), settled = Math.floor(k * text.length);
+        word.textContent = text.split('').map(function (ch, i) {
+          return i < settled || ch === ' ' ? ch : glyphs[(Math.random() * glyphs.length) | 0];
+        }).join('');
+        if (k < 1) requestAnimationFrame(step);
+        else { word.textContent = text; word.style.width = ''; word.style.display = ''; word.style.whiteSpace = ''; running = false; }
+      })(t0);
+    });
+  })();
+
+  /* ─── Closest live site: pick a business type, see the real client site that fits it ───
+     "Start from this" fills the form's subject and an opening line (only if the message is empty). */
+  (function () {
+    var box = $('.closest'); if (!box) return;
+    var SITES = {
+      kendidit: { n: 'ken.didit', url: 'https://kendidit.vercel.app', img: 'img/sites/kenya-mobile.webp', why: 'Price list, a 3-step booker with deposits, and an owner panel for her hours, prices and photos.' },
+      mariah: { n: 'Mar Latrice Styles', url: 'https://mariahhairpage.vercel.app', img: 'img/sites/mariah-mobile.webp', why: 'A 33-service menu that sends clients to her Square booking.' },
+      dawg: { n: 'Dawg City', url: 'https://dawgcity.vercel.app', img: 'img/sites/dawgcity-mobile.webp', why: 'The full menu, open-now hours and buttons straight to pickup and delivery.' },
+      essence: { n: 'Essence of Childcare University', url: 'https://essencechildcare.vercel.app', img: 'img/sites/essence-mobile.webp', why: 'Hours, tuition, enrollment and tour forms, with Call, Tour and Enroll on phones.' },
+      lucent: { n: 'Lucent', url: 'https://testbrand-ten.vercel.app', img: 'img/sites/lucent-mobile.webp', why: 'A drop with colorways, sizes, a size finder and a cart.' },
+      gems: { n: 'Hidden Gems', url: 'https://city-azure.vercel.app', img: 'img/sites/hiddengems-mobile.webp', why: 'A city guide with a map, spot cards and a printable plan.' }
+    };
+    var TYPES = { beauty: ['kendidit', 'mariah'], food: ['dawg'], care: ['essence'], shop: ['lucent'], guide: ['gems'] };
+    var LABEL = { beauty: 'hair or beauty', food: 'food or drinks', care: 'childcare or services', shop: 'shop or clothing', guide: 'tours, guides or apps' };
+    var out = $('.closest-out', box), chips = $$('.closest-chips button', box);
+    box.addEventListener('click', function (e) {
+      var c = e.target.closest('.closest-chips button');
+      if (c) {
+        chips.forEach(function (x) { x.setAttribute('aria-pressed', x === c ? 'true' : 'false'); });
+        var frag = document.createDocumentFragment();
+        TYPES[c.dataset.k].forEach(function (id) {
+          var st = SITES[id], card = document.createElement('div'); card.className = 'closest-card';
+          var im = document.createElement('img'); im.src = st.img; im.alt = ''; im.width = 72; im.height = 156; im.loading = 'lazy'; im.decoding = 'async';
+          var tx = document.createElement('div');
+          var h = document.createElement('p'); h.className = 'closest-n'; h.textContent = st.n;
+          var w = document.createElement('p'); w.className = 'closest-why'; w.textContent = st.why;
+          var acts = document.createElement('p'); acts.className = 'closest-acts';
+          var open = document.createElement('a'); open.href = st.url; open.target = '_blank'; open.rel = 'noopener'; open.textContent = 'Open the live site';
+          var use = document.createElement('button'); use.type = 'button'; use.className = 'closest-use'; use.dataset.site = id; use.dataset.k = c.dataset.k; use.textContent = 'Start from this one';
+          acts.appendChild(open); acts.appendChild(use);
+          tx.appendChild(h); tx.appendChild(w); tx.appendChild(acts);
+          card.appendChild(im); card.appendChild(tx); frag.appendChild(card);
+        });
+        out.replaceChildren(frag);
+        if (!reduce && hasGsap) gsap.from(out.children, { opacity: 0, y: 10, duration: 0.4, stagger: 0.06, ease: 'power2.out' });
+        return;
+      }
+      var u = e.target.closest('.closest-use');
+      if (u) {
+        var subj = $('#subject'), msg = $('#message'), st = SITES[u.dataset.site];
+        if (subj) subj.value = 'Website for my business';
+        if (msg && !msg.value.trim()) msg.value = 'I run a ' + LABEL[u.dataset.k] + ' business. I like ' + st.n + ' as a starting point. ';
+        var nm = $('#from_name');
+        if (nm) { nm.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); nm.focus({ preventScroll: true }); }
+      }
     });
   })();
 

@@ -529,8 +529,28 @@ function initTurntable() {
     rig.add(M.holder);
     buildPlinth();
     frame();
+    setupViews();
     L.start();
   }).catch(() => setState('fallback'));
+
+  // Views: the textured model, a clay pass that shows the form without color, and the wireframe that
+  // shows the mesh itself. Materials swap on the posed, skinned meshes, so every view keeps the pose.
+  function setupViews() {
+    const group = fig.querySelector('.tt-views');
+    if (!group || !M) return;
+    const meshes = [];
+    M.holder.traverse((o) => { if (o.isMesh) meshes.push({ o, mat: o.material }); });
+    const clay = new THREE.MeshStandardMaterial({ color: 0xd9d3c7, roughness: 0.82, metalness: 0 });
+    const wire = new THREE.MeshBasicMaterial({ color: 0xc29a6b, wireframe: true });
+    const pick = (mode) => (m) => (Array.isArray(m.mat) ? m.mat.map(() => (mode === 'clay' ? clay : wire)) : (mode === 'clay' ? clay : wire));
+    function setView(mode) {
+      meshes.forEach((m) => { m.o.material = mode === 'tex' ? m.mat : pick(mode)(m); m.o.castShadow = mode !== 'wire'; });
+      group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.view === mode ? 'true' : 'false'));
+      L.kick();
+    }
+    group.addEventListener('click', (e) => { const b = e.target.closest('button[data-view]'); if (b) setView(b.dataset.view); });
+    group.hidden = false;
+  }
 
   let rz = 0;
   new ResizeObserver(() => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => { frame(); if (M) L.kick(); }); }).observe(canvas);
