@@ -15,7 +15,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reduced = !!window.__tdReduce;
 const narrow = window.matchMedia('(max-width: 600px)');
 const MODEL = new URL('models/portfolio3d1.glb', document.baseURI).href;
 

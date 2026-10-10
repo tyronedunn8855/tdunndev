@@ -16,7 +16,18 @@
 
   window.__tdReady = true;
   var root = document.documentElement;
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Full motion by default. Visitors who want less turn it off with the footer button (saved per browser).
+  var reduce = !!window.__tdReduce;
+  (function () {
+    var b = document.querySelector('.motion-toggle');
+    if (!b) return;
+    b.textContent = reduce ? 'Turn motion on' : 'Turn motion off';
+    b.setAttribute('aria-pressed', reduce ? 'true' : 'false');
+    b.addEventListener('click', function () {
+      try { localStorage.setItem('td-motion', reduce ? 'on' : 'off'); sessionStorage.removeItem('td-seen'); } catch (e) {}
+      location.reload();
+    });
+  })();
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var gsap = window.gsap, ST = window.ScrollTrigger;
   var hasGsap = !!(gsap && ST);

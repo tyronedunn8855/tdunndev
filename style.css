@@ -58,7 +58,7 @@ html {
   background: var(--bone);
   scrollbar-color: #8f887b var(--bone);
 }
-@media (prefers-reduced-motion: no-preference) { html:not(.lenis) { scroll-behavior: smooth; } }
+@media all { html:not(.rm):not(.lenis) { scroll-behavior: smooth; } }
 /* Lenis drives scrolling itself; native smooth scrolling would fight it (and ScrollTrigger's jumps) */
 html.lenis { scroll-behavior: auto !important; }
 body {
@@ -343,7 +343,7 @@ html.lenis, html.lenis body { height: auto; }
 .ff-line .sw, .ff-note .sw { padding-bottom: 0.1em; margin-bottom: -0.1em; }
 
 /* As the cover scrolls away, the nameplate sinks a little slower than the page (scroll-driven, no JS) */
-@media (prefers-reduced-motion: no-preference) {
+@media all {
   @supports (animation-timeline: view()) {
     .css-motion .nameplate { animation: np-drift linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
     @keyframes np-drift { from { translate: 0 0; } to { translate: 0 42%; } }
@@ -478,7 +478,7 @@ html.lenis, html.lenis body { height: auto; }
 
 /* CSS fallback entrance when GSAP is missing (html.css-motion): the color plate wipes up, then the
    desktop and phone settle at two depths. With GSAP, script.js scrubs the same idea with scroll. */
-@media (prefers-reduced-motion: no-preference) {
+@media all {
   .css-motion .site .plate-bg { clip-path: inset(100% 0 0 0); transition: clip-path 640ms var(--ease-in-out); }
   .css-motion .site .dev-desk, .css-motion .site .dev-phone { opacity: 0; transform: translateY(36px); transition: opacity 420ms ease, transform 620ms var(--ease-out); }
   .css-motion .site .dev-desk { transition-delay: 260ms; }
@@ -763,13 +763,14 @@ html:not(.tt-ok) .turn-hint { display: none; }
 @media (hover: hover) and (pointer: fine) { #lightbox button:hover { border-color: var(--bronze-lt); color: var(--bronze-lt); } }
 
 /* ─── Reduced motion: fewer and gentler, not zero. Opacity changes that explain state stay. ─── */
-@media (prefers-reduced-motion: reduce) {
-  .btn:active, .tt-btn:active, .plate-btn:active img, .sheet-index a:active .si-thumb img { transform: none; }
-  #mobile-menu, #mobile-menu.open { transform: none; }
-  #lightbox figure { transform: none; transition: none; }
-  .btn-send.is-loading::after { animation: none; width: 100%; opacity: 0.6; }
-  .sent:not([hidden]) { animation: fade-in 200ms ease both; }
-  .skip-link { transition: none; }
+/* reduced: set by the footer motion toggle (html.rm) */
+@media all {
+  .rm .btn:active, .rm .tt-btn:active, .rm .plate-btn:active img, .rm .sheet-index a:active .si-thumb img { transform: none; }
+  .rm #mobile-menu, .rm #mobile-menu.open { transform: none; }
+  .rm #lightbox figure { transform: none; transition: none; }
+  .rm .btn-send.is-loading::after { animation: none; width: 100%; opacity: 0.6; }
+  .rm .sent:not([hidden]) { animation: fade-in 200ms ease both; }
+  .rm .skip-link { transition: none; }
 }
 
 /* Film on tall screens (phones, portrait tablets): the portrait frame set, statements up top */
@@ -880,3 +881,5 @@ html:not(.tt-ok) .turn-hint { display: none; }
 
 /* Magnetic buttons: GSAP owns transform on these, so CSS only transitions color */
 .btn.mag, .tt-btn.mag { transition-property: background-color, color, border-color; }
+
+.motion-toggle { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }

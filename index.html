@@ -24,9 +24,10 @@
   <link rel="preload" href="film/manifest.json" as="fetch" crossorigin>
   <link rel="stylesheet" href="style.css">
   <!-- html.js arms the motion styles. html.intro plays the first-visit loader once per session
-       (never under reduced motion). If script.js never reports in, drop back to the plain page. -->
-  <script>(function(d){d.classList.add('js');var seen=false;try{seen=!!sessionStorage.getItem('td-seen');}catch(e){}
-  if(!seen&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('intro');
+       (skipped when the visitor turns motion off in the footer). If script.js never reports in, drop back to the plain page. -->
+  <script>(function(d){d.classList.add('js');var seen=false,rm=false;try{seen=!!sessionStorage.getItem('td-seen');rm=localStorage.getItem('td-motion')==='off';}catch(e){}
+  window.__tdReduce=rm;if(rm)d.classList.add('rm');
+  if(!seen&&!rm)d.classList.add('intro');
   setTimeout(function(){if(!window.__tdReady)d.classList.remove('js','intro');},3000);})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Tyrone Dunn","url":"https://tyronedunn8855.github.io/tdunndev/","email":"mailto:tyrone.dunn8855@gmail.com","jobTitle":"Web developer and 3D artist","address":{"@type":"PostalAddress","addressLocality":"Milwaukee","addressRegion":"WI","addressCountry":"US"},"affiliation":"Marquette University","sameAs":["https://instagram.com/hermesblankets","https://github.com/tyronedunn8855"]}</script>
 </head>
@@ -679,7 +680,7 @@
           <div><h2>Sections</h2><ul><li><a href="#work">Work</a></li><li><a href="#owners">Owner controls</a></li><li><a href="#rates">Rates</a></li><li><a href="#plates">3D work</a></li><li><a href="#connect">Contact</a></li></ul></div>
           <div><h2>Contact</h2><ul><li><a href="mailto:tyrone.dunn8855@gmail.com">tyrone.dunn8855@gmail.com</a></li><li><a href="https://instagram.com/hermesblankets" target="_blank" rel="noopener">IG @hermesblankets</a></li><li><a href="https://github.com/tyronedunn8855" target="_blank" rel="noopener">GitHub</a></li></ul></div>
         </div>
-        <p class="colo-base"><span>Milwaukee, WI</span><a href="#top">Back to top</a></p>
+        <p class="colo-base"><span>Milwaukee, WI</span><button type="button" class="motion-toggle" aria-pressed="false">Turn motion off</button><a href="#top">Back to top</a></p>
       </div>
     </footer>
   </main>
