@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /outreach/
 
 Sitemap: https://tdunndev.vercel.app/sitemap.xml

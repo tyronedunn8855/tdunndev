@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Tyrone's Outreach Texts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column of lead cards, each with the number, the editable text, and two actions. */
+:root{
+  --bg:#ece8df; --card:#f7f5f0; --ink:#1d1b18; --muted:#6b645a; --rule:#d6d0c4; --accent:#7a5a3a; --accent-ink:#fff8ef; --done:#3d6b4a;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#151412; --card:#1f1d1a; --ink:#ece6da; --muted:#a39a8c; --rule:#34302a; --accent:#c79a68; --accent-ink:#1a140d; --done:#7fb38d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151412; --card:#1f1d1a; --ink:#ece6da; --muted:#a39a8c; --rule:#34302a; --accent:#c79a68; --accent-ink:#1a140d; --done:#7fb38d; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--display);font-size:15px;line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:28px 48px;display:grid;gap:20px}
+header{display:grid;gap:6px}
+h1{font-size:clamp(26px,6vw,36px);font-weight:800;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.lede{color:var(--muted);margin:0;max-width:60ch}
+.progress{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.lead{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:18px;display:grid;gap:12px;min-width:0}
+.lead.sent{border-color:var(--done)}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 14px}
+h2{font-size:19px;font-weight:800;margin:0}
+.kind{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted)}
+.phone{font-family:var(--mono);color:var(--ink);user-select:all}
+textarea{width:100%;box-sizing:border-box;min-height:200px;resize:vertical;font:inherit;font-size:14px;line-height:1.5;color:var(--ink);background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:12px}
+.count{font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:inherit;font-weight:600;font-size:14px;border-radius:8px;padding:10px 16px;cursor:pointer;text-decoration:none;border:1px solid var(--accent);display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+label.check{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--muted);margin-left:auto;cursor:pointer}
+.status{font-size:13px;color:var(--done);min-height:1em}
+.note{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:16px;max-width:65ch}
+</style>
+</head>
+<body style="margin:0">
+
+<div class="wrap">
+  <header>
+    <h1>Outreach texts</h1>
+    <p class="lede">Tap "Text them" on your phone to open Messages with their number and the message filled in. If it doesn&rsquo;t open, use "Copy message" and paste it into a new text to the number shown.</p>
+    <p class="progress" id="progress"></p>
+  </header>
+  <main id="leads" style="display:grid;gap:16px"></main>
+  <p class="note">Edits you make to a message are used when you tap "Text them" or "Copy message". Check each number on Google Maps before sending, and nothing here sends on its own: you still press send in Messages.</p>
+</div>
+
+<script>
+const PORTFOLIO = "tdunndev.vercel.app";
+const SIGN = "\n\nTyrone\ntyrone.dunn8855@gmail.com";
+const LEADS = [
+  {id:"peco", name:"Peco African Hair Braiding", kind:"Hair braiding · new site", phone:"+14148759341", show:"(414) 875-9341", addr:"2458 W Capitol Dr",
+   msg:`Hi, I'm Tyrone, a web developer here in Milwaukee. Peco has great reviews but no website yet, so I'd like to build you one for free first. You see it before deciding anything.
+
+It would have your styles with prices, a booking page, a photo gallery of your work, and your hours and address, all fast on phones.
+
+If you like it, it's $80 one time, plus a custom web address if you want one. There's an optional $15 a month plan where I handle every update for you.
+
+You can see my work at ${PORTFOLIO}
+
+To start, just text me your styles and prices, your hours, and 5 to 10 photos of your work. No pressure, thank you!`},
+  {id:"rev2", name:"Revelations Two African Hair Braiding", kind:"Hair braiding · upgrade", phone:"+14142341398", show:"(414) 234-1398", addr:"5268 N 76th St",
+   msg:`Hi, I'm Tyrone, a web developer here in Milwaukee. Revelations Two has great reviews, and I'd like to build you an upgraded website for free, so you can compare it to your current one before deciding anything.
+
+It would list every style with its full price, including add-ons like wash and blow dry, plus a booking page, a photo gallery and your hours, all fast on phones.
+
+If you like it, it's $80 one time, and we can keep your current web address. There's an optional $15 a month plan where I handle every update for you.
+
+You can see my work at ${PORTFOLIO}
+
+To start, just text me your styles and prices, your hours, and 5 to 10 photos of your work. No pressure, thank you!`},
+  {id:"shonout", name:"Sho N Out Barbershop", kind:"Barbershop · site not working", phone:"+14144499905", show:"(414) 449-9905", addr:"5501 W North Ave",
+   msg:`Hi, I'm Tyrone, a web developer here in Milwaukee. Sho N Out has great reviews, but I noticed your website isn't working right now. I'd like to build you a new one for free first, so you can see it before deciding anything.
+
+It would have your services and prices, your barbers, a way to book or check walk-ins, a gallery of fresh cuts, and your hours, all fast on phones.
+
+If you like it, it's $80 one time, plus a custom web address if you want one. There's an optional $15 a month plan where I handle every update for you.
+
+You can see my work at ${PORTFOLIO}
+
+To start, just text me your services and prices, your barbers' names, your hours, and a few photos of cuts. No pressure, thank you!`},
+  {id:"tasteofsoul", name:"A Taste of Soul MKE", kind:"Soul food · new site", phone:"+14148101101", show:"(414) 810-1101", addr:"4706 W Fond du Lac Ave",
+   msg:`Hi, I'm Tyrone, a web developer here in Milwaukee. A Taste of Soul MKE has great reviews but no website yet, so I'd like to build you one for free first. You see it before deciding anything.
+
+It would have your menu and prices, what's served on which days, your hours for each day, food photos, and a page for booking events, all fast on phones.
+
+If you like it, it's $80 one time, plus a custom web address if you want one. There's an optional $15 a month plan where I handle every update for you.
+
+You can see my work at ${PORTFOLIO}
+
+To start, just text me your menu, your hours, and a few food photos. No pressure, thank you!`},
+  {id:"soulgood", name:"Soul Good Kitchen", kind:"Soul food · upgrade", phone:"+14144640888", show:"(414) 464-0888", addr:"6041 N Teutonia Ave",
+   msg:`Hi, I'm Tyrone, a web developer here in Milwaukee. I'd like to build Soul Good Kitchen an upgraded website for free, so you can compare it to your current one before deciding anything.
+
+Since you're drive-thru, it would put your full menu with prices, daily hours and food photos right up front, so customers know what to order before they pull up. It would be fast and easy on phones.
+
+If you like it, it's $80 one time, and we can keep your current web address. There's an optional $15 a month plan where I handle updates like prices and specials.
+
+You can see my work at ${PORTFOLIO}
+
+To start, just text me your menu, your hours, and a few food photos. No pressure, thank you!`}
+];
+
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+const root=document.getElementById('leads');
+function smsHref(phone,text){return "sms:"+phone+"?&body="+encodeURIComponent(text)}
+function updateProgress(){
+  const n=LEADS.filter(l=>store('sent-'+l.id)==='1').length;
+  document.getElementById('progress').textContent=n+" of "+LEADS.length+" marked sent";
+}
+LEADS.forEach(l=>{
+  const saved=store('msg-'+l.id);
+  const text=(saved||l.msg+SIGN);
+  const card=document.createElement('section');
+  card.className='lead';
+  card.innerHTML=`
+    <div class="top"><h2></h2><span class="kind"></span></div>
+    <div class="meta"><span class="phone"></span><span class="addr"></span></div>
+    <textarea id="t-${l.id}" aria-label="Message to ${l.name}"></textarea>
+    <div class="count"></div>
+    <div class="actions">
+      <a class="btn primary" href="#">Text them</a>
+      <button type="button" class="btn ghost copy">Copy message</button>
+      <label class="check"><input type="checkbox" id="s-${l.id}"> Sent</label>
+    </div>
+    <div class="status" aria-live="polite"></div>`;
+  card.querySelector('h2').textContent=l.name;
+  card.querySelector('.kind').textContent=l.kind;
+  card.querySelector('.phone').textContent=l.show;
+  card.querySelector('.addr').textContent=l.addr;
+  const ta=card.querySelector('textarea'), a=card.querySelector('a.btn'), cnt=card.querySelector('.count'), st=card.querySelector('.status'), cb=card.querySelector('input');
+  ta.value=text;
+  function sync(){a.href=smsHref(l.phone,ta.value);cnt.textContent=ta.value.length+" characters"}
+  sync();
+  ta.addEventListener('input',()=>{store('msg-'+l.id,ta.value);sync()});
+  card.querySelector('.copy').addEventListener('click',()=>{
+    const ok=()=>{st.textContent="Copied. Paste it into a text to "+l.show+"."};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(ok,()=>{ta.select();st.textContent="Text selected. Press copy, then paste it into a text to "+l.show+"."})}
+    else{ta.select();st.textContent="Text selected. Press copy, then paste it into a text to "+l.show+"."}
+  });
+  cb.checked=store('sent-'+l.id)==='1';card.classList.toggle('sent',cb.checked);
+  cb.addEventListener('change',()=>{store('sent-'+l.id,cb.checked?'1':'0');card.classList.toggle('sent',cb.checked);updateProgress()});
+  root.appendChild(card);
+});
+updateProgress();
+</script>
+</body>
+</html>
