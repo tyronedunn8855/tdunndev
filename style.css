@@ -595,7 +595,7 @@ html.lenis, html.lenis body { height: auto; }
 .rm .od-cal i.pop, .rm .od.saved .od-link::before { animation: none; }
 .od-screens { grid-column: 1 / -1; margin-top: clamp(8px, 2vw, 24px); }
 .od-screens-k { font-size: 0.875rem; color: var(--muted); margin-bottom: 12px; }
-.od-screens ul { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 220px)); gap: clamp(14px, 2.4vw, 32px); }
+.od-screens ul { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 190px)); gap: clamp(12px, 2vw, 28px); }
 .od-screens li { display: flex; flex-direction: column; gap: 8px; }
 .od-screens img { width: 100%; height: auto; border: 6px solid var(--ink); border-radius: 22px; background: var(--ink); }
 .od-screens span { font-size: 0.875rem; font-weight: 650; text-align: center; }
