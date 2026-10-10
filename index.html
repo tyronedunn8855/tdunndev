@@ -23,11 +23,11 @@
   <link rel="preload" href="img/cover-live-poster.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="preload" href="film/manifest.json" as="fetch" crossorigin>
   <link rel="stylesheet" href="style.css">
-  <!-- html.js arms the motion styles. html.intro plays the first-visit loader once per session
+  <!-- html.js arms the motion styles. html.intro plays the loader on every load
        (skipped when the visitor turns motion off in the footer). If script.js never reports in, drop back to the plain page. -->
-  <script>(function(d){d.classList.add('js');var seen=false,rm=false;try{seen=!!sessionStorage.getItem('td-seen');rm=localStorage.getItem('td-motion')==='off';}catch(e){}
+  <script>(function(d){d.classList.add('js');var rm=false;try{rm=localStorage.getItem('td-motion')==='off';}catch(e){}
   window.__tdReduce=rm;if(rm)d.classList.add('rm');
-  if(!seen&&!rm)d.classList.add('intro');
+  if(!rm){d.classList.add('intro');if('scrollRestoration' in history)history.scrollRestoration='manual';window.scrollTo(0,0);}
   setTimeout(function(){if(!window.__tdReady)d.classList.remove('js','intro');},3000);})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Tyrone Dunn","url":"https://tyronedunn8855.github.io/tdunndev/","email":"mailto:tyrone.dunn8855@gmail.com","jobTitle":"Web developer and 3D artist","address":{"@type":"PostalAddress","addressLocality":"Milwaukee","addressRegion":"WI","addressCountry":"US"},"affiliation":"Marquette University","sameAs":["https://instagram.com/hermesblankets","https://github.com/tyronedunn8855"]}</script>
 </head>

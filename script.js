@@ -24,7 +24,7 @@
     b.textContent = reduce ? 'Turn motion on' : 'Turn motion off';
     b.setAttribute('aria-pressed', reduce ? 'true' : 'false');
     b.addEventListener('click', function () {
-      try { localStorage.setItem('td-motion', reduce ? 'on' : 'off'); sessionStorage.removeItem('td-seen'); } catch (e) {}
+      try { localStorage.setItem('td-motion', reduce ? 'on' : 'off'); } catch (e) {}
       location.reload();
     });
   })();
@@ -41,8 +41,6 @@
   // Curves (Emil Kowalski's tokens, expressed for GSAP)
   var EASE_OUT = 'expo.out';          // entrances
   var EASE_MOVE = 'power3.inOut';     // things moving on screen, wipes
-
-  try { sessionStorage.setItem('td-seen', '1'); } catch (e) { /* private mode */ }
 
   /* ═══ KIT: smooth scroll ═══
      Lenis on wheel/trackpad only; touch keeps native scrolling so phones never fight the page. */
