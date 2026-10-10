@@ -130,6 +130,8 @@
     if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
     loader = null;
     root.classList.remove('intro', 'skip', 'ld-css');
+    var heroStar = document.querySelector('.cover-star');
+    if (heroStar) heroStar.dispatchEvent(new Event('td:wake')); // the live model re-checks that it is on screen
     window.removeEventListener('keydown', skipIntro, true);
     window.removeEventListener('pointerdown', skipIntro, true);
     if (hasGsap) ST.refresh();

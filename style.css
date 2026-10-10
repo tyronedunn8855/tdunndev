@@ -302,6 +302,15 @@ html.lenis, html.lenis body { height: auto; }
 .star-poster { object-fit: contain; transition: opacity 400ms ease; }
 .star-3d { opacity: 0; transition: opacity 400ms ease; }
 .cover-star.is-live .star-3d { opacity: 1; }
+/* Hit area over the figure itself (the stage lets clicks through to the nameplate around him) */
+.star-hit {
+  position: absolute; top: 26%; bottom: 3%; left: 27%; right: 25%;
+  display: none; pointer-events: auto; cursor: pointer;
+  background: none; border: 0; padding: 0; border-radius: 40% 40% 12% 12%;
+  -webkit-tap-highlight-color: transparent;
+}
+.cover-star.is-live .star-hit { display: block; }
+.rm .cover-star .star-hit, .cover-star[data-film] .star-hit { display: none; }
 .cover-star.is-live .star-poster { opacity: 0; }
 .cover-star figcaption { margin-top: -6px; font-size: 0.8125rem; font-weight: 550; color: var(--muted); text-align: center; }
 .cap-live { display: none; }
