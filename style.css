@@ -217,12 +217,19 @@ button { font: inherit; color: inherit; }
   display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
   margin-top: calc((100vw - 2 * var(--gut)) * -0.15);
 }
-.cover-star img { width: auto; max-height: min(66svh, 660px); filter: drop-shadow(0 22px 26px rgba(18, 17, 16, 0.38)); }
+.cover-star picture img { width: auto; max-height: min(66svh, 660px); filter: drop-shadow(0 22px 26px rgba(18, 17, 16, 0.38)); }
 .cover-star figcaption { font-family: var(--mono); font-size: 12px; margin-top: 8px; text-align: center; }
 /* Live 3D: the canvas sits over the poster cutout, 132% of its height for lift headroom.
    The poster stays in the layout (opacity only), so the swap never shifts anything. */
 .star-stage { position: relative; }
-.star-stage picture { display: block; transition: opacity 0.9s var(--ease); }
+/* The old cutout only reserves the layout box now; the poster is a still of the live model,
+   placed exactly where the canvas draws, so the swap to live 3D shows the same figure. */
+.star-stage picture { display: block; visibility: hidden; }
+.star-poster {
+  position: absolute; left: 50%; bottom: -2%; height: 132%; width: auto; aspect-ratio: 0.86; max-height: none; max-width: none; object-fit: contain;
+  transform: translateX(-50%); pointer-events: none; transition: opacity 0.9s var(--ease); filter: none;
+}
+.cover-star.is-live .star-poster { opacity: 0; }
 .star-3d {
   position: absolute; left: 50%; bottom: -2%; height: 132%; width: auto; aspect-ratio: 0.86;
   transform: translateX(-50%); pointer-events: none; opacity: 0; transition: opacity 0.9s var(--ease);
@@ -600,7 +607,7 @@ button { font: inherit; color: inherit; }
   .cover-body { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); }
   .cover-lines { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; }
   .cover-star { margin-top: calc((100vw - 2 * var(--gut)) * -0.07); }
-  .cover-star img { max-height: 50svh; }
+  .cover-star picture img { max-height: 50svh; }
   .rates-grid { grid-template-columns: 1fr; }
   .toc { grid-template-columns: repeat(2, 1fr); }
   .site-stage, .site-flip .site-stage { grid-column: 1 / -1; grid-row: auto; }
@@ -644,7 +651,7 @@ button { font: inherit; color: inherit; }
   .nameplate { display: block; font-size: calc((100vw - 2 * var(--gut)) * 0.335); line-height: 0.8; }
   .cover-body { grid-template-columns: 1fr; }
   .cover-star { position: absolute; right: -4px; top: calc(-1 * (100vw - 2 * var(--gut)) * 0.56); width: 31%; margin: 0; z-index: 2; }
-  .cover-star img { max-height: none; width: 100%; }
+  .cover-star picture img { max-height: none; width: 100%; }
   .cover-star figcaption { display: none; }
   .cover-lead { position: relative; z-index: 3; }
   .cover-line { font-size: clamp(28px, 8.4vw, 36px); max-width: 12ch; margin-top: calc((100vw - 2 * var(--gut)) * 0.16); }
