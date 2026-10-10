@@ -4,6 +4,8 @@
       Desktop: turns toward the cursor (eased, limited yaw and pitch, head leads the body), bobs a
       little, and turns and lifts away as you scroll off the cover. Phones: no cursor follow, a gentle
       turn on scroll. Reduced motion: one still frame.
+   The scroll film in script.js starts and ends on this model's resting pose: while it plays the figure
+   eases back to rest (data-film) and sleeps while fully covered (data-hold), then wakes on td:wake.
    2. 3D section: the same model on a turntable. Scrolling past turns it; dragging spins it with a
       little inertia; two buttons turn it for keyboard users. Reduced motion: no scroll turn, no inertia.
    The model file is fetched once and parsed per stage. Each stage starts only when near the
@@ -193,6 +195,8 @@ function initCover() {
 
   window.addEventListener('pointermove', (e) => {
     if (!follows() || e.pointerType === 'touch') return;
+    // While the scroll film (script.js) is playing, settle to the resting pose it starts and ends on
+    if (fig.dataset.film) { tgt.x = 0; tgt.y = 0; return; }
     const r = canvas.getBoundingClientRect();
     const cx = r.left + r.width / 2, cy = r.top + r.height * 0.3;
     tgt.x = THREE.MathUtils.clamp((e.clientX - cx) / (window.innerWidth * 0.5), -1, 1);
@@ -238,10 +242,15 @@ function initCover() {
     });
   }
   const L = loop(cover, (dt) => {
+    if (fig.dataset.film) { tgt.x = 0; tgt.y = 0; }
+    // Fully covered by the scroll film: sleep until script.js hands back (td:wake)
+    if (fig.dataset.hold && live) return false;
     t += dt; readScroll(); pose(dt);
     renderer.render(scene, camera);
     if (!live) goLive();
   }, '120px 0px');
+
+  fig.addEventListener('td:wake', () => L.kick());
 
   loadModel().then((gltf) => {
     M = prepModel(gltf);

@@ -58,7 +58,9 @@ html {
   background: var(--bone);
   scrollbar-color: #8f887b var(--bone);
 }
-@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+@media (prefers-reduced-motion: no-preference) { html:not(.lenis) { scroll-behavior: smooth; } }
+/* Lenis drives scrolling itself; native smooth scrolling would fight it (and ScrollTrigger's jumps) */
+html.lenis { scroll-behavior: auto !important; }
 body {
   background: var(--bone);
   color: var(--ink);
@@ -121,40 +123,76 @@ time, .num { font-variant-numeric: tabular-nums; }
 }
 .btn[disabled] { cursor: progress; }
 
-/* ─── Loader (first visit per session; html.intro is set in the head) ─── */
+/* ─── Loader (first visit per session; html.intro is set in the head) ───
+   script.js drives it with GSAP: the three ink plates slide into register while the rule fills
+   (about 1.2s), then the sheet lifts off the cover and hands off to the cover reveal.
+   If GSAP never loads, html.ld-css plays the same idea in plain CSS. Any key or tap skips. */
 #loader { display: none; }
 .intro #loader {
   display: grid; place-items: center;
   position: fixed; inset: 0; z-index: 500;
   background: var(--bone);
-  animation: ld-lift 460ms var(--ease-drawer) 560ms both;
 }
-.ld-mark { position: relative; width: 92px; height: 92px; }
-.ld-plate { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: multiply; }
-.ld-p1 { color: var(--bronze-lt); animation: ld-reg-a 460ms var(--ease-in-out) 60ms both, ld-fade 180ms ease 480ms forwards; }
-.ld-p2 { color: #8f887b; animation: ld-reg-b 460ms var(--ease-in-out) 60ms both, ld-fade 180ms ease 480ms forwards; }
-.ld-p3 { color: var(--ink); animation: ld-ink 300ms ease 120ms both; }
+.ld-inner { display: grid; justify-items: center; gap: 18px; }
+.ld-mark { position: relative; width: clamp(88px, 9vw, 120px); aspect-ratio: 1; }
+.ld-plate { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: multiply; opacity: 0; }
+.ld-p1 { color: var(--bronze-lt); }
+.ld-p2 { color: #8f887b; }
+.ld-p3 { color: var(--ink); }
+.ld-name { overflow: clip; font-weight: 900; font-stretch: 62%; text-transform: uppercase; font-size: 1.375rem; line-height: 1; letter-spacing: 0.04em; }
+.ld-name span { display: block; transform: translateY(105%); }
+.ld-rule { display: block; width: 148px; height: 2px; background: var(--rule); overflow: hidden; }
+.ld-rule i { display: block; height: 100%; background: var(--ink); transform: scaleX(0); transform-origin: left; }
+.ld-sheet { position: absolute; inset: 0; display: grid; place-items: center; background: var(--ink); color: var(--bone); clip-path: inset(100% 0 0 0); }
+.ld-sheet-mark { width: 56px; height: 56px; opacity: 0; }
+.ld-skip {
+  position: absolute; right: max(var(--gut), env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  min-height: 44px; padding: 0 4px; font-size: 0.875rem; font-weight: 600; color: var(--muted);
+  text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 5px;
+}
+@media (hover: hover) and (pointer: fine) { .ld-skip:hover { color: var(--ink); } }
+
+/* CSS fallback when GSAP is missing */
+.ld-css #loader { animation: ld-lift 520ms var(--ease-in-out) 1100ms both; }
+.ld-css .ld-p1 { animation: ld-reg-a 620ms var(--ease-in-out) 100ms both, ld-fade 200ms ease 820ms forwards; }
+.ld-css .ld-p2 { animation: ld-reg-b 620ms var(--ease-in-out) 100ms both, ld-fade 200ms ease 820ms forwards; }
+.ld-css .ld-p3 { animation: ld-ink 360ms ease 200ms both; }
+.ld-css .ld-name span { animation: np-rise 600ms var(--ease-out) 260ms both; }
+.ld-css .ld-rule i { animation: ld-fill 900ms var(--ease-in-out) 100ms both; }
 @keyframes ld-reg-a { from { transform: translate(-18px, 11px) rotate(-4deg); opacity: 0; } 25% { opacity: 1; } to { transform: none; opacity: 1; } }
 @keyframes ld-reg-b { from { transform: translate(15px, -13px) rotate(3deg); opacity: 0; } 25% { opacity: 1; } to { transform: none; opacity: 1; } }
 @keyframes ld-ink { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: none; } }
 @keyframes ld-fade { to { opacity: 0; } }
-@keyframes ld-lift { from { transform: none; } to { transform: translateY(-100%); visibility: hidden; } }
-
-/* Cover entrance that the loader hands off to */
-.intro .np-word { animation: np-rise 680ms var(--ease-out) 620ms both; }
-.intro .np-line + .np-line .np-word { animation-delay: 680ms; }
-.intro .cover-star { animation: star-in 760ms var(--ease-out) 700ms both; }
-.intro .cover-lead > * { animation: fade-up 560ms var(--ease-out) both; }
-.intro .cover-lead > :nth-child(1) { animation-delay: 760ms; }
-.intro .cover-lead > :nth-child(2) { animation-delay: 820ms; }
-.intro .cover-lead > :nth-child(3) { animation-delay: 880ms; }
-.intro #masthead { animation: fade-in 360ms ease 820ms both; }
+@keyframes ld-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes ld-lift { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
+.ld-css .np-word { animation: np-rise 680ms var(--ease-out) 1200ms both; }
+.ld-css .np-line + .np-line .np-word { animation-delay: 1260ms; }
+.ld-css .cover-star { animation: star-in 760ms var(--ease-out) 1280ms both; }
+.ld-css .cover-lead > * { animation: fade-up 560ms var(--ease-out) 1340ms both; }
 @keyframes np-rise { from { transform: translateY(104%); } to { transform: none; } }
 @keyframes star-in { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: none; } }
 @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-.intro.skip #loader { display: none; }
-.intro.skip .np-word, .intro.skip .cover-star, .intro.skip .cover-lead > *, .intro.skip #masthead { animation: none; }
+
+/* Page wipe: an ink sheet with the TD mark, used only for long in-page jumps. Never takes clicks. */
+#wipe {
+  position: fixed; inset: 0; z-index: 400; pointer-events: none;
+  display: grid; place-items: center;
+  background: var(--ink); color: var(--bone);
+  clip-path: inset(100% 0 0 0); visibility: hidden;
+}
+.wipe-mark { width: 64px; height: 64px; }
+
+/* Lenis (recommended base styles) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Split text: script.js wraps words (and the nameplate's letters) in masks. Without JS, nothing changes. */
+.sw { display: inline-block; overflow: clip; vertical-align: top; padding: 0.06em 0 0.14em; margin: -0.06em 0 -0.14em; }
+.sw-i, .ch { display: inline-block; }
+.ch { will-change: auto; }
 
 /* ─── Masthead ─── */
 #masthead {
@@ -270,10 +308,44 @@ time, .num { font-variant-numeric: tabular-nums; }
 .cover-star.is-live .cap-live { display: inline; }
 .cover-star.is-live .cap-poster { display: none; }
 
+/* ─── Cover film (html.film-on, set by script.js) ───
+   Back to front: the big price, the nameplate (z 1), the film canvas (z 2, transparent WebP plates of the
+   model), the cover offer and buttons (z 3) and the statements (z 4). The cover is one screen tall and is
+   pinned while the film plays. Without html.film-on none of this exists and the cover is the static layout. */
+.film { display: none; }
+.film-on .film {
+  display: block; position: absolute; z-index: auto; top: 0; left: calc(50% - 50vw); width: 100vw; height: 100svh;
+  pointer-events: none;
+}
+.film-on #cover { height: 100svh; min-height: 0; }
+.film-on .star-stage { height: min(88svh, 900px); }
+.film-canvas { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; opacity: 0; }
+.film-back { position: absolute; inset: 0; z-index: 0; display: grid; place-items: center; }
+.fb-price {
+  font-weight: 900; font-stretch: 62%; line-height: 0.78; letter-spacing: -0.02em; color: var(--bronze);
+  font-size: min(84svh, 50vw); font-variant-numeric: tabular-nums; padding-top: 6svh;
+  clip-path: inset(100% 0 0 0);
+}
+.fb-price span { display: block; }
+.film-front { position: absolute; inset: 0; z-index: 4; }
+.ff-line {
+  position: absolute; left: max(var(--gut), calc(50vw - 800px + var(--gut))); bottom: 13svh; width: min(46vw, 9.5em);
+  font-weight: 800; font-stretch: 72%; font-size: clamp(3rem, min(8vw, 13svh), 9rem); line-height: 0.92; letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.ff-note {
+  position: absolute; left: max(var(--gut), calc(50vw - 800px + var(--gut))); bottom: 9svh; max-width: 11em; text-align: left;
+  font-weight: 800; font-stretch: 80%; font-size: clamp(1.5rem, 0.8rem + 1.9vw, 2.75rem); line-height: 1.05;
+}
+.ff-note b { color: var(--bronze); font-weight: 900; }
+.film-rail { position: absolute; z-index: 5; left: max(var(--gut), calc(50vw - 800px + var(--gut))); right: max(var(--gut), calc(50vw - 800px + var(--gut))); bottom: 0; height: 2px; background: var(--rule); }
+.film-rail i { display: block; height: 100%; background: var(--bronze); transform: scaleX(0); transform-origin: left; }
+.ff-line .sw, .ff-note .sw { padding-bottom: 0.1em; margin-bottom: -0.1em; }
+
 /* As the cover scrolls away, the nameplate sinks a little slower than the page (scroll-driven, no JS) */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
-    .nameplate { animation: np-drift linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+    .css-motion .nameplate { animation: np-drift linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
     @keyframes np-drift { from { translate: 0 0; } to { translate: 0 42%; } }
   }
 }
@@ -296,6 +368,7 @@ time, .num { font-variant-numeric: tabular-nums; }
 .sheet-index a { display: grid; gap: 2px; text-decoration: none; min-width: 0; }
 .si-thumb { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--plate); margin-bottom: 10px; }
 .si-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 300ms var(--ease-out); }
+.si-phone { display: none; }
 .si-name { font-weight: 750; font-size: 1.0625rem; line-height: 1.25; overflow-wrap: anywhere; }
 .si-kind, .sheet-index time { font-size: 0.875rem; line-height: 1.4; color: var(--muted); }
 .sheet-index a:active .si-thumb img { transform: scale(0.98); }
@@ -303,6 +376,25 @@ time, .num { font-variant-numeric: tabular-nums; }
   .sheet-index a:hover .si-thumb img { transform: scale(1.04); }
   .sheet-index a:hover .si-name { color: var(--bronze); }
 }
+
+/* Work reel (html.reel-on: wide screens with motion). The block is pinned for a while and the six frames
+   slide in from the right as you scroll; each frame still jumps to its feature below. */
+.reel-rail { display: none; }
+.reel-on .work-reel { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: calc(var(--head-h) + 16px) 0 32px; }
+.reel-on .work-reel .sec-head { margin-bottom: clamp(28px, 4svh, 48px); }
+.reel-on .sheet-index { display: flex; width: max-content; gap: clamp(20px, 2.4vw, 40px); border-top: 0; padding-top: 0; will-change: transform; }
+.reel-on .sheet-index li { width: clamp(320px, min(34vw, 58svh), 600px); flex: none; }
+.reel-on .sheet-index a { position: relative; }
+.reel-on .si-thumb { margin-bottom: 16px; box-shadow: 0 30px 60px -36px rgba(40, 28, 14, 0.55); }
+.reel-on .si-phone {
+  display: block; position: absolute; right: 6%; top: calc((100% - 16px) * 0.46); width: 19%;
+  background: #0d0c0b; border-radius: 12px; padding: 4px; box-shadow: 0 24px 40px -18px rgba(20, 14, 8, 0.6);
+}
+.reel-on .si-phone img { width: 100%; aspect-ratio: 520 / 1125; object-fit: cover; object-position: top; border-radius: 9px; }
+.reel-on .si-name { font-weight: 800; font-stretch: 78%; font-size: clamp(1.5rem, 1rem + 1.2vw, 2.25rem); line-height: 1.05; }
+.reel-on .si-kind, .reel-on .sheet-index time { font-size: 0.9375rem; }
+.reel-on .reel-rail { display: block; margin-top: clamp(24px, 3svh, 40px); height: 2px; background: var(--rule); }
+.reel-on .reel-rail i { display: block; height: 100%; background: var(--ink); transform: scaleX(0); transform-origin: left; }
 
 /* One feature per site */
 .site { margin-top: clamp(96px, 10vw, 160px); scroll-margin-top: calc(var(--head-h) + 12px); }
@@ -347,9 +439,8 @@ time, .num { font-variant-numeric: tabular-nums; }
 .dev-bar span { margin-left: 8px; font-size: 0.75rem; color: #b5b0a5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .dev-screen { position: relative; aspect-ratio: 1200 / 750; overflow: hidden; background: #0d0c0b; }
 .dev-screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: opacity 240ms ease; }
-.dev-screen .v-inside { opacity: 0; }
-.devices[data-view="inside"] .v-front { opacity: 0; }
-.devices[data-view="inside"] .v-inside { opacity: 1; }
+.dev-screen .v-inside { clip-path: inset(0 100% 0 0); transition: clip-path 560ms var(--ease-in-out); }
+.devices[data-view="inside"] .v-inside { clip-path: inset(0 0 0 0); }
 .dev-phone {
   position: absolute; z-index: 2; right: 5%; bottom: calc(-1 * clamp(22px, 3vw, 48px));
   width: clamp(92px, 16%, 216px);
@@ -385,18 +476,18 @@ time, .num { font-variant-numeric: tabular-nums; }
 .site-latest { background: var(--surface); padding: 20px 22px 22px; }
 .site-latest p { font-size: 1rem; line-height: 1.5; color: var(--muted); }
 
-/* Feature entrance (fires once): the color plate wipes up, then the desktop and phone settle at two depths.
-   Armed only under html.js, and only for the plate and the devices. Text never waits on it. */
+/* CSS fallback entrance when GSAP is missing (html.css-motion): the color plate wipes up, then the
+   desktop and phone settle at two depths. With GSAP, script.js scrubs the same idea with scroll. */
 @media (prefers-reduced-motion: no-preference) {
-  .js .site .plate-bg { clip-path: inset(100% 0 0 0); transition: clip-path 640ms var(--ease-in-out); }
-  .js .site .dev-desk, .js .site .dev-phone { opacity: 0; transform: translateY(36px); transition: opacity 420ms ease, transform 620ms var(--ease-out); }
-  .js .site .dev-desk { transition-delay: 260ms; }
-  .js .site .dev-phone { transition-delay: 360ms; }
-  .js .site.in .plate-bg { clip-path: inset(0 0 0 0); }
-  .js .site.in .dev-desk, .js .site.in .dev-phone { opacity: 1; transform: none; }
+  .css-motion .site .plate-bg { clip-path: inset(100% 0 0 0); transition: clip-path 640ms var(--ease-in-out); }
+  .css-motion .site .dev-desk, .css-motion .site .dev-phone { opacity: 0; transform: translateY(36px); transition: opacity 420ms ease, transform 620ms var(--ease-out); }
+  .css-motion .site .dev-desk { transition-delay: 260ms; }
+  .css-motion .site .dev-phone { transition-delay: 360ms; }
+  .css-motion .site.in .plate-bg { clip-path: inset(0 0 0 0); }
+  .css-motion .site.in .dev-desk, .css-motion .site.in .dev-phone { opacity: 1; transform: none; }
   /* While in view the phone drifts a little faster than the page (depth, scroll-driven) */
   @supports (animation-timeline: view()) {
-    .dev-phone { animation: phone-drift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+    .css-motion .dev-phone { animation: phone-drift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
     @keyframes phone-drift { from { translate: 0 28px; } to { translate: 0 -28px; } }
   }
 }
@@ -681,6 +772,14 @@ html:not(.tt-ok) .turn-hint { display: none; }
   .skip-link { transition: none; }
 }
 
+/* Film on tall screens (phones, portrait tablets): the portrait frame set, statements up top */
+@media (max-aspect-ratio: 1/1) {
+  .ff-line { top: calc(var(--head-h) + 5svh); bottom: auto; right: var(--gut); left: var(--gut); width: auto; font-size: clamp(2.75rem, 12.5vw, 6.5rem); }
+  .fb-price { font-size: min(64vw, 44svh); padding-top: 4svh; }
+  .ff-note { top: calc(var(--head-h) + 4svh); bottom: auto; left: var(--gut); right: var(--gut); max-width: none; font-size: clamp(1.5rem, 7vw, 2.5rem); }
+  .film-rail { left: var(--gut); right: var(--gut); }
+}
+
 /* ─── Laptop and tablet ─── */
 @media (max-width: 1100px) {
   .cover-lead { grid-column: 1 / span 7; }
@@ -729,6 +828,8 @@ html:not(.tt-ok) .turn-hint { display: none; }
   }
   .star-stage { height: auto; width: 43vw; }
   .cover-star figcaption { display: none; }
+  .film-on .cover-body { display: flex; flex-direction: column; justify-content: flex-end; }
+  .film-on .star-stage { height: auto; }
   .cover-lead { padding-top: 22px; }
   .cover-line { font-size: clamp(1.75rem, 8vw, 2.375rem); max-width: 16ch; }
   .cover-desc { font-size: 1.0625rem; margin-top: 14px; }
@@ -776,3 +877,6 @@ html:not(.tt-ok) .turn-hint { display: none; }
 @media (max-width: 360px) {
   .star-stage { width: 40vw; }
 }
+
+/* Magnetic buttons: GSAP owns transform on these, so CSS only transitions color */
+.btn.mag, .tt-btn.mag { transition-property: background-color, color, border-color; }

@@ -21,12 +21,13 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preload" href="fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="img/cover-live-poster.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="film/manifest.json" as="fetch" crossorigin>
   <link rel="stylesheet" href="style.css">
   <!-- html.js arms the motion styles. html.intro plays the first-visit loader once per session
        (never under reduced motion). If script.js never reports in, drop back to the plain page. -->
   <script>(function(d){d.classList.add('js');var seen=false;try{seen=!!sessionStorage.getItem('td-seen');}catch(e){}
   if(!seen&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('intro');
-  setTimeout(function(){if(!window.__tdReady)d.classList.remove('js','intro');},2500);})(document.documentElement);</script>
+  setTimeout(function(){if(!window.__tdReady)d.classList.remove('js','intro');},3000);})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Tyrone Dunn","url":"https://tyronedunn8855.github.io/tdunndev/","email":"mailto:tyrone.dunn8855@gmail.com","jobTitle":"Web developer and 3D artist","address":{"@type":"PostalAddress","addressLocality":"Milwaukee","addressRegion":"WI","addressCountry":"US"},"affiliation":"Marquette University","sameAs":["https://instagram.com/hermesblankets","https://github.com/tyronedunn8855"]}</script>
 </head>
 <body>
@@ -43,15 +44,25 @@
 
   <a href="#work" class="skip-link">Skip to content</a>
 
-  <!-- First-visit loader: the TD mark's three ink plates slide into register, then the sheet lifts
-       off the cover. Pure CSS, about one second, any key or tap skips it. -->
+  <!-- First-visit loader (once per session, never under reduced motion). The TD mark's three ink plates
+       slide into register as the cover film, poster and fonts actually load; the rule shows that progress.
+       Then an ink sheet passes over and lifts off the cover. Any key, tap or the Skip button ends it. -->
   <div id="loader" aria-hidden="true">
-    <div class="ld-mark">
-      <svg class="ld-plate ld-p1" viewBox="0 0 100 100"><use href="#td"/></svg>
-      <svg class="ld-plate ld-p2" viewBox="0 0 100 100"><use href="#td"/></svg>
-      <svg class="ld-plate ld-p3" viewBox="0 0 100 100"><use href="#td"/></svg>
+    <div class="ld-inner">
+      <div class="ld-mark">
+        <svg class="ld-plate ld-p1" viewBox="0 0 100 100"><use href="#td"/></svg>
+        <svg class="ld-plate ld-p2" viewBox="0 0 100 100"><use href="#td"/></svg>
+        <svg class="ld-plate ld-p3" viewBox="0 0 100 100"><use href="#td"/></svg>
+      </div>
+      <p class="ld-name"><span>Tyrone Dunn</span></p>
+      <span class="ld-rule"><i></i></span>
     </div>
+    <div class="ld-sheet"><svg class="ld-sheet-mark" viewBox="0 0 100 100"><use href="#td"/></svg></div>
+    <button type="button" class="ld-skip" tabindex="-1">Skip intro</button>
   </div>
+
+  <!-- Page wipe for long in-page jumps: an ink sheet passes over while the page moves underneath -->
+  <div id="wipe" aria-hidden="true"><svg class="wipe-mark" viewBox="0 0 100 100"><use href="#td"/></svg></div>
 
   <header id="masthead">
     <a href="#top" class="mh-mark" aria-label="Tyrone Dunn, back to top">
@@ -87,6 +98,20 @@
 
     <!-- ═══ Cover ═══ -->
     <section id="cover" aria-labelledby="cover-title">
+      <!-- Scroll film (rendered with the Remotion motion kit, composition HeroScrub). script.js turns it on only
+           with GSAP, no reduced motion and a 2D canvas. Frames are transparent WebP plates of the Blender model
+           drawn on the canvas as you scroll; the words around them are these HTML layers, timed to the same
+           cues (film/manifest.json). The first and last frames are the live model's resting pose, so the film
+           takes over from the live 3D figure and hands back to it. Without it, the cover below is unchanged. -->
+      <div class="film" aria-hidden="true">
+        <div class="film-back"><p class="fb-price"><span>$80</span></p></div>
+        <canvas class="film-canvas"></canvas>
+        <div class="film-front">
+          <p class="ff-line">Websites for local businesses.</p>
+          <p class="ff-note"><b>$80</b> to build. Free sample first.</p>
+        </div>
+        <div class="film-rail"><i></i></div>
+      </div>
       <h1 class="nameplate" id="cover-title"><span class="np-line"><span class="np-word">Tyrone</span></span> <span class="np-line"><span class="np-word">Dunn</span></span></h1>
 
       <div class="cover-body">
@@ -114,19 +139,23 @@
     <!-- ═══ Work ═══ -->
     <section id="work" class="sec" aria-labelledby="work-title">
       <div class="wrap">
+        <!-- On wide screens script.js pins this block and slides the six frames sideways as you scroll -->
+        <div class="work-reel">
         <header class="sec-head">
           <h2 class="sec-title" id="work-title">Six sites, all live</h2>
           <p class="sec-intro">Four are for Milwaukee-area businesses, two are my own projects. Each one shows the real desktop and phone view, what it does that a template would not, and what the latest update changed.</p>
         </header>
 
         <ul class="sheet-index" aria-label="Sites on this page">
-          <li><a href="#site-lucent"><span class="si-thumb" style="--plate:#1d1924"><img src="img/sites/lucent-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-name">Lucent</span><span class="si-kind">My streetwear brand</span><time datetime="2026-09-11">Sep 11</time></a></li>
-          <li><a href="#site-essence"><span class="si-thumb" style="--plate:#2b3370"><img src="img/sites/essence-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-name">Essence</span><span class="si-kind">Childcare center</span><time datetime="2026-10-07">Oct 7</time></a></li>
-          <li><a href="#site-dawgcity"><span class="si-thumb" style="--plate:#b4231a"><img src="img/sites/dawgcity-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-name">Dawg City</span><span class="si-kind">Hot dog stand</span><time datetime="2026-10-07">Oct 7</time></a></li>
-          <li><a href="#site-kendidit"><span class="si-thumb" style="--plate:#d9cff2"><img src="img/sites/kenya-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-name">ken.didit</span><span class="si-kind">Braids and locs</span><time datetime="2026-10-09">Oct 9</time></a></li>
-          <li><a href="#site-marlatrice"><span class="si-thumb" style="--plate:#ece4d6"><img src="img/sites/mariah-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-name">Mar Latrice</span><span class="si-kind">Hair salon</span><time datetime="2026-10-08">Oct 8</time></a></li>
-          <li><a href="#site-hiddengems"><span class="si-thumb" style="--plate:#f0e6d6"><img src="img/sites/hiddengems-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-name">Hidden Gems</span><span class="si-kind">My city guide app</span><time datetime="2026-10-09">Oct 9</time></a></li>
+          <li><a href="#site-lucent"><span class="si-thumb" style="--plate:#1d1924"><img src="img/sites/lucent-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/lucent-mobile.webp" width="520" height="1125" alt="" loading="lazy"></span><span class="si-name">Lucent</span><span class="si-kind">My streetwear brand</span><time datetime="2026-09-11">Sep 11</time></a></li>
+          <li><a href="#site-essence"><span class="si-thumb" style="--plate:#2b3370"><img src="img/sites/essence-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/essence-mobile.webp" width="520" height="1125" alt="" loading="lazy"></span><span class="si-name">Essence</span><span class="si-kind">Childcare center</span><time datetime="2026-10-07">Oct 7</time></a></li>
+          <li><a href="#site-dawgcity"><span class="si-thumb" style="--plate:#b4231a"><img src="img/sites/dawgcity-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/dawgcity-mobile.webp" width="520" height="1125" alt="" loading="lazy"></span><span class="si-name">Dawg City</span><span class="si-kind">Hot dog stand</span><time datetime="2026-10-07">Oct 7</time></a></li>
+          <li><a href="#site-kendidit"><span class="si-thumb" style="--plate:#d9cff2"><img src="img/sites/kenya-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/kenya-mobile.webp" width="520" height="1125" alt="" loading="lazy"></span><span class="si-name">ken.didit</span><span class="si-kind">Braids and locs</span><time datetime="2026-10-09">Oct 9</time></a></li>
+          <li><a href="#site-marlatrice"><span class="si-thumb" style="--plate:#ece4d6"><img src="img/sites/mariah-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/mariah-mobile.webp" width="520" height="1125" alt="" loading="lazy"></span><span class="si-name">Mar Latrice</span><span class="si-kind">Hair salon</span><time datetime="2026-10-08">Oct 8</time></a></li>
+          <li><a href="#site-hiddengems"><span class="si-thumb" style="--plate:#f0e6d6"><img src="img/sites/hiddengems-desktop.webp" width="1200" height="750" alt="" loading="lazy"></span><span class="si-phone" aria-hidden="true"><img src="img/sites/hiddengems-mobile.webp" width="375" height="812" alt="" loading="lazy"></span><span class="si-name">Hidden Gems</span><span class="si-kind">My city guide app</span><time datetime="2026-10-09">Oct 9</time></a></li>
         </ul>
+        <div class="reel-rail" aria-hidden="true"><i></i></div>
+        </div>
 
         <!-- Lucent -->
         <article class="site" id="site-lucent" style="--plate:#1d1924; --plate-fg:#f3efe8;" aria-labelledby="n-lucent">
@@ -666,6 +695,11 @@
     </figure>
   </div>
 
+  <!-- Motion: GSAP + ScrollTrigger + Lenis, pinned versions. If any of them fail to load, script.js
+       falls back to CSS-only entrances and every section stays readable. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
   <script src="script.js" defer></script>
   <!-- Live 3D. If three.js or the model can't load, the posters simply stay. -->
