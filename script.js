@@ -830,23 +830,7 @@
       gsap.fromTo(logo, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: logo, start: 'top 98%', end: 'top 60%', scrub: 0.6 } });
     }
 
-    // Magnetic buttons (mouse only): a short pull toward the cursor and a press
-    if (fine) {
-      $$('.btn, .tt-btn, .car-btn').forEach(function (b) {
-        b.classList.add('mag');
-        var xTo = gsap.quickTo(b, 'x', { duration: 0.45, ease: 'power3.out' });
-        var yTo = gsap.quickTo(b, 'y', { duration: 0.45, ease: 'power3.out' });
-        b.addEventListener('pointermove', function (e) {
-          if (e.pointerType !== 'mouse') return;
-          var r = b.getBoundingClientRect();
-          xTo(Math.max(-10, Math.min(10, (e.clientX - (r.left + r.width / 2)) * 0.22)));
-          yTo(Math.max(-7, Math.min(7, (e.clientY - (r.top + r.height / 2)) * 0.32)));
-        });
-        b.addEventListener('pointerleave', function () { xTo(0); yTo(0); gsap.to(b, { scale: 1, duration: 0.2, ease: 'power2.out' }); });
-        b.addEventListener('pointerdown', function () { gsap.to(b, { scale: 0.97, duration: 0.12, ease: 'power2.out' }); });
-        b.addEventListener('pointerup', function () { gsap.to(b, { scale: 1, duration: 0.25, ease: 'power2.out' }); });
-      });
-    }
+    // Magnetic buttons and the custom cursor live in cursor.js
   }
 
   if (hasGsap) {

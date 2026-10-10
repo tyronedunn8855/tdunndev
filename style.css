@@ -413,7 +413,8 @@ html.lenis, html.lenis body { height: auto; }
   scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
 .reel-view::-webkit-scrollbar { display: none; }
-.reel-track { display: flex; gap: clamp(16px, 2.2vw, 36px); width: max-content; }
+/* Positioned so slide offsetLeft is measured from the track, which the carousel math expects */
+.reel-track { position: relative; display: flex; gap: clamp(16px, 2.2vw, 36px); width: max-content; }
 
 /* ─── Work ─── */
 .reel-head {
@@ -902,3 +903,21 @@ html:not(.tt-ok) .turn-hint { display: none; }
 .btn.mag, .tt-btn.mag, .car-btn.mag { transition-property: background-color, color, border-color, opacity; }
 
 .motion-toggle { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* ─── Custom cursor (cursor.js, mouse only, off with the motion toggle) ─── */
+.cur-on, .cur-on * { cursor: none !important; }
+.cur-on.cur-text input, .cur-on.cur-text textarea, .cur-on.cur-text select, .cur-on.cur-text [contenteditable] { cursor: text !important; }
+.cur-on.cur-text select { cursor: pointer !important; }
+.cur { position: fixed; left: 0; top: 0; z-index: 10000; pointer-events: none; }
+.cur > div { position: fixed; left: 0; top: 0; border-radius: 50%; opacity: 0; will-change: transform; }
+.cur-dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; background: #fff; mix-blend-mode: difference; }
+.cur-ring { width: 40px; height: 40px; margin: -20px 0 0 -20px; border: 1.5px solid #fff; mix-blend-mode: difference; transition: opacity 160ms ease; }
+.cur-tag {
+  width: 88px; height: 88px; margin: -44px 0 0 -44px; display: grid; place-items: center;
+  background: var(--bronze-lt); color: var(--ink); transition: opacity 160ms ease;
+  font: 750 0.8125rem/1 var(--sans); letter-spacing: 0.08em; text-transform: uppercase;
+  box-shadow: 0 8px 24px rgba(21, 20, 18, 0.18);
+}
+.mag-in { display: inline-flex; align-items: center; justify-content: center; gap: inherit; will-change: transform; }
+.reel-view.is-dragging { scroll-snap-type: none; scroll-behavior: auto; user-select: none; }
+.reel-view.is-dragging img { pointer-events: none; }
