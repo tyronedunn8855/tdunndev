@@ -985,3 +985,21 @@ html:not(.tt-ok) .turn-hint { display: none; }
 .mag-in { display: inline-flex; align-items: center; justify-content: center; gap: inherit; will-change: transform; }
 .reel-view.is-dragging { scroll-snap-type: none; scroll-behavior: auto; user-select: none; }
 .reel-view.is-dragging img { pointer-events: none; }
+
+/* Essence console tab: desktop screens in a row, phone screens beside the text */
+.own-panel#own-p3 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.es-screens { grid-column: 1 / -1; margin-top: clamp(8px, 2vw, 24px); }
+.es-screens ul { list-style: none; display: grid; gap: clamp(12px, 2vw, 24px); }
+.es-desk { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.es-phone { grid-template-columns: repeat(2, minmax(0, 150px)); margin-top: clamp(14px, 2vw, 24px); }
+.es-screens li { display: flex; flex-direction: column; gap: 8px; }
+.es-desk img { width: 100%; height: auto; border: 5px solid var(--ink); border-radius: 12px; background: var(--ink); }
+.es-phone img { width: 100%; height: auto; border: 6px solid var(--ink); border-radius: 22px; background: var(--ink); }
+.es-screens span { font-size: 0.875rem; font-weight: 650; text-align: center; }
+@media (max-width: 600px) {
+  .es-screens .es-desk { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 calc(-1 * var(--gut)); padding: 0 var(--gut) 6px; }
+  .es-screens .es-desk::-webkit-scrollbar { display: none; }
+  .es-screens .es-desk li { flex: none; width: 84vw; scroll-snap-align: start; }
+  .es-screens .es-phone { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) { .own-panel#own-p3 { grid-template-columns: minmax(0, 1fr); } }
