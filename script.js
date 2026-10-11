@@ -624,7 +624,7 @@
       kendidit: { n: 'ken.didit', url: 'https://kendidit.vercel.app', img: 'img/sites/kenya-mobile.webp', why: 'Price list, a 3-step booker with deposits, and an owner panel for her hours, prices and photos.' },
       mariah: { n: 'Mar Latrice Styles', url: 'https://mariahhairpage.vercel.app', img: 'img/sites/mariah-mobile.webp', why: 'A 33-service menu that sends clients to her Square booking.' },
       dawg: { n: 'Dawg City', url: 'https://dawgcity.vercel.app', img: 'img/sites/dawgcity-mobile.webp', why: 'The full menu, open-now hours and buttons straight to pickup and delivery.' },
-      essence: { n: 'Essence of Childcare University', url: 'https://essencechildcare.vercel.app', img: 'img/sites/essence-mobile.webp', why: 'Hours, tuition, enrollment and tour forms, with Call, Tour and Enroll on phones.' },
+      essence: { n: 'Essence of Childcare University', url: 'https://www.essencechildcare.com', img: 'img/sites/essence-mobile.webp', why: 'Hours, tuition, enrollment and tour forms, with Call, Tour and Enroll on phones.' },
       lucent: { n: 'Lucent', url: 'https://testbrand-ten.vercel.app', img: 'img/sites/lucent-mobile.webp', why: 'A drop with colorways, sizes, a size finder and a cart.' },
       gems: { n: 'Hidden Gems', url: 'https://city-azure.vercel.app', img: 'img/sites/hiddengems-mobile.webp', why: 'A city guide with a map, spot cards and a printable plan.' }
     };
