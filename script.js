@@ -779,7 +779,7 @@
     gsap.set(win, { scale: 0.7 });
     // scale that makes the window cover the whole viewport (recomputed on resize)
     function cover() { var r = win.getBoundingClientRect(), s = gsap.getProperty(win, 'scale') || 1; return Math.max(innerWidth / (r.width / s), innerHeight / (r.height / s)) * 1.04; }
-    var tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: sec, start: 'top top', end: '+=260%', pin: '.sk-pin', scrub: 0.6, invalidateOnRefresh: true } });
+    var tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: sec, start: 'top top', end: '+=260%', pin: '.sk-pin', scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
     tl.to(win, { scale: 0.86, duration: 0.45 }, 0)
       .to(wire, { strokeDashoffset: 0, duration: 0.3, stagger: 0.15 / wire.length }, 0)
       .to(words, { opacity: 1, duration: 0.05, stagger: 0.45 / words.length }, 0.05)

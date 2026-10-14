@@ -33,6 +33,11 @@ function loadModel() {
   }));
 }
 
+// Compile shaders without blocking the page, then let the render loop start. Falls back to starting at once.
+function warm(renderer, scene, camera) {
+  try { return renderer.compileAsync ? renderer.compileAsync(scene, camera).catch(() => {}) : Promise.resolve(); }
+  catch (e) { return Promise.resolve(); }
+}
 function webglOK() {
   try { const t = document.createElement('canvas'); return !!(t.getContext('webgl2') || t.getContext('webgl')); } catch (e) { return false; }
 }
@@ -253,8 +258,13 @@ function initCover() {
   const qa = new THREE.Quaternion(), qb = new THREE.Quaternion(), E = new THREE.Euler(0, 0, 0, 'YXZ'), tmp = new THREE.Quaternion();
   let scrollP = 0, scrollCur = 0, t = 0, live = false;
 
+  // the canvas rect is measured once after each scroll or resize, not on every mouse move (that forced layout)
+  let rect = null;
+  const dirty = () => { rect = null; };
+  window.addEventListener('scroll', dirty, { passive: true });
+  window.addEventListener('resize', dirty, { passive: true });
   function lookAt(x, y) {
-    const r = canvas.getBoundingClientRect();
+    const r = rect || (rect = canvas.getBoundingClientRect());
     const cx = r.left + r.width / 2, cy = r.top + r.height * 0.3;
     tgt.x = THREE.MathUtils.clamp((x - cx) / (window.innerWidth * 0.5), -1, 1);
     tgt.y = THREE.MathUtils.clamp((y - cy) / (window.innerHeight * 0.6), -1, 1);
@@ -379,7 +389,9 @@ function initCover() {
     blob.scale.set(H * 0.62, H * 0.3, 1);
     frame();
     if (reduced) { readScroll(); scrollCur = 0; pose(0); renderer.render(scene, camera); goLive(); return; }
-    L.start();
+    // 2026-10-14 smoothness: compile every shader in the background first (KHR_parallel_shader_compile),
+    // so the first live frame doesn't freeze the page for about a second while the GPU compiles.
+    warm(renderer, scene, camera).then(() => L.start());
   }).catch(() => setState('fallback'));
 
   let rz = 0;
@@ -530,7 +542,7 @@ function initTurntable() {
     buildPlinth();
     frame();
     setupViews();
-    L.start();
+    warm(renderer, scene, camera).then(() => L.start());
   }).catch(() => setState('fallback'));
 
   // Views: the textured model, a clay pass that shows the form without color, and the wireframe that
@@ -576,7 +588,14 @@ function afterIntro(fn) {
 function boot() {
   afterIntro(() => {
     whenNear('#cover', '300px 0px', initCover);
-    whenNear('.turntable', '700px 0px', initTurntable);
+    // 2026-10-14 smoothness: the turntable used to build its scene (model parse + scene setup, ~200 ms) the
+    // moment it neared the screen, which froze the scroll around Rates. Build it while the browser is idle
+    // instead, a few seconds after the cover; the near-view trigger stays as a backstop.
+    let tt = false;
+    const startTT = () => { if (!tt) { tt = true; initTurntable(); } };
+    const idle = window.requestIdleCallback || ((f) => setTimeout(f, 1500));
+    setTimeout(() => idle(startTT, { timeout: 4000 }), 2500);
+    whenNear('.turntable', '1400px 0px', startTT);
   });
 }
 try {
