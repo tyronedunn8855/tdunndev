@@ -759,6 +759,39 @@
   var workCar = $('#work [data-carousel]') ? initCarousel($('#work [data-carousel]')) : null;
   var renderCar = $('.renders[data-carousel]') ? initCarousel($('.renders[data-carousel]')) : null;
 
+  /* ═══ Sketch to live (2026-10-14) ═══
+     One pin, one scrubbed timeline: lines draw in, words light up, the finished site fades in over the
+     wireframe, SKETCH gives way to LIVE, then the window scales to cover the screen and fades into Work. */
+  (function () {
+    var sec = $('#sketch');
+    if (!sec) return;
+    var line = $('.sk-line', sec);
+    // light-up words: wrap each word once (screen readers still read the h2 text normally)
+    line.innerHTML = line.textContent.trim().split(/\s+/).map(function (w) { return '<span class="skw">' + w + '</span>'; }).join(' ');
+    var words = $$('.skw', line);
+    if (!motion) { words.forEach(function (w) { w.style.opacity = 1; }); return; }
+    sec.classList.add('sk-on');
+    var win = $('.sk-win', sec), wire = $$('.sk-wire path, .sk-wire rect', sec), live = $('.sk-live', sec);
+    var w1 = $('.sk-w1', sec), w2 = $('.sk-w2', sec), bar = $('.sk-bar', sec);
+    gsap.set(wire, { strokeDasharray: 1, strokeDashoffset: 1 });
+    gsap.set(live, { opacity: 0 });
+    gsap.set(w2, { yPercent: 60, opacity: 0 });
+    gsap.set(win, { scale: 0.7 });
+    // scale that makes the window cover the whole viewport (recomputed on resize)
+    function cover() { var r = win.getBoundingClientRect(), s = gsap.getProperty(win, 'scale') || 1; return Math.max(innerWidth / (r.width / s), innerHeight / (r.height / s)) * 1.04; }
+    var tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: sec, start: 'top top', end: '+=260%', pin: '.sk-pin', scrub: 0.6, invalidateOnRefresh: true } });
+    tl.to(win, { scale: 0.86, duration: 0.45 }, 0)
+      .to(wire, { strokeDashoffset: 0, duration: 0.3, stagger: 0.15 / wire.length }, 0)
+      .to(words, { opacity: 1, duration: 0.05, stagger: 0.45 / words.length }, 0.05)
+      .to(live, { opacity: 1, duration: 0.14 }, 0.42)
+      .to('#sketch .sk-wire', { opacity: 0, duration: 0.1 }, 0.5)
+      .to(w1, { yPercent: -60, opacity: 0, duration: 0.12 }, 0.42)
+      .to(w2, { yPercent: 0, opacity: 1, duration: 0.12 }, 0.46)
+      .to(line, { opacity: 0, y: 30, duration: 0.12 }, 0.62)
+      .to(bar, { opacity: 0, duration: 0.08 }, 0.66)
+      .to(win, { scale: cover, duration: 0.34, ease: 'power2.in' }, 0.66);
+  })();
+
   /* ═══ KIT: scroll reveals (GSAP) ═══ */
   function setupReveals() {
     var rm = reduce; // reduced motion: quick fades only, no movement
