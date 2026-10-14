@@ -163,12 +163,13 @@
 
   /* ─── Drag the swipe carousels with the mouse ─── */
   $$('.reel-view').forEach(function (view) {
-    var sx = 0, sl = 0, lx = 0, lt = 0, vel = 0, down = false, moved = false, id = 0;
+    var sx = 0, sl = 0, lx = 0, lt = 0, vel = 0, down = false, moved = false, id = 0, gesture = 0, settleT = 0;
     function slides() { return Array.prototype.slice.call(view.querySelector('.reel-track').children); }
     function padL() { return parseFloat(getComputedStyle(view.querySelector('.reel-track')).paddingLeft) || 0; }
     view.addEventListener('pointerdown', function (e) {
       if (e.pointerType !== 'mouse' || e.button !== 0 || !scrollable(view)) return;
       down = true; moved = false; sx = lx = e.clientX; sl = view.scrollLeft; lt = performance.now(); vel = 0; id = e.pointerId;
+      gesture++; clearTimeout(settleT); // a new press cancels the previous drag's pending cleanup
     });
     view.addEventListener('pointermove', function (e) {
       if (!down || e.pointerId !== id) return;
@@ -185,7 +186,7 @@
       view.scrollLeft = sl - dx;
     });
     function end(e) {
-      if (!down || (e && e.pointerId !== id)) return;
+      if (!down || (e && e.pointerId !== undefined && e.pointerId !== id)) return;
       down = false;
       if (!moved) return;
       dragging = false;
@@ -194,13 +195,18 @@
       var aim = view.scrollLeft - vel * 260 + padL(), best = 0, d = Infinity, list = slides();
       list.forEach(function (s, i) { var dd = Math.abs(s.offsetLeft - aim); if (dd < d) { d = dd; best = i; } });
       view.scrollTo({ left: list[best].offsetLeft - padL(), behavior: 'smooth' });
-      var done = function () { view.classList.remove('is-dragging'); };
+      var mine = gesture;
+      var done = function () { if (mine === gesture && !down) view.classList.remove('is-dragging'); };
       if ('onscrollend' in window) view.addEventListener('scrollend', done, { once: true });
-      setTimeout(done, 700);
+      settleT = setTimeout(done, 700);
       apply();
     }
     view.addEventListener('pointerup', end);
     view.addEventListener('pointercancel', end);
+    // released outside the carousel before the drag threshold: still end it, so it can't stay armed
+    window.addEventListener('pointerup', end);
+    window.addEventListener('blur', function () { end(); });
+    view.addEventListener('lostpointercapture', function (e) { if (down && moved) end(e); });
     // A drag never counts as a click on the photo under it
     view.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
     view.addEventListener('dragstart', function (e) { e.preventDefault(); });

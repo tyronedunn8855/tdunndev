@@ -295,7 +295,14 @@ function initCover() {
   }
   if (hit) hit.addEventListener('click', strike);
 
+  // measured only after a scroll or resize; idle frames (blinks, bob) reuse the last value
+  let scrollDirty = true;
+  const markScroll = () => { scrollDirty = true; };
+  window.addEventListener('scroll', markScroll, { passive: true });
+  window.addEventListener('resize', markScroll, { passive: true });
   function readScroll() {
+    if (!scrollDirty) return;
+    scrollDirty = false;
     const r = cover.getBoundingClientRect();
     scrollP = THREE.MathUtils.clamp(-r.top / Math.max(1, r.height * 0.85), 0, 1);
   }
@@ -592,7 +599,14 @@ function boot() {
     // moment it neared the screen, which froze the scroll around Rates. Build it while the browser is idle
     // instead, a few seconds after the cover; the near-view trigger stays as a backstop.
     let tt = false;
-    const startTT = () => { if (!tt) { tt = true; initTurntable(); } };
+    // wait for a quiet moment: no scroll for 300 ms
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => { lastScroll = performance.now(); }, { passive: true });
+    const startTT = () => {
+      if (tt) return;
+      if (performance.now() - lastScroll < 300) { setTimeout(startTT, 320); return; }
+      tt = true; initTurntable();
+    };
     const idle = window.requestIdleCallback || ((f) => setTimeout(f, 1500));
     setTimeout(() => idle(startTT, { timeout: 4000 }), 2500);
     whenNear('.turntable', '1400px 0px', startTT);

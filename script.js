@@ -134,6 +134,9 @@
     if (heroStar) heroStar.dispatchEvent(new Event('td:wake')); // the live model re-checks that it is on screen
     window.removeEventListener('keydown', skipIntro, true);
     window.removeEventListener('pointerdown', skipIntro, true);
+    window.removeEventListener('wheel', skipIntro, true);
+    window.removeEventListener('touchstart', skipIntro, true);
+    lockScroll(false);
     if (hasGsap) ST.refresh();
   }
   var skipIntro = function () {};
@@ -160,7 +163,8 @@
       var name = portraitMq.matches ? 'mobile' : 'desktop';
       if (F.name === name) return false;
       F.name = name; F.set = manifest.sets[name]; F.end = manifest.end[name];
-      F.imgs = []; F.ready = []; F.queue = []; F.drawn = '';
+      F.ready.forEach(function (b) { if (b && b.close) b.close(); });
+      F.imgs = []; F.ready = []; F.queue = []; F.drawn = ''; F.enc = []; F.dec = {}; F.decN = 0; F.cur = 0; F.count = 0;
       var n = F.set.n, seen = {};
       [8, 4, 2, 1].forEach(function (step) { for (var i = 0; i < n; i += step) if (!seen[i]) { seen[i] = 1; F.queue.push(i); } if (!seen[n - 1]) { seen[n - 1] = 1; F.queue.push(n - 1); } });
       F.coarse = F.queue.slice(0, Math.ceil(n / 8) + 1);
@@ -173,8 +177,10 @@
       var name = F.name;
       var p = new Promise(function (res) {
         im.onload = function () {
-          var d = im.decode ? im.decode() : Promise.resolve();
-          d.catch(function () {}).then(function () { if (F.name === name) { F.ready[i] = im; F.request(); } res(true); });
+          // 2026-10-14: keep the encoded image; only frames near the playhead (plus every 8th) stay decoded.
+          // Decoding all 144 kept ~920 MB (desktop) / ~530 MB (phone) of pixels and made phones re-decode mid-scrub.
+          if (F.name === name) { F.enc[i] = im; if (F.keep(i)) F.decode(i); }
+          res(true);
         };
         im.onerror = function () { res(false); };
       });
@@ -189,6 +195,26 @@
         F.active++;
         F.load(i).then(function () { F.active--; F.pump(); });
       }
+    };
+    var WIN = 14;
+    F.keep = function (i) { var n = F.set.n; return i % 8 === 0 || i === n - 1 || Math.abs(i - F.cur) <= WIN; };
+    F.decode = function (i) {
+      if (F.ready[i] || F.dec[i] || !F.enc[i]) return;
+      F.dec[i] = 1; F.decN++;
+      var name = F.name, im = F.enc[i];
+      var done = function (bmp) { F.decN--; delete F.dec[i]; if (F.name !== name || !F.keep(i)) { if (bmp && bmp.close) bmp.close(); return; } F.ready[i] = bmp || im; F.count = (F.count || 0) + 1; F.request(); };
+      if (window.createImageBitmap) createImageBitmap(im).then(done, function () { done(null); });
+      else (im.decode ? im.decode() : Promise.resolve()).then(function () { done(null); }, function () { done(null); });
+    };
+    // Called as the playhead moves: decode what came into range, release what fell out of it
+    F.focus = function (c) {
+      if (c === F.cur || !F.set) return;
+      F.cur = c;
+      for (var i = 0; i < F.ready.length; i++) {
+        var b = F.ready[i];
+        if (b && !F.keep(i)) { if (b.close) b.close(); F.ready[i] = null; F.count--; }
+      }
+      for (var k = Math.max(0, c - WIN); k <= Math.min(F.set.n - 1, c + WIN); k++) F.decode(k);
     };
     // Promise + progress for the coarse pass (what the loader waits on)
     F.coarseProgress = function () {
@@ -235,7 +261,7 @@
       ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(F.ready[j], x * d, y * d, fw * s * d, fh * s * d);
     };
-    F.setP = function (p) { F.p = p; F.request(); if (F.onFrame) F.onFrame(p); };
+    F.setP = function (p) { F.p = p; if (F.set) F.focus(Math.round(p * (F.set.n - 1))); F.request(); if (F.onFrame) F.onFrame(p); };
     return F;
   }
 
@@ -243,6 +269,8 @@
   var starHeld = false;
   function filmHandoff(p) {
     var a = smooth(0.0, 0.03, p) * (1 - smooth(0.965, 0.995, p));
+    // no frame decoded yet (slow or failed network): keep the live figure instead of fading to nothing
+    if (!Film || !(Film.count > 0) || Film.nearest(Math.round(p * (Film.set.n - 1))) < 0) a = 0;
     canvas.style.opacity = a.toFixed(3);
     stage.style.opacity = (1 - a).toFixed(3);
     if (p > 0.0005) star.dataset.film = '1'; else delete star.dataset.film;
@@ -329,6 +357,8 @@
     var nm = $('.ld-name span', loader), rule = $('.ld-rule i', loader);
     var sheet = $('.ld-sheet', loader), sheetMark = $('.ld-sheet-mark', loader), skipBtn = $('.ld-skip', loader);
     var T = coverIntroTargets();
+    // 2026-10-14: no scrolling under the loader (it let the film record half-hidden letters as its start)
+    lockScroll(true); window.scrollTo(0, 0);
     gsap.set(T.chars, { yPercent: 108 });
     gsap.set(T.star, { y: 50, autoAlpha: 0 });
     gsap.set(T.lead, { y: 30, autoAlpha: 0 });
@@ -391,6 +421,8 @@
     };
     window.addEventListener('keydown', skipIntro, true);
     window.addEventListener('pointerdown', skipIntro, true);
+    window.addEventListener('wheel', skipIntro, { capture: true, passive: true });
+    window.addEventListener('touchstart', skipIntro, { capture: true, passive: true });
     if (skipBtn) skipBtn.addEventListener('click', function () { finish(true); });
   }
 
@@ -779,6 +811,8 @@
     gsap.set(win, { scale: 0.7 });
     // scale that makes the window cover the whole viewport (recomputed on resize)
     function cover() { var r = win.getBoundingClientRect(), s = gsap.getProperty(win, 'scale') || 1; return Math.max(innerWidth / (r.width / s), innerHeight / (r.height / s)) * 1.04; }
+    // distance from the window's centre to the screen's centre (the line of text sits under it)
+    function toMid() { var r = win.getBoundingClientRect(), y = gsap.getProperty(win, 'y') || 0; return innerHeight / 2 - (r.top - y + r.height / 2); }
     var tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: sec, start: 'top top', end: '+=260%', pin: '.sk-pin', scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
     tl.to(win, { scale: 0.86, duration: 0.45 }, 0)
       .to(wire, { strokeDashoffset: 0, duration: 0.3, stagger: 0.15 / wire.length }, 0)
@@ -789,7 +823,7 @@
       .to(w2, { yPercent: 0, opacity: 1, duration: 0.12 }, 0.46)
       .to(line, { opacity: 0, y: 30, duration: 0.12 }, 0.62)
       .to(bar, { opacity: 0, duration: 0.08 }, 0.66)
-      .to(win, { scale: cover, duration: 0.34, ease: 'power2.in' }, 0.66);
+      .to(win, { scale: cover, y: toMid, duration: 0.34, ease: 'power2.in' }, 0.66);
   })();
 
   /* ═══ KIT: scroll reveals (GSAP) ═══ */
@@ -874,7 +908,7 @@
             gsap.set(rail, { scaleX: self.progress });
             var x = self.progress * dist() + view.clientWidth * 0.35, best = 0;
             panels.forEach(function (p, i) { if (p.offsetLeft <= x) best = i; });
-            workCar.setCur(best);
+            if (best !== self.__best) { self.__best = best; workCar.setCur(best); }
           },
           onLeave: function () { panels.forEach(playPanel); },
           // Panels sit far to the right of the screen, so lazy loading would wait too long: load them all once the reel is near
@@ -992,13 +1026,13 @@
         if (pl.__played) return; pl.__played = true;
         var btn = $('.plate-btn', pl);
         gsap.to(btn, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1, ease: 'expo.inOut' });
-        gsap.to($('img', btn), { scale: 1, duration: 1.5, ease: EASE_OUT, clearProps: 'scale' });
+        gsap.to($('img', btn), { scale: 1, duration: 1.5, ease: EASE_OUT, clearProps: 'scale,transition' });
         gsap.to($('figcaption', pl), { opacity: 1, y: 0, duration: 0.6, delay: 0.5 });
       };
       renderCar.slides.forEach(function (pl) {
         var btn = $('.plate-btn', pl);
         gsap.set(btn, { clipPath: 'inset(100% 0% 0% 0%)' });
-        gsap.set($('img', btn), { scale: 1.22 });
+        gsap.set($('img', btn), { scale: 1.22, transition: 'none' }); // CSS hover transition would smear every GSAP frame
         gsap.set($('figcaption', pl), { opacity: 0, y: 12 });
       });
       renderCar.track.addEventListener('focusin', function (e) { var pl = e.target.closest('.plate'); if (pl) playPlate(pl); });
