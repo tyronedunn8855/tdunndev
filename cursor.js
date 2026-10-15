@@ -188,7 +188,7 @@
     function end(e) {
       if (!down || (e && e.pointerId !== undefined && e.pointerId !== id)) return;
       down = false;
-      if (!moved) return;
+      if (!moved) { view.classList.remove('is-dragging'); return; } // a plain press after a drag must not leave snapping off
       dragging = false;
       if (view.hasPointerCapture(id)) view.releasePointerCapture(id);
       // Land on the nearest slide in the direction of the throw, then hand back to snap

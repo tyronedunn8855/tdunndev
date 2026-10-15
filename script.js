@@ -164,7 +164,9 @@
       if (F.name === name) return false;
       F.name = name; F.set = manifest.sets[name]; F.end = manifest.end[name];
       F.ready.forEach(function (b) { if (b && b.close) b.close(); });
-      F.imgs = []; F.ready = []; F.queue = []; F.drawn = ''; F.enc = []; F.dec = {}; F.decN = 0; F.cur = 0; F.count = 0;
+      F.gen = (F.gen || 0) + 1; // decodes from the previous set check this and drop their result
+      F.imgs = []; F.ready = []; F.queue = []; F.drawn = ''; F.enc = []; F.dec = {}; F.decQ = []; F.decN = 0; F.count = 0;
+      F.cur = Math.round((F.p || 0) * (manifest.sets[name].n - 1)); // decode around where the visitor stopped
       var n = F.set.n, seen = {};
       [8, 4, 2, 1].forEach(function (step) { for (var i = 0; i < n; i += step) if (!seen[i]) { seen[i] = 1; F.queue.push(i); } if (!seen[n - 1]) { seen[n - 1] = 1; F.queue.push(n - 1); } });
       F.coarse = F.queue.slice(0, Math.ceil(n / 8) + 1);
@@ -200,11 +202,27 @@
     F.keep = function (i) { var n = F.set.n; return i % 8 === 0 || i === n - 1 || Math.abs(i - F.cur) <= WIN; };
     F.decode = function (i) {
       if (F.ready[i] || F.dec[i] || !F.enc[i]) return;
-      F.dec[i] = 1; F.decN++;
-      var name = F.name, im = F.enc[i];
-      var done = function (bmp) { F.decN--; delete F.dec[i]; if (F.name !== name || !F.keep(i)) { if (bmp && bmp.close) bmp.close(); return; } F.ready[i] = bmp || im; F.count = (F.count || 0) + 1; F.request(); };
-      if (window.createImageBitmap) createImageBitmap(im).then(done, function () { done(null); });
-      else (im.decode ? im.decode() : Promise.resolve()).then(function () { done(null); }, function () { done(null); });
+      F.dec[i] = 1; F.decQ.push(i); F.decPump();
+    };
+    F.decPump = function () {
+      while (F.decN < 3 && F.decQ.length) {
+        // nearest to the playhead first; anything that left the window is dropped
+        F.decQ.sort(function (a, b) { return Math.abs(a - F.cur) - Math.abs(b - F.cur); });
+        var i = F.decQ.shift();
+        if (!F.keep(i)) { delete F.dec[i]; continue; }
+        F.decN++;
+        (function (i, g, im) {
+          var done = function (bmp) {
+            if (g !== F.gen) { if (bmp && bmp.close) bmp.close(); return; } // stale set: touch nothing current
+            F.decN--; delete F.dec[i];
+            if (!F.keep(i) || F.ready[i]) { if (bmp && bmp.close) bmp.close(); }
+            else { F.ready[i] = bmp || im; F.count++; F.request(); }
+            F.decPump();
+          };
+          if (window.createImageBitmap) createImageBitmap(im).then(done, function () { done(null); });
+          else (im.decode ? im.decode() : Promise.resolve()).then(function () { done(null); }, function () { done(null); });
+        })(i, F.gen, F.enc[i]);
+      }
     };
     // Called as the playhead moves: decode what came into range, release what fell out of it
     F.focus = function (c) {
@@ -260,6 +278,7 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(F.ready[j], x * d, y * d, fw * s * d, fh * s * d);
+      if (F.onDraw) F.onDraw();
     };
     F.setP = function (p) { F.p = p; if (F.set) F.focus(Math.round(p * (F.set.n - 1))); F.request(); if (F.onFrame) F.onFrame(p); };
     return F;
@@ -331,6 +350,7 @@
     Film.choose();
     var tl = buildFilmTimeline(manifest);
     tl.eventCallback('onUpdate', function () { var p = tl.progress(); Film.setP(p); filmHandoff(p); });
+    Film.onDraw = function () { filmHandoff(Film.p); }; // a frame that arrives while the visitor is still
     ST.create({
       trigger: cover, start: 'top top', pin: true, pinSpacing: true, anticipatePin: 1,
       end: function () { return '+=' + Math.round(window.innerHeight * (portraitMq.matches ? 1.9 : 3)); },
@@ -1096,9 +1116,9 @@
       lastFocus = document.activeElement;
       lb.hidden = false;
       void lb.offsetWidth; // start the enter transition from the closed state
-      lockScroll(true);
       lbClose.focus();
     }
+    lockScroll(true); // every open, also a reopen during the close animation (close already unlocked)
     lb.classList.add('open');
   }
   function closeLb() {
